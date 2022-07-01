@@ -1,0 +1,66 @@
+{
+  "name": "front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@react-google-maps/api": "^2.12.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.19.5",
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.1",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.3",
+    "node-sass": "^7.0.1",
+    "react": "^17.0.2",
+    "react-burger-menu": "^3.0.6",
+    "react-dom": "^17.0.2",
+    "react-geocode": "^0.2.3",
+    "react-google-places-autocomplete": "^3.3.4",
+    "react-icons": "^4.4.0",
+    "react-places-autocomplete": "^7.3.0",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "5.0.0",
+    "redux": "^4.1.2",
+    "redux-persist": "^5.0.0",
+    "redux-thunk": "^2.4.1",
+    "sweetalert2": "^11.4.8",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start-dev": "concurrently \"npm:sass-dev\" \"npm:start\"",
+    "start-prod": "concurrently \"npm:sass-prod\" \"npm:start\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "sass-dev": "sass --watch --update --style=expanded src/assets/scss:src/assets/css",
+    "sass-prod": "sass --no-source-map --style=compressed src/assets/scss:src/assets/css"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "sass": "^1.51.0",
+    "sass-loader": "^12.6.0",
+    "webpack": "^5.72.0"
+  }
+}
