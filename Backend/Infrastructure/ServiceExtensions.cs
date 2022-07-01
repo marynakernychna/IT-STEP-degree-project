@@ -1,4 +1,4 @@
-﻿using Core.Entities.UserEntity;
+﻿using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repository;
