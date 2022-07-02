@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Infrastructure.Data.SeedData;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new ReviewConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new WareConfiguration());
+            builder.Seed();
             base.OnModelCreating(builder);
         }
     }
