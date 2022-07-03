@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Constants\" />
-    <Folder Include="Helpers\ApplicationProfiles\" />
-    <Folder Include="Interfaces\CustomService\" />
     <Folder Include="Specifications\" />
-    <Folder Include="Services\" />
-    <Folder Include="Validation\" />
   </ItemGroup>
 
   <ItemGroup>

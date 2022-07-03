@@ -59,5 +59,14 @@ namespace Core.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The identity role not found!.
+        /// </summary>
+        internal static string IdentityRoleNotFound {
+            get {
+                return ResourceManager.GetString("IdentityRoleNotFound", resourceCulture);
+            }
+        }
     }
 }
