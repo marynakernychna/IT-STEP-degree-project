@@ -304,8 +304,8 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0557c5c1-6edb-4324-b359-b1538cbf9cad",
-                            ConcurrencyStamp = "0557c5c1-6edb-4324-b359-b1538cbf9cad",
+                            Id = "148a9323-a067-4200-8e75-3c010bc40e01",
+                            ConcurrencyStamp = "148a9323-a067-4200-8e75-3c010bc40e01",
                             Name = "User",
                             NormalizedName = "USER"
                         });
