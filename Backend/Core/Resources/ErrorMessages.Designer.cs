@@ -68,5 +68,14 @@ namespace Core.Resources {
                 return ResourceManager.GetString("IdentityRoleNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The invalid credentials!.
+        /// </summary>
+        internal static string InvalidCredentials {
+            get {
+                return ResourceManager.GetString("InvalidCredentials", resourceCulture);
+            }
+        }
     }
 }

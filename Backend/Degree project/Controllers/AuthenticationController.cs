@@ -12,7 +12,8 @@ namespace API.Controllers
         private readonly IAuthenticationService _authenticationService;
 
         public AuthenticationController(
-            IAuthenticationService authenticationService)
+                IAuthenticationService authenticationService
+            )
         {
             _authenticationService = authenticationService;
         }
@@ -24,6 +25,14 @@ namespace API.Controllers
             await _authenticationService.RegisterAsync(userRegistrationDTO);
 
             return Ok();
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO data)
+        {
+            var tokens = await _authenticationService.LoginAsync(data);
+
+            return Ok(tokens);
         }
     }
 }

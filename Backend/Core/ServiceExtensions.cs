@@ -15,6 +15,8 @@ namespace Core
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IIdentityRoleService, IdentityRoleService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -30,7 +32,8 @@ namespace Core
 
         public static void AddFluentValidation(this IServiceCollection services)
         {
-            services.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<UserRegistrationValidation>());
+            services.AddFluentValidation(
+                c => c.RegisterValidatorsFromAssemblyContaining<UserRegistrationValidation>());
         }
 
         public static void ConfigJwtOptions(this IServiceCollection services, IConfiguration config)

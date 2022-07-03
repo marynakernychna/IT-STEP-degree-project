@@ -18,6 +18,7 @@ namespace Infrastructure.Data
         public DbSet<Report> Reports { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Ware> Wares { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +31,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new ReviewConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new WareConfiguration());
+            builder.ApplyConfiguration(new RefreshTokenConfiguration());
             builder.Seed();
             base.OnModelCreating(builder);
         }

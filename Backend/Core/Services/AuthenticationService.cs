@@ -4,31 +4,59 @@ using Core.DTO.Authentication;
 using Core.Entities;
 using Core.Exceptions;
 using Core.Interfaces.CustomService;
+using Core.Resources;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly IIdentityRoleService _identityRoleService;
+        private readonly ITokenService _tokenService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
         public AuthenticationService(
-            UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager,
-            IMapper mapper)
+                IIdentityRoleService identityRoleService,
+                ITokenService tokenService,
+                UserManager<User> userManager,
+                RoleManager<IdentityRole> roleManager,
+                IMapper mapper
+            )
         {
+            _identityRoleService = identityRoleService;
+            _tokenService = tokenService;
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
         }
 
+        public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(userLoginDTO.Email);
+
+            if (user == null ||
+                !await _userManager.CheckPasswordAsync(user, userLoginDTO.Password))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidCredentials,
+                        HttpStatusCode.Unauthorized
+                    );
+            }
+
+            var userRole = await _identityRoleService.GetUserRoleAsync(user);
+
+            return await _tokenService.GenerateUserTokens(user, userRole);
+        }
+
         public async Task RegisterAsync(UserRegistrationDTO userRegistrationDTO)
         {
             var user = _mapper.Map<User>(userRegistrationDTO);
-            var createUserResult = await _userManager.CreateAsync(user, userRegistrationDTO.Password);
+            var createUserResult = await _userManager
+                                            .CreateAsync(user, userRegistrationDTO.Password);
 
             ExceptionMethods.CheckIdentityResult(createUserResult);
 
