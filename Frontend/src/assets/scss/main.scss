@@ -1,0 +1,9 @@
+@import "./assets/pages/authentication";
+
+@import "./assets/variables/others";
+
+body,
+html {
+    min-height: 100vh;
+    font-family: $general_font;
+}
