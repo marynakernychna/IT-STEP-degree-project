@@ -1,4 +1,5 @@
-﻿using Core.Resources;
+﻿using Core.Entities;
+using Core.Resources;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Text;
@@ -28,6 +29,16 @@ namespace Core.Exceptions
             {
                 throw new HttpException(
                     ErrorMessages.IdentityRoleNotFound,
+                    HttpStatusCode.NotFound);
+            }
+        }
+
+        public static void UserNullCheck(User user)
+        {
+            if (user == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.UserNotFound,
                     HttpStatusCode.NotFound);
             }
         }
