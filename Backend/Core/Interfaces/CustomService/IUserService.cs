@@ -1,4 +1,4 @@
-﻿using Core.DTO.UserDTO;
+﻿using Core.DTO.User;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

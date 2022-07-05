@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.DTO.UserDTO;
+using Core.DTO.User;
 using Core.Entities;
 using Core.Exceptions;
 using Core.Interfaces;

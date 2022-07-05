@@ -19,10 +19,11 @@ namespace API.Controllers
         }
 
         [HttpGet("user-info")]
-        public async Task<ActionResult> GetUserInfo()
+        public async Task<IActionResult> GetUserInfoAsync()
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
             var userInfo = await _userService.GetUserProfileInfoAsync(userId);
+
             return Ok(userInfo);
         }
     }

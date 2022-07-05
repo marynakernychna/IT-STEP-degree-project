@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Core.DTO.Authentication;
-using Core.Entities;
 
 namespace Core.Helpers.ApplicationProfiles
 {
@@ -8,7 +7,7 @@ namespace Core.Helpers.ApplicationProfiles
     {
         public Authentication()
         {
-            CreateMap<UserRegistrationDTO, User>()
+            CreateMap<UserRegistrationDTO, Entities.User>()
                 .ForMember(dest => dest.UserName,
                     act => act.MapFrom(src => src.Email));
         }
