@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.DTO.User;
 using Core.Entities;
-using Core.Exceptions;
+using Core.Helpers;
 using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using System.Security.Claims;
@@ -31,7 +31,7 @@ namespace Core.Services
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
-            ExceptionMethods.UserNullCheck(user);
+            ExtensionMethods.UserNullCheck(user);
 
             return _mapper.Map<UserProfileInfoDTO>(user);
         }

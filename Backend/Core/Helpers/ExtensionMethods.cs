@@ -1,12 +1,13 @@
 ﻿using Core.Entities;
+using Core.Exceptions;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Text;
 
-namespace Core.Exceptions
+namespace Core.Helpers
 {
-    public static class ExceptionMethods
+    public static class ExtensionMethods
     {
         public static void CheckIdentityResult(IdentityResult identityResult)
         {

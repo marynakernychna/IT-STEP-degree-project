@@ -3,6 +3,7 @@ using Core.Constants;
 using Core.DTO.Authentication;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Helpers;
 using Core.Interfaces.CustomService;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
@@ -58,16 +59,16 @@ namespace Core.Services
             var createUserResult = await _userManager
                                             .CreateAsync(user, userRegistrationDTO.Password);
 
-            ExceptionMethods.CheckIdentityResult(createUserResult);
+            ExtensionMethods.CheckIdentityResult(createUserResult);
 
             var roleName = IdentityRoleNames.User.ToString();
             var userRole = await _roleManager.FindByNameAsync(roleName);
 
-            ExceptionMethods.IdentityRoleNullCheck(userRole);
+            ExtensionMethods.IdentityRoleNullCheck(userRole);
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
-            ExceptionMethods.CheckIdentityResult(addToRoleResult);
+            ExtensionMethods.CheckIdentityResult(addToRoleResult);
         }
     }
 }
