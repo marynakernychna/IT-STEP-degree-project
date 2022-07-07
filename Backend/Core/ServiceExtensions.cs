@@ -25,7 +25,7 @@ namespace Core
             var configures = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new Authentication());
-                mc.AddProfile(new User());
+                mc.AddProfile(new UserMap());
             });
 
             var mapper = configures.CreateMapper();
