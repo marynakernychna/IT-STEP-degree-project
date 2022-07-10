@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Helpers;
 using Core.Helpers.ApplicationProfiles;
+using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Services;
 using Core.Validation.Authentication;
@@ -18,6 +19,8 @@ namespace Core
             services.AddScoped<IIdentityRoleService, IdentityRoleService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ITemplateHelper, TemplateHelper>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

@@ -31,7 +31,7 @@ namespace Core.Resources {
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal ErrorMessages() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed send email.
+        /// </summary>
+        internal static string FailedSendEmail {
+            get {
+                return ResourceManager.GetString("FailedSendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The identity role not found!.
         /// </summary>
         internal static string IdentityRoleNotFound {
@@ -77,14 +86,12 @@ namespace Core.Resources {
                 return ResourceManager.GetString("InvalidCredentials", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to User not found.
         /// </summary>
-        internal static string UserNotFound
-        {
-            get
-            {
+        internal static string UserNotFound {
+            get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
             }
         }
