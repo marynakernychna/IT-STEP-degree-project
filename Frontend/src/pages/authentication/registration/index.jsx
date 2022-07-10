@@ -23,10 +23,10 @@ function RegistrationPage() {
     };
 
     return (
-        <div id="authenticationBody">
-            <div id="centerBlock">
-                <div id="content">
-                    <p id="title">Netlis</p>
+        <div className="authenticationBody">
+            <div className="centerBlock">
+                <div className="content">
+                    <p className="title">Netlis</p>
                     <p>Sign up and start shopping!</p>
 
                     <Form
@@ -141,7 +141,7 @@ function RegistrationPage() {
                             />
                         </Form.Item>
 
-                        <Form.Item id="submitItem">
+                        <Form.Item className="submitItem">
                             <Button
                                 type="primary"
                                 htmlType="submit"
@@ -152,9 +152,9 @@ function RegistrationPage() {
                         </Form.Item>
                     </Form>
 
-                    <div id="linksDiv">
+                    <div className="linksDiv">
                         <Link>Home</Link>
-                        <Link>Login</Link>
+                        <Link to="/login">Login</Link>
                     </div>
                 </div>
             </div>

@@ -12,11 +12,11 @@ $medium_font_size: 16px;
 $medium_form_size: 38px;
 $medium_border_radius_size: 8px;
 
-#authenticationBody {
+.authenticationBody {
     background-color: $body_color;
     min-height: 100%;
 
-    #centerBlock {
+    .centerBlock {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -25,7 +25,7 @@ $medium_border_radius_size: 8px;
         min-height: 100vh;
         padding: 20px;
 
-        #content {
+        .content {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,9 +33,9 @@ $medium_border_radius_size: 8px;
         }
     }
 
-    #title {
+    .title {
         font-size: 68px;
-        margin-bottom: 45px;
+        margin-bottom: 35px;
     }
 
     form {
@@ -83,7 +83,7 @@ $medium_border_radius_size: 8px;
         }
     }
 
-    #submitItem {
+    .submitItem {
         margin-bottom: 10px;
         margin-top: 35px;
 
@@ -94,13 +94,13 @@ $medium_border_radius_size: 8px;
 
     .submitButton {
         height: $large_form_size;
-        width: 100%;
+        width: $form_width;
         font-size: $large_font_size;
         margin-bottom: 10px;
         border-radius: 10px;
     }
 
-    #linksDiv {
+    .linksDiv {
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -131,7 +131,7 @@ $medium_border_radius_size: 8px;
     }
 
     @media only screen and (min-width: $laptop_size) and (max-width: $laptop_l_size) {
-        #title {
+        .title {
             font-size: 54px;
             margin-bottom: 38px;
         }
@@ -188,29 +188,29 @@ $medium_border_radius_size: 8px;
             border-radius: $medium_border_radius_size;
         }
 
-        #linksDiv {
+        .linksDiv {
             margin-top: 6px;
         }
     }
 
     @media only screen and (min-width: $mobile_l_size) and (max-width: $laptop_size) {
-        #title {
+        .title {
             font-size: 46px;
             margin-bottom: 28px;
         }
 
-        #linksDiv {
+        .linksDiv {
             margin-top: 6px;
         }
     }
 
     @media only screen and (max-width: $mobile_l_size) {
-        #title {
+        .title {
             font-size: 40px;
             margin-bottom: 24px;
         }
 
-        #linksDiv {
+        .linksDiv {
             margin-top: 6px;
         }
     }
