@@ -12,7 +12,7 @@
     "axios": "^0.26.1",
     "dotenv": "^16.0.1",
     "jwt-decode": "^3.1.2",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "node-sass": "^7.0.1",
     "nth-check": "^2.1.1",
     "react": "^17.0.2",
