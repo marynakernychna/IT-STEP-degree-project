@@ -3,9 +3,12 @@ import { authenticationMessages } from './../constants/messages/authentication';
 import { successMessage, errorMessage } from './alerts';
 import { statusCodes } from './../constants/statusCodes';
 import authenticationService from './../api/authentication';
+import { store } from './../store';
+import { setAccess } from './../reduxActions/authentication/index';
+import { userRoles } from '../constants/userRoles';
 
 export function registerUser(userData, history) {
-    let model = {
+    const model = {
         name: userData.name,
         surname: userData.surname,
         email: userData.email,
@@ -16,7 +19,11 @@ export function registerUser(userData, history) {
         .registerUser(model)
         .then(
             () => {
-                successMessage(authenticationMessages.SUCCESSFUL_REGISTRATION);
+                successMessage(
+                    authenticationMessages.SUCCESSFUL_REGISTRATION
+                );
+
+                history.push("/login");
             },
             (err) => {
                 err.response.status === statusCodes.BAD_REQUEST
@@ -33,6 +40,48 @@ export function registerUser(userData, history) {
         .catch(() => {
             errorMessage(
                 authenticationMessages.REGISTRATION_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function loginUser(userData) {
+    const model = {
+        email: userData.email,
+        password: userData.password
+    };
+
+    authenticationService
+        .loginUser(model)
+        .then(
+            (response) => {
+                store.dispatch(setAccess(response.data));
+
+                const role = store.getState().authenticationReducer.userRole;
+
+                if (userRoles[role.toUpperCase()] === undefined) {
+                    errorMessage(
+                        authenticationMessages.LOGIN_FAILED,
+                        generalMessages.SOMETHING_WENT_WRONG
+                    );
+
+                    return;
+                }
+
+                successMessage(
+                    authenticationMessages.SUCCESSFUL_LOGIN
+                );
+            },
+            () => {
+                errorMessage(
+                    authenticationMessages.LOGIN_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                authenticationMessages.LOGIN_FAILED,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });

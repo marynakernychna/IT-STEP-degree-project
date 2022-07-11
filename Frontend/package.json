@@ -24,7 +24,6 @@
     "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "5.0.0",
     "redux": "^4.1.2",
     "redux-persist": "^5.0.0",
     "redux-thunk": "^2.4.1",
@@ -62,6 +61,7 @@
   "devDependencies": {
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
-    "webpack": "^5.72.0"
+    "webpack": "^5.72.0",
+    "react-scripts": "5.0.0"
   }
 }

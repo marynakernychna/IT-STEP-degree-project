@@ -3,5 +3,9 @@ export const authenticationMessages = Object.freeze({
     REGISTRATION_FAILED: "Registration failed!",
     REGISTRATION_BLOCKED: "Registration is blocked!",
     REGISTRATION_FAILED_USER_ALREADY_EXIST:
-        "There is already a user with this email!"
+        "There is already a user with this email!",
+
+    SUCCESSFUL_LOGIN: "Successful login!",
+    LOGIN_FAILED: "Login failed!",
+    LOGIN_BLOCKED: "Login is blocked!"
 });
