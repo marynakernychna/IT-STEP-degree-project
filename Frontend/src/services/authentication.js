@@ -45,7 +45,7 @@ export function registerUser(userData, history) {
         });
 }
 
-export function loginUser(userData) {
+export function loginUser(userData, history) {
     const model = {
         email: userData.email,
         password: userData.password
@@ -68,9 +68,7 @@ export function loginUser(userData) {
                     return;
                 }
 
-                successMessage(
-                    authenticationMessages.SUCCESSFUL_LOGIN
-                );
+                history.push("/clients/brief-info");
             },
             () => {
                 errorMessage(

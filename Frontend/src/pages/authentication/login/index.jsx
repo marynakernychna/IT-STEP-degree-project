@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import InputRules from '../../../constants/inputRules';
 import { generalMessages } from '../../../constants/messages/general';
 import { inputValidationErrorMessages } from '../../../constants/messages/inputValidationErrors';
@@ -9,9 +9,10 @@ import { authenticationMessages } from './../../../constants/messages/authentica
 import { loginUser } from '../../../services/authentication';
 
 function LoginPage() {
+    let history = useHistory();
 
     const onFinish = (values) => {
-        loginUser(values);
+        loginUser(values, history);
     };
 
     const onFinishFailed = () => {
