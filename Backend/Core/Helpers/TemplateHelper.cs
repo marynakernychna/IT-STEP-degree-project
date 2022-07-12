@@ -45,9 +45,10 @@ namespace Core.Helpers
             using (StringWriter stringWriter = new StringWriter())
             {
                 var viewResult = _razorViewEngine.FindView(
-                    actionContext,
-                    viewName,
-                    false);
+                                                                actionContext,
+                                                                viewName,
+                                                                false
+                                                          );
 
                 if (viewResult.View == null)
                 {
@@ -57,9 +58,9 @@ namespace Core.Helpers
                 var viewDataDictionary = new ViewDataDictionary(
                     new EmptyModelMetadataProvider(),
                     new ModelStateDictionary())
-                {
-                    Model = model
-                };
+                                         {
+                                             Model = model
+                                         };
 
                 var viewContext = new ViewContext(
                     actionContext,

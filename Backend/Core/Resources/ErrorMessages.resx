@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FailedSendEmail" xml:space="preserve">
-    <value>Failed send email</value>
+    <value>Failed send email!</value>
   </data>
   <data name="IdentityRoleNotFound" xml:space="preserve">
     <value>The identity role not found!</value>
@@ -126,7 +126,10 @@
   <data name="InvalidCredentials" xml:space="preserve">
     <value>The invalid credentials!</value>
   </data>
+  <data name="NewInfoSamePrevious" xml:space="preserve">
+    <value>The new information is the same as the previous one!</value>
+  </data>
   <data name="UserNotFound" xml:space="preserve">
-    <value>User not found</value>
+    <value>User not found!</value>
   </data>
 </root>

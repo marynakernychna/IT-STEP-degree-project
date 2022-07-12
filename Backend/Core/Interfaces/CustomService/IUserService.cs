@@ -9,6 +9,7 @@ namespace Core.Interfaces.CustomService
     {
         Task<UserProfileInfoDTO> GetUserProfileInfoAsync(string userId);
         string GetCurrentUserNameIdentifier(ClaimsPrincipal currentUser);
-        Task UserEditProfileInfoAsync(UserEditProfileInfoDTO userEditProfileInfo, string userId, string callbackUrl);
+        Task UserEditProfileInfoAsync(
+            UserEditProfileInfoDTO userEditProfileInfo, string userId, string callbackUrl);
     }
 }

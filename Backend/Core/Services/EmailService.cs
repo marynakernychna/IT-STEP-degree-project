@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -18,18 +19,15 @@ namespace Core.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly AppSettings _appSettings;
-        private readonly IRepository<User> _userRepository;
         private readonly ITemplateHelper _templateHelper;
 
         public EmailService(
             UserManager<User> userManager,
             IOptions<AppSettings> appSettings,
-            IRepository<User> userRepository,
             ITemplateHelper templateHelper)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
-            _userRepository = userRepository;
             _templateHelper = templateHelper;
         }
 
@@ -39,24 +37,24 @@ namespace Core.Services
                 .GenerateEmailConfirmationTokenAsync(user);
 
             var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-                "ConfirmationEmail",
-                new ConfirmationEmailDTO
-                {
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
-                });
+            "ConfirmationEmail",
+            new ConfirmationEmailDTO
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
+            });
 
             await SendEmailAsync(user.Email, "Confirm your account", message);
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        private async Task SendEmailAsync(string email, string subject, string message)
         {
             var client = new SendGridClient(_appSettings.SendGridKey);
             var from = new EmailAddress(
-                _appSettings.SendGridEmail,
-                _appSettings.SendGridSenderName
-                );
+                                            _appSettings.SendGridEmail,
+                                            _appSettings.SendGridSenderName
+                                       );
             var to = new EmailAddress(email, email);
             var plainTextContent = "";
             var msg = MailHelper

@@ -30,11 +30,12 @@ namespace API.Controllers
         }
 
         [HttpPost("edit-info")]
-        public async Task<ActionResult> UserEditProfileInfo(UserEditProfileInfoDTO userEditProfileInfo)
+        public async Task<IActionResult> UserEditProfileInfo(
+            UserEditProfileInfoDTO newUserInfo)
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
             var userId = _userService.GetCurrentUserNameIdentifier(User);
-            await _userService.UserEditProfileInfoAsync(userEditProfileInfo, userId, callbackUrl);
+            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
 
             return Ok();
         }

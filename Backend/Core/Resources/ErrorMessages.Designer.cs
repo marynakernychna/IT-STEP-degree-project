@@ -61,7 +61,7 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed send email.
+        ///   Looks up a localized string similar to Failed send email!.
         /// </summary>
         internal static string FailedSendEmail {
             get {
@@ -88,7 +88,16 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User not found.
+        ///   Looks up a localized string similar to The new information is the same as the previous one!.
+        /// </summary>
+        internal static string NewInfoSamePrevious {
+            get {
+                return ResourceManager.GetString("NewInfoSamePrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found!.
         /// </summary>
         internal static string UserNotFound {
             get {

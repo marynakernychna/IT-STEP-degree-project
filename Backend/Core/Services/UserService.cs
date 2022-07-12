@@ -44,32 +44,48 @@ namespace Core.Services
             return _mapper.Map<UserProfileInfoDTO>(user);
         }
 
-        public async Task UserEditProfileInfoAsync(UserEditProfileInfoDTO userEditProfileInfo, string userId, string callbackUrl)
+        public async Task UserEditProfileInfoAsync(
+            UserEditProfileInfoDTO newUserInfo, string userId, string callbackUrl)
         {
-            var updateUser = await _userRepository.GetByIdAsync(userId);
+            var user = await _userRepository.GetByIdAsync(userId);
 
-            ExtensionMethods.UserNullCheck(updateUser);
+            ExtensionMethods.UserNullCheck(user);
 
-            updateUser.Name = userEditProfileInfo.Name;
-            updateUser.Surname = userEditProfileInfo.Surname;
 
-            if (!userEditProfileInfo.Email.Equals(updateUser.Email))
+            if (user.Name == newUserInfo.Name &&
+                user.Surname == newUserInfo.Surname &&
+                user.PhoneNumber == newUserInfo.PhoneNumber &&
+                user.Email == newUserInfo.Email )
             {
-                if (await _userRepository.AnyAsync(new UserSpecification.GetByEmail(userEditProfileInfo.Email)))
-                {
-                    throw new HttpException(ErrorMessages.FailedSendEmail, HttpStatusCode.BadRequest);
-                }
-
-                updateUser.Email = userEditProfileInfo.Email;
-                updateUser.UserName = userEditProfileInfo.Email;
-                updateUser.NormalizedEmail = userEditProfileInfo.Email.ToUpper();
-                updateUser.NormalizedUserName = userEditProfileInfo.Email.ToUpper();
-                updateUser.EmailConfirmed = false;
-
-                await _emailService.SendConfirmationEmailAsync(updateUser, callbackUrl);
+                throw new HttpException(
+                    ErrorMessages.NewInfoSamePrevious,
+                    HttpStatusCode.BadRequest);
             }
 
-            await _userRepository.UpdateAsync(updateUser);
+            user.Name = newUserInfo.Name;
+            user.Surname = newUserInfo.Surname;
+            user.PhoneNumber = newUserInfo.PhoneNumber;
+
+            if (!newUserInfo.Email.Equals(user.Email))
+            {
+                if (await _userRepository.AnyAsync(
+                    new UserSpecification.GetByEmail(newUserInfo.Email)))
+                {
+                    throw new HttpException(
+                        ErrorMessages.FailedSendEmail, 
+                        HttpStatusCode.BadRequest);
+                }
+
+                user.Email = newUserInfo.Email;
+                user.UserName = newUserInfo.Email;
+                user.NormalizedEmail = newUserInfo.Email.ToUpper();
+                user.NormalizedUserName = newUserInfo.Email.ToUpper();
+                user.EmailConfirmed = false;
+
+                await _emailService.SendConfirmationEmailAsync(user, callbackUrl);
+            }
+
+            await _userRepository.UpdateAsync(user);
         }
     }
 }
