@@ -9,6 +9,8 @@ namespace Core.Interfaces.CustomService
     public interface IUserService
     {
         string GetCurrentUserNameIdentifier(ClaimsPrincipal currentUser);
+        Task UserEditProfileInfoAsync(
+            UserEditProfileInfoDTO userEditProfileInfo, string userId, string callbackUrl);
         Task<UserProfileInfoDTO> GetUserProfileInfoAsync(string userId);
         Task<PaginatedList<UserProfileInfoDTO>> GetUsersProfileInfoAsync(
             PaginationFilterDTO paginationFilter);

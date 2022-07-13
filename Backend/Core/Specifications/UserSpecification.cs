@@ -1,5 +1,7 @@
 ﻿using Ardalis.Specification;
 using Core.Entities;
+using System.Linq;
+
 using System.Collections.Generic;
 
 namespace Core.Specifications
@@ -11,6 +13,14 @@ namespace Core.Specifications
             public GetByUsersIds(List<string> usersIds)
             {
                 Query.Where(u => usersIds.Contains(u.Id));
+            }
+        }
+
+        internal class GetByEmail : Specification<User>, ISingleResultSpecification<User>
+        {
+            public GetByEmail(string email)
+            {
+                Query.Where(u => u.Email == email);
             }
         }
     }
