@@ -1,4 +1,6 @@
-﻿using Core.DTO;
+﻿using Core.Constants;
+using Core.DTO;
+using Core.Helpers;
 using Core.Interfaces.CustomService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +40,16 @@ namespace API.Controllers
             await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
 
             return Ok();
+        }
+            
+        [HttpGet("users-info")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetUsersInfoAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var usersInfo = await _userService.GetUsersProfileInfoAsync(paginationFilter);
+
+            return Ok(usersInfo);
         }
     }
 }

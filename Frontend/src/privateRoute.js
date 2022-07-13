@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { withRouter, Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Route, Redirect } from 'react-router-dom';
 import { Result } from 'antd';
 
 const PrivateRoute = props => {
-    const { isAuthUser, role, allowedRoles } = props;
+    const { isUserAuthorized, userRole, allowedRoles } = props;
 
-    if (isAuthUser && allowedRoles.includes(role)) {
+    if (isUserAuthorized && allowedRoles.includes(userRole)) {
         return props.children;
     }
-    if (isAuthUser && !allowedRoles.includes(role)) {
+    if (isUserAuthorized && !allowedRoles.includes(userRole)) {
         return (
             <Result
                 status="403"
@@ -18,7 +18,7 @@ const PrivateRoute = props => {
             />
         );
     }
-    if (!isAuthUser) {
+    if (!isUserAuthorized) {
         return <Route component={() => <Redirect to="/login" />} />;
     }
 
@@ -26,8 +26,8 @@ const PrivateRoute = props => {
 };
 
 const mapStateToProps = (stateRedux) => ({
-    isAuthUser: stateRedux.authReducer.isAuthUser,
-    role: stateRedux.authReducer.role
+    isUserAuthorized: stateRedux.authenticationReducer.isUserAuthorized,
+    userRole: stateRedux.authenticationReducer.userRole
 });
 
 export default withRouter(connect(mapStateToProps)(PrivateRoute));
