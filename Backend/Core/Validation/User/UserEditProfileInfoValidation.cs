@@ -13,8 +13,8 @@ namespace Core.Validation.User
                 .Length(2, 50)
                 .WithMessage("'{PropertyName}' must be between 2 and 50 letters!")
                 .Matches(@"^[A-Z][a-z]+$")
-                .WithMessage("The first letter in '{PropertyName}'" +
-                    " must be uppercase, the others lowercase! And only in Latin letters!");
+                .WithMessage("The first letter in '{PropertyName}' " +
+                   "must be uppercase, the others lowercase! And only in Latin letters!");
 
             RuleFor(user => user.Surname)
                 .NotEmpty()
@@ -22,8 +22,8 @@ namespace Core.Validation.User
                 .Length(2, 50)
                 .WithMessage("'{PropertyName}' must be between 2 and 50 letters!")
                 .Matches(@"^[A-Z][a-z]+$")
-                .WithMessage("The first letter in '{PropertyName}'" +
-                    " must be uppercase, the others lowercase! And only in Latin letters!");
+                .WithMessage("The first letter in '{PropertyName}' " +
+                    "must be uppercase, the others lowercase! And only in Latin letters!");
 
             RuleFor(user => user.Email)
                 .NotEmpty()

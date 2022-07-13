@@ -48,9 +48,7 @@ namespace Core.Services
             UserEditProfileInfoDTO newUserInfo, string userId, string callbackUrl)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-
             ExtensionMethods.UserNullCheck(user);
-
 
             if (user.Name == newUserInfo.Name &&
                 user.Surname == newUserInfo.Surname &&

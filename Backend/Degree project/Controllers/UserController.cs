@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         [HttpPost("edit-info")]
-        public async Task<IActionResult> UserEditProfileInfo(
+        public async Task<IActionResult> UserEditProfileInfoAsync(
             UserEditProfileInfoDTO newUserInfo)
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
