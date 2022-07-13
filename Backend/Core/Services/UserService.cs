@@ -28,7 +28,7 @@ namespace Core.Services
         public UserService(
             RoleManager<IdentityRole> roleManager,
             IRepository<User> userRepository,
-            IEmailService emailService)
+            IEmailService emailService,
             IRepository<IdentityUserRole<string>> identityUserRoleRepository,
             IMapper mapper)
         {

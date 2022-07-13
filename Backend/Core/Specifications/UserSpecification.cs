@@ -14,7 +14,10 @@ namespace Core.Specifications
             {
                 Query.Where(u => usersIds.Contains(u.Id));
             }
-          
+        }
+
+        internal class GetByEmail : Specification<User>, ISingleResultSpecification<User>
+        {
             public GetByEmail(string email)
             {
                 Query.Where(u => u.Email == email);
