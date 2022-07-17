@@ -10,7 +10,7 @@ function CustomMenu(type) {
             defaultOpenKeys={['sub1']}
             mode="inline"
             theme="dark"
-            items={type == userRoles.USER ? userItems : adminItems}
+            items={type === userRoles.USER ? userItems : adminItems}
             id="menu"
         />
     );
