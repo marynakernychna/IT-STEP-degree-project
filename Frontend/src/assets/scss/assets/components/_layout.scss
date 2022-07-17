@@ -1,0 +1,26 @@
+#page.ant-layout {
+    min-height: 100vh;
+
+    aside.ant-layout-sider.ant-layout-sider-dark {
+        width: 250px;
+
+        .ant-layout-sider-children {
+            width: 100%;
+        }
+    }
+
+    .ant-layout-header,
+    .ant-layout-footer {
+        height: 10px;
+    }
+
+    .ant-layout-footer {
+        background: #001529;
+        padding: 0;
+        line-height: 0;
+    }
+
+    .ant-layout-content {
+        padding: 15px;
+    }
+}
