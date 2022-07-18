@@ -6,7 +6,7 @@ namespace Core.Specifications
 {
     public static class CategorySpecification
     {
-        internal class GetByTitle : Specification<Category>
+        internal class GetByTitle : Specification<Category>, ISingleResultSpecification<Category>
         {
             public GetByTitle(string categoryTitle)
             {

@@ -32,17 +32,14 @@ namespace Core.Services
             if (isCategoryExist)
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryAlreadyExists, 
-                    HttpStatusCode.BadRequest
+                        ErrorMessages.CategoryAlreadyExists,
+                        HttpStatusCode.BadRequest
                     );
-                
             }
 
             var category = _mapper.Map<Category>(createTripDTO);
-            category.Wares = null;
 
             await _categoryRepository.AddAsync(category);
-
         }
     }
 }
