@@ -8,8 +8,7 @@ namespace Core.Validation.Category
         public CategoryIdValidation()
         {
             RuleFor(c => c.Id)
-                .GreaterThan(0)
-                .WithMessage("'{PropertyName}' must not be greater than 0!");
+                .GreaterThan(0);
         }
     }
 }
