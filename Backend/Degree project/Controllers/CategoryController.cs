@@ -19,7 +19,7 @@ namespace API.Controllers
 
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<ActionResult> CreateTripAsync([FromBody] CreateCategoryDTO createTripDTO)
+        public async Task<IActionResult> CreateCategoryAsync([FromBody] CreateCategoryDTO createTripDTO)
         {
             await _categoryService.CreateCategoryAsync(createTripDTO);
 

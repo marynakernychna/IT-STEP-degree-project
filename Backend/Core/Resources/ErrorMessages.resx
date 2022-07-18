@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CategoryNotFound" xml:space="preserve">
-    <value>Category Not Found!</value>
+  <data name="CategoryAlreadyExists" xml:space="preserve">
+    <value>Category already exists!</value>
   </data>
   <data name="FailedSendEmail" xml:space="preserve">
     <value>Failed send email!</value>

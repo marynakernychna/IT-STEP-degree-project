@@ -61,11 +61,11 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category Not Found!.
+        ///   Looks up a localized string similar to Category already exists!.
         /// </summary>
-        internal static string CategoryNotFound {
+        internal static string CategoryAlreadyExists {
             get {
-                return ResourceManager.GetString("CategoryNotFound", resourceCulture);
+                return ResourceManager.GetString("CategoryAlreadyExists", resourceCulture);
             }
         }
         

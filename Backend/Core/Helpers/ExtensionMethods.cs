@@ -49,7 +49,7 @@ namespace Core.Helpers
             if (category == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryNotFound,
+                    ErrorMessages.CategoryAlreadyExists,
                     HttpStatusCode.NotFound);
             }
         }

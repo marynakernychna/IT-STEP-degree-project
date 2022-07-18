@@ -2,10 +2,10 @@
 using Core.DTO.Category;
 using Core.Entities;
 using Core.Exceptions;
-using Core.Helpers;
 using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
+using Core.Specifications;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace Core.Services
         private readonly IMapper _mapper;
 
         public CategoryService(
-            IRepository<Category> categoryRepository, 
+            IRepository<Category> categoryRepository,
             IMapper mapper)
         {
             _categoryRepository = categoryRepository;
@@ -26,19 +26,23 @@ namespace Core.Services
 
         public async Task CreateCategoryAsync(CreateCategoryDTO createTripDTO)
         {
-            if (createTripDTO != null)
-            {
-                var category = _mapper.Map<Category>(createTripDTO);
-                category.Wares = null;
+            var isCategoryExist = await _categoryRepository.AnyAsync(
+                new CategorySpecification.GetByTitle(createTripDTO.Title));
 
-                var categoryFromDb = await _categoryRepository.AddAsync(category);
-
-                ExtensionMethods.CategoryNullCheck(categoryFromDb);
-            }
-            else
+            if (isCategoryExist)
             {
-                throw new HttpException(ErrorMessages.CategoryNotFound, HttpStatusCode.BadRequest);
+                throw new HttpException(
+                    ErrorMessages.CategoryAlreadyExists, 
+                    HttpStatusCode.BadRequest
+                    );
+                
             }
+
+            var category = _mapper.Map<Category>(createTripDTO);
+            category.Wares = null;
+
+            await _categoryRepository.AddAsync(category);
+
         }
     }
 }
