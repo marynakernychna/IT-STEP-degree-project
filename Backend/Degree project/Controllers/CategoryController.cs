@@ -19,9 +19,20 @@ namespace API.Controllers
 
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> CreateCategoryAsync([FromBody] CreateCategoryDTO createTripDTO)
+        public async Task<IActionResult> CreateCategoryAsync(
+            [FromBody] CreateCategoryDTO createTripDTO)
         {
             await _categoryService.CreateCategoryAsync(createTripDTO);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete-by-id")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> DelteByIdAsync(
+            [FromBody] CategoryIdDTO categoryIdDTO)
+        {
+            await _categoryService.DeleteAsync(categoryIdDTO.Id);
 
             return Ok();
         }

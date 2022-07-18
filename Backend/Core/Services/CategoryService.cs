@@ -2,6 +2,7 @@
 using Core.DTO.Category;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Helpers;
 using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
@@ -40,6 +41,15 @@ namespace Core.Services
             var category = _mapper.Map<Category>(createTripDTO);
 
             await _categoryRepository.AddAsync(category);
+        }
+
+        public async Task DeleteAsync(int categoryId)
+        {
+            var category = await _categoryRepository.GetByIdAsync(categoryId);
+
+            ExtensionMethods.CategoryNullCheck(category);
+
+            await _categoryRepository.DeleteAsync(category);
         }
     }
 }

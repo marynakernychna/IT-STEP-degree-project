@@ -6,5 +6,6 @@ namespace Core.Interfaces.CustomService
     public interface ICategoryService
     {
         Task CreateCategoryAsync(CreateCategoryDTO createTripDTO);
+        Task DeleteAsync(int categoryId);
     }
 }
