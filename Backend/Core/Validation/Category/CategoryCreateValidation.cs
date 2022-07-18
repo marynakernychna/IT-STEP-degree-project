@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Core.Validation.Category
 {
-    public class CategoryCreateValidation : AbstractValidator<CreateCategoryDTO>
+    public class CategoryCreateValidation : AbstractValidator<CategoryDTO>
     {
         public CategoryCreateValidation()
         {
