@@ -27,10 +27,10 @@ namespace Core.Services
             _mapper = mapper;
         }
 
-        public async Task CreateCategoryAsync(CategoryDTO createTripDTO)
+        public async Task CreateAsync(string categoryTitle)
         {
             var isCategoryExist = await _categoryRepository.AnyAsync(
-                new CategorySpecification.GetByTitle(createTripDTO.Title));
+                new CategorySpecification.GetByTitle(categoryTitle));
 
             if (isCategoryExist)
             {
@@ -40,12 +40,13 @@ namespace Core.Services
                     );
             }
 
-            var category = _mapper.Map<Category>(createTripDTO);
+            var category = _mapper.Map<Category>(categoryTitle);
 
             await _categoryRepository.AddAsync(category);
         }
 
-        public async Task<PaginatedList<CategoryDTO>> GetAllAsync(PaginationFilterDTO paginationFilter)
+        public async Task<PaginatedList<CategoryDTO>> GetAllAsync(
+            PaginationFilterDTO paginationFilter)
         {
             var categoriesCount = await _categoryRepository.CountAsync(
                 new CategorySpecification.GetAll(paginationFilter));
