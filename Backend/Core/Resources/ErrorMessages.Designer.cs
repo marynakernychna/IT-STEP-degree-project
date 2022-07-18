@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category already exists!.
+        /// </summary>
+        internal static string CategoryAlreadyExists {
+            get {
+                return ResourceManager.GetString("CategoryAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed send email!.
         /// </summary>
         internal static string FailedSendEmail {

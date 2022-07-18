@@ -21,6 +21,7 @@ namespace Core
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ITemplateHelper, TemplateHelper>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -29,6 +30,7 @@ namespace Core
             {
                 mc.AddProfile(new Authentication());
                 mc.AddProfile(new UserMap());
+                mc.AddProfile(new CategoryMap());
             });
 
             var mapper = configures.CreateMapper();
