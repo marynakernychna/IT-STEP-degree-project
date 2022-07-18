@@ -7,7 +7,7 @@ namespace Core.Validation.Category
     {
         public CategoryCreateValidation()
         {
-            RuleFor(user => user.Title)
+            RuleFor(c => c.Title)
                 .NotEmpty()
                 .WithMessage("'{PropertyName}' must not be empty!")
                 .Length(2, 50)
