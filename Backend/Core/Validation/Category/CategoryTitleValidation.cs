@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Core.Validation.Category
 {
-    public class CategoryCreateValidation : AbstractValidator<CategoryDTO>
+    public class CategoryTitleValidation : AbstractValidator<CategoryDTO>
     {
-        public CategoryCreateValidation()
+        public CategoryTitleValidation()
         {
             RuleFor(c => c.Title)
                 .NotEmpty()

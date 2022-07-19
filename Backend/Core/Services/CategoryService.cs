@@ -45,15 +45,16 @@ namespace Core.Services
             await _categoryRepository.AddAsync(category);
         }
 
-        public async Task DeleteAsync(int categoryId)
+        public async Task DeleteAsync(string categoryTitle)
         {
-            var category = await _categoryRepository.GetByIdAsync(categoryId);
+            var category = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(categoryTitle));
 
             ExtensionMethods.CategoryNullCheck(category);
 
             await _categoryRepository.DeleteAsync(category);
         }
-        
+
         public async Task<PaginatedList<CategoryDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter)
         {

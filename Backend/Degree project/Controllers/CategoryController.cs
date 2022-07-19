@@ -28,16 +28,16 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete-by-id")]
+        [HttpDelete("delete")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> DelteByIdAsync(
-            [FromBody] CategoryIdDTO categoryIdDTO)
+        public async Task<IActionResult> DeleteAsync(
+            [FromBody] CategoryDTO categoryIdDTO)
         {
-            await _categoryService.DeleteAsync(categoryIdDTO.Id);
+            await _categoryService.DeleteAsync(categoryIdDTO.Title);
 
             return Ok();
         }
-        
+
         [HttpPost("all")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetAllAsync(

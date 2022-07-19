@@ -7,9 +7,9 @@ namespace Core.Interfaces.CustomService
 {
     public interface ICategoryService
     {
-        Task CreateCategoryAsync(CreateCategoryDTO createTripDTO);
-        Task DeleteAsync(int categoryId);
+        Task<PaginatedList<CategoryDTO>> GetAllAsync(
+            PaginationFilterDTO paginationFilter);
         Task CreateAsync(string categoryTitle);
-        Task<PaginatedList<CategoryDTO>> GetAllAsync(PaginationFilterDTO paginationFilter);
+        Task DeleteAsync(string categoryTitle);
     }
 }
