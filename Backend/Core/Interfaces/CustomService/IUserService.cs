@@ -14,5 +14,6 @@ namespace Core.Interfaces.CustomService
         Task<UserProfileInfoDTO> GetUserProfileInfoAsync(string userId);
         Task<PaginatedList<UserProfileInfoDTO>> GetUsersProfileInfoAsync(
             PaginationFilterDTO paginationFilter);
+        Task<string> GetUserIdByEmailAsync(string email);
     }
 }
