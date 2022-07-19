@@ -23,7 +23,17 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] CategoryDTO createTripDTO)
         {
-            await _categoryService.CreateAsync(createTripDTO.Title);
+            await _categoryService.CreateAsync(createTripDTO);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> DeleteAsync(
+            [FromBody] CategoryDTO categoryIdDTO)
+        {
+            await _categoryService.DeleteAsync(categoryIdDTO.Title);
 
             return Ok();
         }

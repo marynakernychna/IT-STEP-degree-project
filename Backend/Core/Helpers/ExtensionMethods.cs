@@ -43,5 +43,15 @@ namespace Core.Helpers
                     HttpStatusCode.NotFound);
             }
         }
+
+        public static void CategoryNullCheck(Category category)
+        {
+            if (category == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.CategoryNotFound,
+                    HttpStatusCode.NotFound);
+            }
+        }
     }
 }
