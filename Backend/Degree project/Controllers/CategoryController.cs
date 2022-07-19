@@ -23,7 +23,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] CategoryDTO createTripDTO)
         {
-            await _categoryService.CreateAsync(createTripDTO.Title);
+            await _categoryService.CreateAsync(createTripDTO);
 
             return Ok();
         }

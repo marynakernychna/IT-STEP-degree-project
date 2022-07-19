@@ -27,10 +27,10 @@ namespace Core.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(string categoryTitle)
+        public async Task CreateAsync(CategoryDTO categoryDTO)
         {
             var isCategoryExist = await _categoryRepository.AnyAsync(
-                new CategorySpecification.GetByTitle(categoryTitle));
+                new CategorySpecification.GetByTitle(categoryDTO.Title));
 
             if (isCategoryExist)
             {
@@ -40,7 +40,7 @@ namespace Core.Services
                     );
             }
 
-            var category = _mapper.Map<Category>(categoryTitle);
+            var category = _mapper.Map<Category>(categoryDTO);
 
             await _categoryRepository.AddAsync(category);
         }
