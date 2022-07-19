@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.DTO;
 using Core.DTO.Category;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
@@ -19,10 +20,10 @@ namespace API.Controllers
 
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> CreateCategoryAsync(
-            [FromBody] CreateCategoryDTO createTripDTO)
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] CategoryDTO createTripDTO)
         {
-            await _categoryService.CreateCategoryAsync(createTripDTO);
+            await _categoryService.CreateAsync(createTripDTO.Title);
 
             return Ok();
         }
@@ -35,6 +36,16 @@ namespace API.Controllers
             await _categoryService.DeleteAsync(categoryIdDTO.Id);
 
             return Ok();
+        }
+        
+        [HttpPost("all")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetAllAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var categories = await _categoryService.GetAllAsync(paginationFilter);
+
+            return Ok(categories);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Core.DTO.Category;
+﻿using Core.DTO;
+using Core.DTO.Category;
+using Core.Helpers;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces.CustomService
@@ -7,5 +9,7 @@ namespace Core.Interfaces.CustomService
     {
         Task CreateCategoryAsync(CreateCategoryDTO createTripDTO);
         Task DeleteAsync(int categoryId);
+        Task CreateAsync(string categoryTitle);
+        Task<PaginatedList<CategoryDTO>> GetAllAsync(PaginationFilterDTO paginationFilter);
     }
 }
