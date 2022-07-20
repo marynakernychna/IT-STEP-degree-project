@@ -51,5 +51,17 @@ namespace API.Controllers
 
             return Ok(usersInfo);
         }
+
+        [HttpPost("user-edit-info")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> UserEditProfileInfoAsync(
+            UserEditProfileInfoDTO newUserInfo, string email)
+        {
+            var userId = await _userService.GetUserIdByEmailAsync(email);
+            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+
+            return Ok();
+        }
     }
 }

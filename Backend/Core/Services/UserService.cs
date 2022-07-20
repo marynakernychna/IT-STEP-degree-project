@@ -24,19 +24,22 @@ namespace Core.Services
         private readonly IRepository<IdentityUserRole<string>> _identityUserRoleRepository;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly UserManager<User> _userManager;
 
         public UserService(
             RoleManager<IdentityRole> roleManager,
             IRepository<User> userRepository,
             IEmailService emailService,
             IRepository<IdentityUserRole<string>> identityUserRoleRepository,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userRepository = userRepository;
             _identityUserRoleRepository = identityUserRoleRepository;
             _mapper = mapper;
             _emailService = emailService;
+            _userManager = userManager;
         }
 
         public string GetCurrentUserNameIdentifier(ClaimsPrincipal currentUser)
@@ -131,6 +134,15 @@ namespace Core.Services
                 paginationFilter.PageNumber,
                 usersCount,
                 totalPages);
+        }
+
+        public async Task<string> GetUserIdByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            return user.Id;
         }
     }
 }
