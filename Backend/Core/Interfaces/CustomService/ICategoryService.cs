@@ -10,6 +10,7 @@ namespace Core.Interfaces.CustomService
         Task<PaginatedList<CategoryDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter);
         Task CreateAsync(CategoryDTO categoryDTO);
+        Task UpdateAsync(UpdateCategoryDTO updateCategoryDTO);
         Task DeleteAsync(string categoryTitle);
     }
 }

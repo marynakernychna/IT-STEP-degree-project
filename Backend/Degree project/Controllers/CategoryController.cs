@@ -31,14 +31,14 @@ namespace API.Controllers
         [HttpDelete("delete")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> DeleteAsync(
-            [FromBody] CategoryDTO categoryIdDTO)
+            [FromBody] CategoryDTO categoryDTO)
         {
-            await _categoryService.DeleteAsync(categoryIdDTO.Title);
+            await _categoryService.DeleteAsync(categoryDTO.Title);
 
             return Ok();
         }
 
-        [HttpPost("all")]
+        [HttpGet("all")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetAllAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
@@ -46,6 +46,16 @@ namespace API.Controllers
             var categories = await _categoryService.GetAllAsync(paginationFilter);
 
             return Ok(categories);
+        }
+
+        [HttpPut("update")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> UpdateAsync(
+            [FromBody] UpdateCategoryDTO updateCategoryDTO)
+        {
+            await _categoryService.UpdateAsync(updateCategoryDTO);
+
+            return Ok();
         }
     }
 }
