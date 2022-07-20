@@ -8,6 +8,7 @@ using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
 using Core.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -77,6 +78,35 @@ namespace Core.Services
                 paginationFilter.PageNumber,
                 categoriesCount,
                 totalPages);
+        }
+
+        public async Task UpdateAsync(UpdateCategoryDTO updateCategoryDTO)
+        {
+            if (String.Equals(updateCategoryDTO.CurrentTitle, updateCategoryDTO.NewTitle))
+            {
+                throw new HttpException(
+                    ErrorMessages.PreviousInfoIsTheSame,
+                    HttpStatusCode.BadRequest);
+            }
+
+            var categoryToUpdate = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(updateCategoryDTO.CurrentTitle));
+
+            ExtensionMethods.CategoryNullCheck(categoryToUpdate);
+
+            var isCategoryExist = await _categoryRepository.AnyAsync(
+                new CategorySpecification.GetByTitle(updateCategoryDTO.NewTitle));
+
+            if (isCategoryExist)
+            {
+                throw new HttpException(
+                    ErrorMessages.CategoryAlreadyExists,
+                    HttpStatusCode.BadRequest);
+            }
+
+            categoryToUpdate.Title = updateCategoryDTO.NewTitle;
+
+            await _categoryRepository.UpdateAsync(categoryToUpdate);
         }
     }
 }
