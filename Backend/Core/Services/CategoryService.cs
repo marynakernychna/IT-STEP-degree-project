@@ -56,13 +56,13 @@ namespace Core.Services
             await _categoryRepository.DeleteAsync(category);
         }
 
-        public async Task<PaginatedList<CategoryDTO>> GetAllAsync(
+        public async Task<PaginatedList<CategoryInfoDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter)
         {
             var categoriesCount = await _categoryRepository.CountAsync(
                 new CategorySpecification.GetAll(paginationFilter));
 
-            int totalPages = PaginatedList<CategoryDTO>
+            int totalPages = PaginatedList<CategoryInfoDTO>
                 .GetTotalPages(paginationFilter, categoriesCount);
 
             if (totalPages == 0)
@@ -73,8 +73,27 @@ namespace Core.Services
             var categories = await _categoryRepository.ListAsync(
                 new CategorySpecification.GetAll(paginationFilter));
 
-            return PaginatedList<CategoryDTO>.Evaluate(
-                _mapper.Map<List<CategoryDTO>>(categories),
+            var result = new List<CategoryInfoDTO>();
+
+            foreach (var category in categories)
+            {
+                int availableTotalCount = 0;
+
+                foreach (var ware in category.Wares)
+                {
+                    availableTotalCount += ware.AvailableCount;
+                }
+
+                result.Add(new CategoryInfoDTO
+                {
+                    Title = category.Title,
+                    GoodsTotalCount = category.Wares.Count,
+                    AvailableTotalCount = availableTotalCount
+                });
+            }
+
+            return PaginatedList<CategoryInfoDTO>.Evaluate(
+                result,
                 paginationFilter.PageNumber,
                 categoriesCount,
                 totalPages);

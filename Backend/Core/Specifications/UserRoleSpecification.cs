@@ -12,7 +12,8 @@ namespace Core.Specifications
             {
                 Query.Where(ur => ur.RoleId == roleId)
                      .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
-                     .Take(paginationFilter.PageSize);
+                     .Take(paginationFilter.PageSize)
+                     .AsNoTracking();
             }
         }
     }

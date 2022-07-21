@@ -12,7 +12,8 @@ namespace Core.Specifications
         {
             public GetByTitle(string categoryTitle)
             {
-                Query.Where(c => categoryTitle.Contains(c.Title));
+                Query.Where(c => categoryTitle.Contains(c.Title))
+                     .AsNoTracking();
             }
         }
 
@@ -20,8 +21,11 @@ namespace Core.Specifications
         {
             public GetAll(PaginationFilterDTO paginationFilter)
             {
-                Query.Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
-                     .Take(paginationFilter.PageSize);
+                Query.Include(c => c.Wares)
+                     .OrderBy(c => c.Title)
+                     .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
+                     .Take(paginationFilter.PageSize)
+                     .AsNoTracking();
             }
         }
     }

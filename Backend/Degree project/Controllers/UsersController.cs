@@ -41,7 +41,7 @@ namespace API.Controllers
 
             return Ok();
         }
-            
+
         [HttpGet("users-info")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetUsersInfoAsync(
