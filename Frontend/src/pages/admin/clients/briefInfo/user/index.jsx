@@ -6,19 +6,19 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 function User(props) {
     return (
-        <Card id="userCard">
-            <div id="userInformation">
-                <div id="fullName">
+        <Card className="userCard">
+            <div className="userInformation">
+                <div className="fullName">
                     <img src={user_icon}/>
                     <p>{props.info.name} {props.info.surname}</p>
                 </div>
 
-                <div id="email">
+                <div className="email">
                     <img src={email_icon}/>
                     <p>{props.info.email}</p>
                 </div>
 
-                <div id="isConfirmed">
+                <div className="isConfirmed">
                     <div>
                         <p>Is email confirmed</p>
                     </div>

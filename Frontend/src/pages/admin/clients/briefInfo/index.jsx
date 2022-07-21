@@ -9,7 +9,7 @@ let paginationFilterModel = {
     pageSize: paginationDefaultFilter.DEFAULT_LARGE_PAGE_SIZE
 };
 
-const ClientsBriefInfo = () => {
+const ClientsBriefInfoPage = () => {
 
     const [users, setUsers] = useState();
 
@@ -26,10 +26,10 @@ const ClientsBriefInfo = () => {
 
     return (
         <div id="usersBriefInfoPage">
-            <p id="title">Brief info</p>
-
             {users != null ?
                 <div id='container'>
+                    <p id="title">Brief info</p>
+
                     {users.items.map((user) =>
                         <User info={user} />
                     )}
@@ -53,4 +53,4 @@ const ClientsBriefInfo = () => {
     );
 };
 
-export default ClientsBriefInfo;
+export default ClientsBriefInfoPage;

@@ -7,6 +7,7 @@ import { Form, Input, Button } from 'antd';
 import { errorMessage } from '../../../services/alerts';
 import { authenticationMessages } from './../../../constants/messages/authentication';
 import { loginUser } from '../../../services/authentication';
+import { pageUrls } from './../../../constants/pageUrls';
 
 function LoginPage() {
     let history = useHistory();
@@ -82,7 +83,7 @@ function LoginPage() {
 
                     <div className="linksDiv">
                         <Link>Home</Link>
-                        <Link to="/registration">Registration</Link>
+                        <Link to={pageUrls.REGISTRATION}>Registration</Link>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,35 @@
+#viewCategoriesPage {
+    justify-content: center;
+
+    #container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        #title {
+            font-size: 20pt;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .categoryCard {
+            margin: 10px 12px;
+            box-shadow: rgba(14, 30, 37, 0.12) 0 2px 4px 0, rgba(14, 30, 37, 0.32) 0 2px 16px 0;
+            border-radius: 15px;
+            justify-content: center;
+            width: 30%;
+
+            display: flex;
+            align-content: space-between;
+            align-items: center;
+            padding: 10px;
+
+            text-align: center;
+        }
+
+        .ant-pagination {
+            margin: 30px 0;
+        }
+    }
+}

@@ -1,12 +1,12 @@
 import { statusCodes } from '../constants/statusCodes';
-import usersService from './../api/users';
 import { errorMessage } from './alerts';
 import { generalMessages } from '../constants/messages/general';
+import categoriesService from './../api/categories';
 
-export function getBriefUsersInfo(paginationFilterModel) {
-
-    return usersService
-        .getBriefUsersInfo(paginationFilterModel)
+export function getCategories(paginationFilterModel) {
+    
+    return categoriesService
+        .getAll(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {

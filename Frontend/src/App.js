@@ -9,9 +9,11 @@ import { createBrowserHistory } from "history";
 import "antd/dist/antd.css";
 import RegistrationPage from './pages/authentication/registration/index';
 import LoginPage from './pages/authentication/login/index';
-import ClientsBriefInfo from './pages/admin/clients/briefInfo/index';
+import ClientsBriefInfoPage from './pages/admin/clients/briefInfo/index';
 import { userRoles } from './constants/userRoles';
 import PageLayoutRoute from './layouts/index';
+import ViewCategoriesPage from './pages/admin/categories/view/index';
+import { pageUrls } from './constants/pageUrls';
 
 const history = createBrowserHistory();
 
@@ -21,9 +23,16 @@ export default function App() {
             <Switch>
                 <PageLayoutRoute
                     exact
-                    path="/clients/brief-info"
+                    path={pageUrls.CLIENTS_BRIEF_INFO}
                     allowedRoles={[userRoles.ADMIN]}
-                    component={ClientsBriefInfo}
+                    component={ClientsBriefInfoPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.CATEGORIES_VIEW}
+                    allowedRoles={[userRoles.ADMIN]}
+                    component={ViewCategoriesPage}
                 />
 
                 <Route
@@ -35,7 +44,7 @@ export default function App() {
 
                 <Route
                     exact
-                    path="/login"
+                    path={pageUrls.LOGIN}
                 >
                     <LoginPage />
                 </Route>
