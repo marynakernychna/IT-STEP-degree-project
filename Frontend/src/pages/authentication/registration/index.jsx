@@ -7,6 +7,7 @@ import { registerUser } from './../../../services/authentication';
 import { generalMessages } from './../../../constants/messages/general';
 import { errorMessage } from './../../../services/alerts';
 import { authenticationMessages } from './../../../constants/messages/authentication';
+import { pageUrls } from './../../../constants/pageUrls';
 
 function RegistrationPage() {
     let history = useHistory();
@@ -154,7 +155,7 @@ function RegistrationPage() {
 
                     <div className="linksDiv">
                         <Link>Home</Link>
-                        <Link to="/login">Login</Link>
+                        <Link to={pageUrls.LOGIN}>Login</Link>
                     </div>
                 </div>
             </div>

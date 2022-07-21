@@ -1,4 +1,5 @@
-import { SolutionOutlined } from '@ant-design/icons';
+import { SolutionOutlined, TagsOutlined } from '@ant-design/icons';
+import { pageUrls } from './../../constants/pageUrls';
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -12,7 +13,10 @@ function getItem(label, key, icon, children, type) {
 
 export const adminItems = [
     getItem("Clients", 'sub1', <SolutionOutlined />, [
-        getItem("Brief info", '1')
+        getItem("Brief info", pageUrls.CLIENTS_BRIEF_INFO)
+    ]),
+    getItem("Categories", 'sub2', <TagsOutlined />, [
+        getItem("View", pageUrls.CATEGORIES_VIEW)
     ])
 ];
 

@@ -40,11 +40,7 @@ const authenticationReducer = (state = intialState, action) => {
         }
 
         default: {
-            return {
-                ...state,
-                userRole: userRoles.GUEST,
-                isUserAuthorized: false
-            }
+            return state;
         }
     }
 }

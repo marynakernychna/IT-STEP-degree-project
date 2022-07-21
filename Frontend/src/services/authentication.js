@@ -6,8 +6,10 @@ import authenticationService from './../api/authentication';
 import { store } from './../store';
 import { setAccess } from './../reduxActions/authentication/index';
 import { userRoles } from '../constants/userRoles';
+import { pageUrls } from './../constants/pageUrls';
 
 export function registerUser(userData, history) {
+
     const model = {
         name: userData.name,
         surname: userData.surname,
@@ -23,7 +25,7 @@ export function registerUser(userData, history) {
                     authenticationMessages.SUCCESSFUL_REGISTRATION
                 );
 
-                history.push("/login");
+                history.push(pageUrls.LOGIN);
             },
             (err) => {
                 err.response.status === statusCodes.BAD_REQUEST
@@ -46,6 +48,7 @@ export function registerUser(userData, history) {
 }
 
 export function loginUser(userData, history) {
+    
     const model = {
         email: userData.email,
         password: userData.password
@@ -68,7 +71,7 @@ export function loginUser(userData, history) {
                     return;
                 }
 
-                history.push("/clients/brief-info");
+                history.push(pageUrls.CLIENTS_BRIEF_INFO);
             },
             () => {
                 errorMessage(

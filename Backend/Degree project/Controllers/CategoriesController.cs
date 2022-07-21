@@ -3,16 +3,20 @@ using Core.DTO;
 using Core.DTO.Category;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class CategoryController : Controller
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(
+        public CategoriesController(
             ICategoryService categoryService)
         {
             _categoryService = categoryService;

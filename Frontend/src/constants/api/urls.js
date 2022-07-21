@@ -1,6 +1,7 @@
 export const SERVER_URL = "https://localhost:44314/api";
 const AUTHENTICATION_URL = "/Authentication";
 const USERS_URL = "/Users";
+const CATEGORIES_URL = "/Categories";
 
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
@@ -9,4 +10,8 @@ export const AUTHENTICATION_URLS = {
 
 export const USERS_URLS = {
     BRIEF_USERS_INFO: USERS_URL + "/users-info"
+};
+
+export const CATEGORIES_URLS = {
+    GET_ALL: CATEGORIES_URL + "/all"
 };

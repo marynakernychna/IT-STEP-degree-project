@@ -1,28 +1,26 @@
-@import '../variables/others';
-
 #usersBriefInfoPage {
     justify-content: center;
-
-    #title {
-        font-size: 20pt;
-        text-align: center;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
 
     #container {
         display: flex;
         align-items: center;
         flex-direction: column;
 
-        #userCard {
+        #title {
+            font-size: 20pt;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .userCard {
             margin: 10px 12px;
             box-shadow: rgba(14, 30, 37, 0.12) 0 2px 4px 0, rgba(14, 30, 37, 0.32) 0 2px 16px 0;
             border-radius: 15px;
             justify-content: center;
             width: 100%;
 
-            #userInformation {
+            .userInformation {
                 display: flex;
                 align-content: space-between;
                 align-items: center;
@@ -32,15 +30,15 @@
                     width: 25px;
                 }
 
-                #fullName,
-                #email {
+                .fullName,
+                .email {
                     width: 40%;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
                 }
 
-                #isConfirmed {
+                .isConfirmed {
                     width: 20%;
                     display: flex;
                     justify-content: flex-end;
@@ -52,35 +50,6 @@
                     justify-content: center;
                     margin: 5px;
                     word-break: break-all;
-                }
-            }
-
-            @media only screen and (min-width: $tablet_size) and (max-width: $laptop_size) {
-                p {
-                    font-size: 12px;
-                }
-            }
-
-            @media only screen and (max-width: $tablet_size) {
-                #userInformation {
-                    justify-content: space-between;
-                    flex-direction: column;
-
-                    #fullName {
-                        margin: 5px;
-                        width: 100%;
-                    }
-
-                    #email {
-                        margin: 5px;
-                        width: 100%;
-                    }
-
-                    #isConfirmed {
-                        margin: 5px;
-                        width: 100%;
-                        justify-content: start;
-                    }
                 }
             }
         }
