@@ -8,4 +8,8 @@ export default class usersService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+
+    static getUserInfo() {
+        return instance.get(USERS_URLS.VIEW_PROFILE_INFO);
+    }
 }

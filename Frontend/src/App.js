@@ -14,6 +14,7 @@ import { userRoles } from './constants/userRoles';
 import PageLayoutRoute from './layouts/index';
 import ViewCategoriesPage from './pages/admin/categories/view/index';
 import { pageUrls } from './constants/pageUrls';
+import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
 
 const history = createBrowserHistory();
 
@@ -48,6 +49,13 @@ export default function App() {
                 >
                     <LoginPage />
                 </Route>
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_PROFILE_INFO}
+                    allowedRoles={[userRoles.USER, userRoles.ADMIN]}
+                    component={ViewProfileInfoPage}
+                />
 
                 <Redirect to="/login" />    {/* there will be a 404 page later */}
             </Switch>

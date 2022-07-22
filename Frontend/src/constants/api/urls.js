@@ -9,7 +9,8 @@ export const AUTHENTICATION_URLS = {
 };
 
 export const USERS_URLS = {
-    BRIEF_USERS_INFO: USERS_URL + "/users-info"
+    BRIEF_USERS_INFO: USERS_URL + "/users-info",
+    VIEW_PROFILE_INFO: USERS_URL + "/user-info"
 };
 
 export const CATEGORIES_URLS = {
