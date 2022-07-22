@@ -24,6 +24,10 @@ const ClientsBriefInfoPage = () => {
         setUsers(await getBriefUsersInfo(paginationFilterModel));
     };
 
+    const updateUserInfo = async () => {
+        setUsers(await getBriefUsersInfo(paginationFilterModel));
+    }
+
     return (
         <div id="usersBriefInfoPage">
             {users != null ?
@@ -31,7 +35,10 @@ const ClientsBriefInfoPage = () => {
                     <p id="title">Brief info</p>
 
                     {users.items.map((user) =>
-                        <User info={user} />
+                        <User
+                            info={user}
+                            updateUserInfo={() => updateUserInfo()}
+                        />
                     )}
 
                     <Pagination
