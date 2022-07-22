@@ -8,4 +8,9 @@ export default class usersService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+
+    static editClientInfo(model, userEmail) {
+        return instance.post(USERS_URLS.EDIT_CLIENT_INFO + 
+          `?email=${userEmail}`, model);
+      }
 }
