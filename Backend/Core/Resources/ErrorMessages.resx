@@ -123,6 +123,9 @@
   <data name="CategoryNotFound" xml:space="preserve">
     <value>Category not found!</value>
   </data>
+  <data name="EmailAlreadyExists" xml:space="preserve">
+    <value>There is already a user with this email!</value>
+  </data>
   <data name="FailedSendEmail" xml:space="preserve">
     <value>Failed send email!</value>
   </data>
