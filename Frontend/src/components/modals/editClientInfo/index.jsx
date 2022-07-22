@@ -50,10 +50,6 @@ function EditClientInfoModal(props) {
         );
     };
 
-    if (userData === undefined) {
-        return <></>;
-    }
-
     return (
         <Modal
             title="Edit user info"
