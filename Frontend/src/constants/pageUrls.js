@@ -3,5 +3,5 @@ export const pageUrls = {
     REGISTRATION: "/registration",
     CLIENTS_BRIEF_INFO: "/clients/brief-info",
     CATEGORIES_VIEW: "/categories/view",
-    VIEW_PROFILE_INFO: "/clients/profile-info"
+    VIEW_PROFILE_INFO: "/profile-info"
 };

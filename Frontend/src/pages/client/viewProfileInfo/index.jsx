@@ -35,13 +35,13 @@ const ViewProfileInfoPage = () => {
                         <p>{temporaryFullName?.name + ' ' + temporaryFullName?.surname}</p>
                     </div>
                 </div>
-
                 <Form
                 >
                     <div className="info">
                         <div className="infoName">
                             <p>Name</p>
                         </div>
+
                         <div>
                             <p>{user.name}</p>
                         </div>
@@ -51,6 +51,7 @@ const ViewProfileInfoPage = () => {
                         <div className="infoName">
                             <p>Surname</p>
                         </div>
+
                         <div>
                             <p>{user.surname}</p>
                         </div>
@@ -60,8 +61,9 @@ const ViewProfileInfoPage = () => {
                         <div className="infoName">
                             <p>PhoneNumber</p>
                         </div>
+
                         <div>
-                            <p>{user.phoneNumber}</p>
+                            <p>{user.phoneNumber !== null ? user.phoneNumber : "Phone number not found!"}</p>
                         </div>
                     </div>
 
@@ -69,6 +71,7 @@ const ViewProfileInfoPage = () => {
                         <div className="infoName">
                             <p>Email</p>
                         </div>
+
                         <div>
                             <p>{user.email}</p>
                         </div>
@@ -94,4 +97,3 @@ const ViewProfileInfoPage = () => {
 };
 
 export default ViewProfileInfoPage;
-

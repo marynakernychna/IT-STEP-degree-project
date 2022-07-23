@@ -1,4 +1,4 @@
-import { SolutionOutlined, TagsOutlined } from '@ant-design/icons';
+import { SolutionOutlined, TagsOutlined, UserOutlined } from '@ant-design/icons';
 import { pageUrls } from './../../constants/pageUrls';
 
 function getItem(label, key, icon, children, type) {
@@ -20,4 +20,8 @@ export const adminItems = [
     ])
 ];
 
-export const userItems = [];
+export const userItems = [
+    getItem("User", 'sub1', <UserOutlined />, [
+        getItem("Profile", pageUrls.VIEW_PROFILE_INFO)
+    ])
+];

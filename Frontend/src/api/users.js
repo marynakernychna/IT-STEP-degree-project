@@ -11,9 +11,10 @@ export default class usersService {
 
     static getUserInfo() {
         return instance.get(USERS_URLS.VIEW_PROFILE_INFO);
-      }
+    }
+
     static editClientInfo(model, userEmail) {
-        return instance.post(USERS_URLS.EDIT_CLIENT_INFO + 
-          `?email=${userEmail}`, model);
-      }
+        return instance.post(USERS_URLS.EDIT_CLIENT_INFO +
+            `?email=${userEmail}`, model);
+    }
 }

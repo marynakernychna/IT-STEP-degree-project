@@ -36,6 +36,13 @@ export default function App() {
                     component={ViewCategoriesPage}
                 />
 
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_PROFILE_INFO}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewProfileInfoPage}
+                />
+
                 <Route
                     exact
                     path="/registration"
@@ -49,13 +56,6 @@ export default function App() {
                 >
                     <LoginPage />
                 </Route>
-
-                <PageLayoutRoute
-                    exact
-                    path={pageUrls.VIEW_PROFILE_INFO}
-                    allowedRoles={[userRoles.USER, userRoles.ADMIN]}
-                    component={ViewProfileInfoPage}
-                />
 
                 <Redirect to="/login" />    {/* there will be a 404 page later */}
             </Switch>

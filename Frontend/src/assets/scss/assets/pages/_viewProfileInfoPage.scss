@@ -1,11 +1,7 @@
 @import '../variables/colors';
 
 .viewProfileInfoPage {
-    padding: 105px 40px 0px 40px;
-
-    .ant-layout {
-        background: none;
-    }
+    justify-content: center;
 
     #infoBlock {
         padding: 40px 40px 25px 40px;
@@ -15,14 +11,14 @@
     }
 
     .info {
+        margin-bottom: 15px;
+
         div {
             display: inline-block;
         }
 
-        margin-bottom: 15px;
-    }
-
-    .infoName {
-        width: 40%;
+        .infoName {
+            width: 40%;
+        }
     }
 }
