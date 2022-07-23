@@ -21,7 +21,5 @@ export const adminItems = [
 ];
 
 export const userItems = [
-    getItem("User", 'sub1', <UserOutlined />, [
-        getItem("Profile", pageUrls.VIEW_PROFILE_INFO)
-    ])
+    getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />)
 ];
