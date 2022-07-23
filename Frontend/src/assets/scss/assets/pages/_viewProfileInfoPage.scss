@@ -20,5 +20,23 @@
         .infoName {
             width: 40%;
         }
+
+        .infoInput div {
+            width: 100%;
+        }
+
+        .inputBlock {
+            width: 60%;
+            display: inline-block;
+        }
+    }
+
+    .blockButton {
+        display: flex;
+        justify-content: space-between;
+
+        .profileButtons {
+            justify-content: end;
+        }
     }
 }
