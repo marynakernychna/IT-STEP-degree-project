@@ -14,6 +14,7 @@ import { userRoles } from './constants/userRoles';
 import PageLayoutRoute from './layouts/index';
 import ViewCategoriesPage from './pages/admin/categories/view/index';
 import { pageUrls } from './constants/pageUrls';
+import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
 
 const history = createBrowserHistory();
 
@@ -33,6 +34,13 @@ export default function App() {
                     path={pageUrls.CATEGORIES_VIEW}
                     allowedRoles={[userRoles.ADMIN]}
                     component={ViewCategoriesPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_PROFILE_INFO}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewProfileInfoPage}
                 />
 
                 <Route

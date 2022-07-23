@@ -4,10 +4,10 @@ import { userRoles } from './../../constants/userRoles';
 import { useHistory } from 'react-router-dom';
 import { Menu } from 'antd';
 
-function CustomMenu(type) {
+function CustomMenu(props) {
     let history = useHistory();
 
-    const onPaginationChange = (item) => {
+    const onSelect = (item) => {
         history.push(item.key);
     };
 
@@ -16,9 +16,9 @@ function CustomMenu(type) {
             defaultSelectedKeys={['1']}
             mode="inline"
             theme="dark"
-            items={type === userRoles.USER ? userItems : adminItems}
+            items={props.type[0] === userRoles.USER ? userItems : adminItems}
             id="menu"
-            onSelect={(item) => onPaginationChange(item)}
+            onSelect={(item) => onSelect(item)}
         />
     );
 };

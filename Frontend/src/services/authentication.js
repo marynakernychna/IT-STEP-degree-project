@@ -48,7 +48,7 @@ export function registerUser(userData, history) {
 }
 
 export function loginUser(userData, history) {
-    
+
     const model = {
         email: userData.email,
         password: userData.password
@@ -62,16 +62,20 @@ export function loginUser(userData, history) {
 
                 const role = store.getState().authenticationReducer.userRole;
 
-                if (userRoles[role.toUpperCase()] === undefined) {
-                    errorMessage(
-                        authenticationMessages.LOGIN_FAILED,
-                        generalMessages.SOMETHING_WENT_WRONG
-                    );
-
-                    return;
+                switch (role) {
+                    case userRoles.USER:
+                        history.push(pageUrls.VIEW_PROFILE_INFO);
+                        break;
+                    case userRoles.ADMIN:
+                        history.push(pageUrls.CLIENTS_BRIEF_INFO);
+                        break;
+                    default:
+                        errorMessage(
+                            authenticationMessages.LOGIN_FAILED,
+                            generalMessages.SOMETHING_WENT_WRONG
+                        );
+                        break;
                 }
-
-                history.push(pageUrls.CLIENTS_BRIEF_INFO);
             },
             () => {
                 errorMessage(

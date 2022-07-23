@@ -10,10 +10,6 @@ export function getBriefUsersInfo(paginationFilterModel) {
         .getBriefUsersInfo(paginationFilterModel)
         .then(
             (response) => {
-                if (response.status === statusCodes.NO_CONTENT) {
-                    return null;
-                }
-
                 return response.data;
             },
             () => {
@@ -29,6 +25,26 @@ export function getBriefUsersInfo(paginationFilterModel) {
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });
+}
+
+export function getUserProfileInfo() {
+
+    return usersService
+        .getUserInfo()
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            });
 }
 
 export async function editClientInfo(model, userEmail) {
@@ -49,7 +65,7 @@ export async function editClientInfo(model, userEmail) {
                     )
                     :
                     errorMessage(
-                        usersMessages.EDIT_USER_INFO_FAILED,
+                        generalMessages.GET_DATA_FAILED,
                         generalMessages.SOMETHING_WENT_WRONG
                     );
             }
