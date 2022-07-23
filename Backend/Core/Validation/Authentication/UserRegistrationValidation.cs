@@ -21,6 +21,12 @@ namespace Core.Validation.Authentication
                 .WithMessage("The first letter in '{PropertyName}' " +
                     "must be uppercase, the others lowercase! And only in Latin letters!");
 
+            RuleFor(user => user.PhoneNumber)
+                .NotEmpty()
+                .Length(10, 20)
+                .Matches(@"^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]+$")
+                .WithMessage("'{PropertyValue}' - is not an phone number!");
+
             RuleFor(user => user.Email)
                 .NotEmpty()
                 .EmailAddress()

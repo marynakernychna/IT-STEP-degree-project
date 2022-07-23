@@ -6,7 +6,6 @@ import InputRules from "../../../constants/inputRules";
 import { confirmMessage, errorMessage } from "../../../services/alerts";
 import { generalMessages } from "../../../constants/messages/general";
 import { inputValidationErrorMessages } from "../../../constants/messages/inputValidationErrors";
-import { usersMessages } from "../../../constants/messages/users";
 
 const ViewProfileInfoPage = () => {
 
@@ -25,33 +24,33 @@ const ViewProfileInfoPage = () => {
 
     const onFinishFailed = () => {
         errorMessage(
-            usersMessages.EDIT_USER_PROFILE_BLOCKED,
             generalMessages.CORRECT_ALL_COMMENTS
         );
     };
 
     const onFinish = (values) => {
-        confirmMessage().then((result) => {
-            if (result) {
+        confirmMessage()
+            .then((result) => {
+                if (result) {
 
-                if (user.name !== values.name ||
-                    user.surname !== values.surname ||
-                    user.email !== values.email ||
-                    user.phoneNumber != values.phoneNumber) {
+                    if (user.name !== values.name ||
+                        user.surname !== values.surname ||
+                        user.email !== values.email ||
+                        user.phoneNumber != values.phoneNumber) {
 
-                    editUserInfo(values).then((result) => {
-                        if (result) {
-                            setUsers(values);
-                        }
-                    });
-                } else {
-                    errorMessage(
-                        usersMessages.EDIT_USER_PROFILE_NOT_CHANGE,
-                        generalMessages.CHANGE_SOMETHING_TO_SAVE
-                    );
+                        editUserInfo(values)
+                            .then((result) => {
+                                if (result) {
+                                    setUsers(values);
+                                }
+                            });
+                    } else {
+                        errorMessage(
+                            generalMessages.CHANGE_SOMETHING_TO_SAVE
+                        );
+                    }
                 }
-            }
-        });
+            });
     };
 
     const onNameChange = (e) => {
@@ -86,6 +85,7 @@ const ViewProfileInfoPage = () => {
                         <p>{temporaryFullName?.name + ' ' + temporaryFullName?.surname}</p>
                     </div>
                 </div>
+
                 <Form
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -96,7 +96,9 @@ const ViewProfileInfoPage = () => {
                         </div>
 
                         <div className="inputBlock">
-                            <Form.Item className="formItem" name="name"
+                            <Form.Item
+                                className="formItem"
+                                name="name"
                                 initialValue={user?.name}
                                 rules={[
                                     InputRules.latinLetters(
@@ -112,9 +114,10 @@ const ViewProfileInfoPage = () => {
                                     )
                                 ]}
                             >
-                                <Input onChange={(e) => {
-                                    onNameChange(e)
-                                }} />
+                                <Input
+                                    onChange={(e) => {
+                                        onNameChange(e)
+                                    }} />
                             </Form.Item>
                         </div>
                     </div>
@@ -125,7 +128,9 @@ const ViewProfileInfoPage = () => {
                         </div>
 
                         <div className="inputBlock">
-                            <Form.Item className="formItem" name="surname"
+                            <Form.Item
+                                className="formItem"
+                                name="surname"
                                 initialValue={user?.surname}
                                 rules={[
                                     InputRules.latinLetters(
@@ -141,9 +146,10 @@ const ViewProfileInfoPage = () => {
                                     )
                                 ]}
                             >
-                                <Input onChange={(e) => {
-                                    onSurnameChange(e)
-                                }} />
+                                <Input
+                                    onChange={(e) => {
+                                        onSurnameChange(e)
+                                    }} />
                             </Form.Item>
                         </div>
                     </div>
@@ -155,16 +161,14 @@ const ViewProfileInfoPage = () => {
 
                         <div className="inputBlock">
 
-                            <Form.Item className="formItem" name="phoneNumber"
-                                initialValue={user.phoneNumber !== null ? user.phoneNumber : "Phone number not found!"}
+                            <Form.Item
+                                className="formItem"
+                                name="phoneNumber"
+                                initialValue={user?.phoneNumber}
                                 rules={[
-                                    InputRules.capitalDigitFirst(
+                                    InputRules.phoneNumber(
+                                        10,
                                         inputValidationErrorMessages.NOT_VALID_PHONE_NUMBER
-                                    ),
-                                    InputRules.lengthRange(
-                                        10,
-                                        10,
-                                        inputValidationErrorMessages.PHONE_NUMBER_MUST_CONTAIN_10
                                     ),
                                     InputRules.required(
                                         generalMessages.FIELD_MUST_NOT_BE_EMPTY
@@ -182,7 +186,9 @@ const ViewProfileInfoPage = () => {
                         </div>
 
                         <div className="inputBlock">
-                            <Form.Item className="formItem" name="email"
+                            <Form.Item
+                                className="formItem"
+                                name="email"
                                 initialValue={user?.email}
                                 rules={[
                                     InputRules.specificType(

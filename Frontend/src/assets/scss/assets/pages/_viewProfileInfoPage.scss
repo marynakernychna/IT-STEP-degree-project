@@ -26,6 +26,14 @@
         }
 
         .inputBlock {
+            .ant-form-item-control-input {
+                padding-right: 20%;
+            }
+            
+            Input {
+                width: 32vw;
+            }
+
             width: 60%;
             display: inline-block;
         }

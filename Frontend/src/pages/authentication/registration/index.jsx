@@ -78,6 +78,22 @@ function RegistrationPage() {
                         </Form.Item>
 
                         <Form.Item
+                            className="textForm"
+                            name="phoneNumber"
+                            rules={[
+                                InputRules.required(
+                                    generalMessages.FIELD_MUST_NOT_BE_EMPTY
+                                ),
+                                InputRules.phoneNumber(
+                                    10,
+                                    inputValidationErrorMessages.NOT_VALID_PHONE_NUMBER
+                                )
+                            ]}
+                        >
+                            <Input placeholder="Phone number" />
+                        </Form.Item>
+
+                        <Form.Item
                             name="email"
                             className="textForm"
                             rules={[

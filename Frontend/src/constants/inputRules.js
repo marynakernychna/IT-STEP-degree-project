@@ -73,4 +73,12 @@ export default class InputRules {
             message: message
         }
     }
+
+    static phoneNumber(min, message) {
+        return {
+            min: min,
+            pattern: new RegExp(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g),
+            message: message
+        }
+    }
 }
