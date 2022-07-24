@@ -17,4 +17,8 @@ export default class usersService {
         return instance.post(USERS_URLS.EDIT_CLIENT_INFO +
             `?email=${userEmail}`, model);
     }
+
+    static editUserInfo(model) {
+        return instance.post(USERS_URLS.EDIT_USER_INFO, model);
+    }
 }

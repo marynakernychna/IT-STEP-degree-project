@@ -13,6 +13,7 @@ export function registerUser(userData, history) {
     const model = {
         name: userData.name,
         surname: userData.surname,
+        phoneNumber: userData.phoneNumber,
         email: userData.email,
         password: userData.password
     };

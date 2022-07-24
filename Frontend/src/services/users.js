@@ -65,7 +65,38 @@ export async function editClientInfo(model, userEmail) {
                     )
                     :
                     errorMessage(
-                        generalMessages.GET_DATA_FAILED,
+                        usersMessages.EDIT_USER_INFO_FAILED,
+                        generalMessages.SOMETHING_WENT_WRONG
+                    );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.SOMETHING_WENT_WRONG,
+                ""
+            );
+        });
+}
+
+export async function editUserInfo(model) {
+
+    return await usersService
+        .editUserInfo(model)
+        .then(
+            () => {
+                successMessage(usersMessages.EDIT_USER_INFO_SUCCESS);
+
+                return true;
+            },
+            (err) => {
+                err.response === statusCodes.BAD_REQUEST ?
+                    errorMessage(
+                        usersMessages.EDIT_USER_INFO_FAILED_EMAIL_ALREADY_EXIST,
+                        ""
+                    )
+                    :
+                    errorMessage(
+                        usersMessages.EDIT_USER_INFO_FAILED,
                         generalMessages.SOMETHING_WENT_WRONG
                     );
             }

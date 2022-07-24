@@ -11,7 +11,8 @@ export const AUTHENTICATION_URLS = {
 export const USERS_URLS = {
     BRIEF_USERS_INFO: USERS_URL + "/users-info",
     VIEW_PROFILE_INFO: USERS_URL + "/user-info",
-    EDIT_CLIENT_INFO: USERS_URL + "/user-edit-info"
+    EDIT_CLIENT_INFO: USERS_URL + "/user-edit-info",
+    EDIT_USER_INFO: USERS_URL + "/edit-info"
 };
 
 export const CATEGORIES_URLS = {
