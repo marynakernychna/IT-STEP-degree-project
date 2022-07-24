@@ -24,7 +24,8 @@ const ViewProfileInfoPage = () => {
 
     const onFinishFailed = () => {
         errorMessage(
-            generalMessages.CORRECT_ALL_COMMENTS
+            generalMessages.CORRECT_ALL_COMMENTS,
+            ""
         );
     };
 
@@ -46,7 +47,8 @@ const ViewProfileInfoPage = () => {
                             });
                     } else {
                         errorMessage(
-                            generalMessages.CHANGE_SOMETHING_TO_SAVE
+                            generalMessages.CHANGE_SOMETHING_TO_SAVE,
+                            ""
                         );
                     }
                 }
@@ -156,11 +158,10 @@ const ViewProfileInfoPage = () => {
 
                     <div className="info">
                         <div className="infoName">
-                            <p>PhoneNumber</p>
+                            <p>Phone Number</p>
                         </div>
 
                         <div className="inputBlock">
-
                             <Form.Item
                                 className="formItem"
                                 name="phoneNumber"
@@ -172,6 +173,11 @@ const ViewProfileInfoPage = () => {
                                     ),
                                     InputRules.required(
                                         generalMessages.FIELD_MUST_NOT_BE_EMPTY
+                                    ),
+                                    InputRules.lengthRange(
+                                        10,
+                                        20,
+                                        inputValidationErrorMessages.PHONE_NUMBER_MUST_BE_BETWEEN_10_AND_20
                                     )
                                 ]}
                             >

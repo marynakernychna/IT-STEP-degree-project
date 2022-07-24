@@ -1,6 +1,7 @@
 export const inputValidationErrorMessages = Object.freeze({
     NAME_MUST_BE_BETWEEN_1_AND_50: "The name must be between 1 and 50 letters!",
     SURNAME_MUST_BE_BETWEEN_1_AND_50: "The surname must be between 1 and 50 letters!",
+    PHONE_NUMBER_MUST_BE_BETWEEN_10_AND_20: "The phone number must be between 10 and 20 symbols",
 
     NOT_VALID_NAME: "The name must start with a capital letter and " +
         "continue with lowercase letters!\nAnd only latin letters!",

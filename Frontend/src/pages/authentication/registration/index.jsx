@@ -85,8 +85,12 @@ function RegistrationPage() {
                                     generalMessages.FIELD_MUST_NOT_BE_EMPTY
                                 ),
                                 InputRules.phoneNumber(
-                                    10,
                                     inputValidationErrorMessages.NOT_VALID_PHONE_NUMBER
+                                ),
+                                InputRules.lengthRange(
+                                    10,
+                                    20,
+                                    inputValidationErrorMessages.PHONE_NUMBER_MUST_BE_BETWEEN_10_AND_20
                                 )
                             ]}
                         >
