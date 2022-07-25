@@ -76,6 +76,7 @@ const ViewProfileInfoPage = () => {
 
     return (
         <Layout className="viewProfileInfoPage">
+            <p id="title">Profile</p>
 
             <Layout id="infoBlock">
                 <div className="info">

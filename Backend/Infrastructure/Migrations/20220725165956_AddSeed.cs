@@ -12,8 +12,8 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "73e377b2-ff33-4160-8466-810b2c11732e", "73e377b2-ff33-4160-8466-810b2c11732e", "User", "USER" },
-                    { "816fa023-3a86-42f5-8b2f-42a00374f6d4", "816fa023-3a86-42f5-8b2f-42a00374f6d4", "Admin", "ADMIN" }
+                    { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "User", "USER" },
+                    { "17d369ee-11e3-40dd-af63-30b9eef221b6", "17d369ee-11e3-40dd-af63-30b9eef221b6", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -21,19 +21,19 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhotoLink", "RegistrationDate", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6", 0, "e454323e-d29f-4a3d-a0f4-50e7df385a25", "User", "marylou@gmail.com", true, false, null, "Mary", "MARYLOU@GMAIL.COM", "MARYLOU@GMAIL.COM", "AQAAAAEAACcQAAAAEAKiAfFahsAy9Dbn4NtU3GGJXOYtfJ0Y8MtrJMrlFITzygowCeA5IBywgXwezZqlog==", null, false, null, new DateTimeOffset(new DateTime(2022, 7, 11, 16, 23, 41, 937, DateTimeKind.Unspecified).AddTicks(7134), new TimeSpan(0, 0, 0, 0, 0)), "248eb8b7-c566-4154-b94b-9a60924231a2", "Lou", false, "marylou@gmail.com" },
-                    { "f5d5eb44-307a-4b16-9942-d3d828d3bc72", 0, "c2f7e68e-6510-4e30-9041-54028f4bcbfc", "User", "etsukomami@gmail.com", true, false, null, "Etsuko", "ETSUKOMAMI@GMAIL.COM", "ETSUKOMAMI@GMAIL.COM", "AQAAAAEAACcQAAAAENsAJfzE+vWdceiIl/3nXLKHAV77EVwXwHpyYx/e2AJ+WGZcjwHC8xwN9VTPlVRBLQ==", null, false, null, new DateTimeOffset(new DateTime(2022, 7, 11, 16, 23, 41, 940, DateTimeKind.Unspecified).AddTicks(9732), new TimeSpan(0, 0, 0, 0, 0)), "09f06911-9bfd-494d-81c8-7dd389d2f316", "Mami", false, "etsukomami@gmail.com" }
+                    { "08067daf-ed09-493f-a929-32b18ab898b0", 0, "e508e50e-705d-4164-8464-af01a6109507", "User", "marylou@gmail.com", true, false, null, "Mary", "MARYLOU@GMAIL.COM", "MARYLOU@GMAIL.COM", "AQAAAAEAACcQAAAAEDMRU7WisylSrOcwEiB1qKKSQR2akTjx7eCx5P7qCJZA2q//ob/AW8ftYEf3dXXOVg==", "+380986734245", false, null, new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 297, DateTimeKind.Unspecified).AddTicks(1508), new TimeSpan(0, 0, 0, 0, 0)), "689ca18a-dde7-4aa6-8abf-cf74a8b48773", "Lou", false, "marylou@gmail.com" },
+                    { "c9fff39d-9cb5-4143-af00-4237b2f5253c", 0, "aac5b2c4-c9aa-417b-94eb-38c7c12bcc7b", "User", "etsukomami@gmail.com", true, false, null, "Etsuko", "ETSUKOMAMI@GMAIL.COM", "ETSUKOMAMI@GMAIL.COM", "AQAAAAEAACcQAAAAEE8G6ExAwpdQoXykI77C8zvr0y2mT5DW/G2A/DDCzRsvOPGQ5nkS0LvDP/s5SvNpFA==", "+380988931245", false, null, new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 299, DateTimeKind.Unspecified).AddTicks(5066), new TimeSpan(0, 0, 0, 0, 0)), "4c9683a5-706a-4fa5-827d-e57dd5ad176c", "Mami", false, "etsukomami@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "73e377b2-ff33-4160-8466-810b2c11732e", "f5d5eb44-307a-4b16-9942-d3d828d3bc72" });
+                values: new object[] { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "c9fff39d-9cb5-4143-af00-4237b2f5253c" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "816fa023-3a86-42f5-8b2f-42a00374f6d4", "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6" });
+                values: new object[] { "17d369ee-11e3-40dd-af63-30b9eef221b6", "08067daf-ed09-493f-a929-32b18ab898b0" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -41,32 +41,32 @@ namespace Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "816fa023-3a86-42f5-8b2f-42a00374f6d4", "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6" });
+                keyValues: new object[] { "17d369ee-11e3-40dd-af63-30b9eef221b6", "08067daf-ed09-493f-a929-32b18ab898b0" });
 
             migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "73e377b2-ff33-4160-8466-810b2c11732e", "f5d5eb44-307a-4b16-9942-d3d828d3bc72" });
+                keyValues: new object[] { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "c9fff39d-9cb5-4143-af00-4237b2f5253c" });
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "73e377b2-ff33-4160-8466-810b2c11732e");
+                keyValue: "17d369ee-11e3-40dd-af63-30b9eef221b6");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "816fa023-3a86-42f5-8b2f-42a00374f6d4");
+                keyValue: "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6");
+                keyValue: "08067daf-ed09-493f-a929-32b18ab898b0");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "f5d5eb44-307a-4b16-9942-d3d828d3bc72");
+                keyValue: "c9fff39d-9cb5-4143-af00-4237b2f5253c");
         }
     }
 }

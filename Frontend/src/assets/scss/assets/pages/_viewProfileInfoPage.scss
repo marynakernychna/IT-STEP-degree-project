@@ -3,6 +3,13 @@
 .viewProfileInfoPage {
     justify-content: center;
 
+    #title {
+        font-size: 20pt;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
     #infoBlock {
         padding: 40px 40px 25px 40px;
         box-shadow: rgba(14, 30, 37, 0.12) 0 2px 4px 0, rgba(14, 30, 37, 0.32) 0 2px 16px 0;
