@@ -327,15 +327,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "73e377b2-ff33-4160-8466-810b2c11732e",
-                            ConcurrencyStamp = "73e377b2-ff33-4160-8466-810b2c11732e",
+                            Id = "89e7ed04-8efa-47a1-b6af-dea249b42129",
+                            ConcurrencyStamp = "89e7ed04-8efa-47a1-b6af-dea249b42129",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "816fa023-3a86-42f5-8b2f-42a00374f6d4",
-                            ConcurrencyStamp = "816fa023-3a86-42f5-8b2f-42a00374f6d4",
+                            Id = "408c5c10-7170-4a4e-a824-6627ddfad31a",
+                            ConcurrencyStamp = "408c5c10-7170-4a4e-a824-6627ddfad31a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -504,13 +504,13 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6",
-                            RoleId = "816fa023-3a86-42f5-8b2f-42a00374f6d4"
+                            UserId = "857f8158-7f6f-4253-baf2-cc8da583d63c",
+                            RoleId = "408c5c10-7170-4a4e-a824-6627ddfad31a"
                         },
                         new
                         {
-                            UserId = "f5d5eb44-307a-4b16-9942-d3d828d3bc72",
-                            RoleId = "73e377b2-ff33-4160-8466-810b2c11732e"
+                            UserId = "5606c370-37a6-4cdd-93c4-b4f605ac8abf",
+                            RoleId = "89e7ed04-8efa-47a1-b6af-dea249b42129"
                         });
                 });
 
@@ -559,40 +559,42 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0440a2c3-b4c8-42e5-9efb-f6cfad0a41f6",
+                            Id = "857f8158-7f6f-4253-baf2-cc8da583d63c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e454323e-d29f-4a3d-a0f4-50e7df385a25",
+                            ConcurrencyStamp = "50aa30d5-7264-40c2-a0bb-d9e3a95d48d6",
                             Email = "marylou@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARYLOU@GMAIL.COM",
                             NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAKiAfFahsAy9Dbn4NtU3GGJXOYtfJ0Y8MtrJMrlFITzygowCeA5IBywgXwezZqlog==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOGgDKt1RNs86CsuS7HEsM2aYT1qzoSGyE+2DFAFSwnEIbSjTo5mFazEKWkIlcxDTg==",
+                            PhoneNumber = "+380986734245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "248eb8b7-c566-4154-b94b-9a60924231a2",
+                            SecurityStamp = "0cdf5e08-3cea-44fa-aca7-7a2f14b7e73a",
                             TwoFactorEnabled = false,
                             UserName = "marylou@gmail.com",
                             Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 11, 16, 23, 41, 937, DateTimeKind.Unspecified).AddTicks(7134), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 38, 9, 311, DateTimeKind.Unspecified).AddTicks(1231), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Lou"
                         },
                         new
                         {
-                            Id = "f5d5eb44-307a-4b16-9942-d3d828d3bc72",
+                            Id = "5606c370-37a6-4cdd-93c4-b4f605ac8abf",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2f7e68e-6510-4e30-9041-54028f4bcbfc",
+                            ConcurrencyStamp = "d02dcfc8-0f7c-4c32-a47d-60281b7c9524",
                             Email = "etsukomami@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
                             NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENsAJfzE+vWdceiIl/3nXLKHAV77EVwXwHpyYx/e2AJ+WGZcjwHC8xwN9VTPlVRBLQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC4Dr0dJ8eA7vCt2w1DcFNL/+p06HUAunw6K7wte6Ewgl6l9VixHsCCz2T7jnRZ3og==",
+                            PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09f06911-9bfd-494d-81c8-7dd389d2f316",
+                            SecurityStamp = "212fa3ba-7c70-4db7-878e-c3a17bea3cfb",
                             TwoFactorEnabled = false,
                             UserName = "etsukomami@gmail.com",
                             Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 11, 16, 23, 41, 940, DateTimeKind.Unspecified).AddTicks(9732), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 38, 9, 313, DateTimeKind.Unspecified).AddTicks(6130), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Mami"
                         });
                 });
