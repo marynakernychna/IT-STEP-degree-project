@@ -12,6 +12,7 @@ function getItem(label, key, icon, children, type) {
 }
 
 export const adminItems = [
+    getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
     getItem("Clients", 'sub1', <SolutionOutlined />, [
         getItem("Brief info", pageUrls.CLIENTS_BRIEF_INFO)
     ]),

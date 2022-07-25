@@ -15,7 +15,7 @@ const PageLayoutRoute = ({ component: Component, ...rest }) => {
 
                         <Layout>
                             <Sider>
-                                <CustomMenu type={rest.allowedRoles} />
+                                <CustomMenu />
                             </Sider>
 
                             <Content>

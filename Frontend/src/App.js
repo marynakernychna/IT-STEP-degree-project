@@ -39,7 +39,7 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_PROFILE_INFO}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.USER, userRoles.ADMIN]}
                     component={ViewProfileInfoPage}
                 />
 
