@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220725163810_AddPhoneNumber")]
-    partial class AddPhoneNumber
+    [Migration("20220725165956_AddSeed")]
+    partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -329,15 +329,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89e7ed04-8efa-47a1-b6af-dea249b42129",
-                            ConcurrencyStamp = "89e7ed04-8efa-47a1-b6af-dea249b42129",
+                            Id = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5",
+                            ConcurrencyStamp = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "408c5c10-7170-4a4e-a824-6627ddfad31a",
-                            ConcurrencyStamp = "408c5c10-7170-4a4e-a824-6627ddfad31a",
+                            Id = "17d369ee-11e3-40dd-af63-30b9eef221b6",
+                            ConcurrencyStamp = "17d369ee-11e3-40dd-af63-30b9eef221b6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -506,13 +506,13 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "857f8158-7f6f-4253-baf2-cc8da583d63c",
-                            RoleId = "408c5c10-7170-4a4e-a824-6627ddfad31a"
+                            UserId = "08067daf-ed09-493f-a929-32b18ab898b0",
+                            RoleId = "17d369ee-11e3-40dd-af63-30b9eef221b6"
                         },
                         new
                         {
-                            UserId = "5606c370-37a6-4cdd-93c4-b4f605ac8abf",
-                            RoleId = "89e7ed04-8efa-47a1-b6af-dea249b42129"
+                            UserId = "c9fff39d-9cb5-4143-af00-4237b2f5253c",
+                            RoleId = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5"
                         });
                 });
 
@@ -561,42 +561,42 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "857f8158-7f6f-4253-baf2-cc8da583d63c",
+                            Id = "08067daf-ed09-493f-a929-32b18ab898b0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "50aa30d5-7264-40c2-a0bb-d9e3a95d48d6",
+                            ConcurrencyStamp = "e508e50e-705d-4164-8464-af01a6109507",
                             Email = "marylou@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARYLOU@GMAIL.COM",
                             NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOGgDKt1RNs86CsuS7HEsM2aYT1qzoSGyE+2DFAFSwnEIbSjTo5mFazEKWkIlcxDTg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDMRU7WisylSrOcwEiB1qKKSQR2akTjx7eCx5P7qCJZA2q//ob/AW8ftYEf3dXXOVg==",
                             PhoneNumber = "+380986734245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0cdf5e08-3cea-44fa-aca7-7a2f14b7e73a",
+                            SecurityStamp = "689ca18a-dde7-4aa6-8abf-cf74a8b48773",
                             TwoFactorEnabled = false,
                             UserName = "marylou@gmail.com",
                             Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 38, 9, 311, DateTimeKind.Unspecified).AddTicks(1231), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 297, DateTimeKind.Unspecified).AddTicks(1508), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Lou"
                         },
                         new
                         {
-                            Id = "5606c370-37a6-4cdd-93c4-b4f605ac8abf",
+                            Id = "c9fff39d-9cb5-4143-af00-4237b2f5253c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d02dcfc8-0f7c-4c32-a47d-60281b7c9524",
+                            ConcurrencyStamp = "aac5b2c4-c9aa-417b-94eb-38c7c12bcc7b",
                             Email = "etsukomami@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
                             NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC4Dr0dJ8eA7vCt2w1DcFNL/+p06HUAunw6K7wte6Ewgl6l9VixHsCCz2T7jnRZ3og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE8G6ExAwpdQoXykI77C8zvr0y2mT5DW/G2A/DDCzRsvOPGQ5nkS0LvDP/s5SvNpFA==",
                             PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "212fa3ba-7c70-4db7-878e-c3a17bea3cfb",
+                            SecurityStamp = "4c9683a5-706a-4fa5-827d-e57dd5ad176c",
                             TwoFactorEnabled = false,
                             UserName = "etsukomami@gmail.com",
                             Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 38, 9, 313, DateTimeKind.Unspecified).AddTicks(6130), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 299, DateTimeKind.Unspecified).AddTicks(5066), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Mami"
                         });
                 });
