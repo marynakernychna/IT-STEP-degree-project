@@ -34,5 +34,12 @@ namespace API.Controllers
 
             return Ok(tokens);
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
+        {
+            await _authenticationService.LogoutAsync(userLogoutDTO);
+            return Ok();
+        }
     }
 }

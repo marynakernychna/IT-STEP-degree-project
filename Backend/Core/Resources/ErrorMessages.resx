@@ -135,6 +135,9 @@
   <data name="InvalidCredentials" xml:space="preserve">
     <value>The invalid credentials!</value>
   </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid Token!</value>
+  </data>
   <data name="NewInfoSamePrevious" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
   </data>

@@ -9,4 +9,8 @@ export default class authenticationService {
     static loginUser(data) {
         return instance.post(AUTHENTICATION_URLS.LOGIN, data);
     }
+
+    static logout(model) {
+        return instance.post(AUTHENTICATION_URLS.LOGOUT, model);
+    }
 }

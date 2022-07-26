@@ -6,3 +6,9 @@ export const setAccess = (data) => {
         payload: data
     }
 }
+
+export const logout = () => {
+    return {
+        type: types.LOGOUT
+    };
+}

@@ -53,5 +53,15 @@ namespace Core.Helpers
                     HttpStatusCode.NotFound);
             }
         }
+
+        public static void RefreshTokenNullCheck(RefreshToken refreshToken)
+        {
+            if (refreshToken == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.InvalidToken,
+                    HttpStatusCode.NotFound);
+            }
+        }
     }
 }
