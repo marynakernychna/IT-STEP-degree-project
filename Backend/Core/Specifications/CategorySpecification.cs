@@ -12,7 +12,7 @@ namespace Core.Specifications
         {
             public GetByTitle(string categoryTitle)
             {
-                Query.Where(c => categoryTitle.Contains(c.Title))
+                Query.Where(c => c.Title == categoryTitle)
                      .AsNoTracking();
             }
         }

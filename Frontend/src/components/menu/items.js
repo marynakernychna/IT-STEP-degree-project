@@ -17,7 +17,7 @@ export const adminItems = [
         getItem("Brief info", pageUrls.CLIENTS_BRIEF_INFO)
     ]),
     getItem("Categories", 'sub2', <TagsOutlined />, [
-        getItem("View", pageUrls.CATEGORIES_VIEW)
+        getItem("View & manage", pageUrls.CATEGORIES_VIEW_AND_MANAGE)
     ])
 ];
 

@@ -8,4 +8,12 @@ export default class categoriesService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+
+    static updateCategory(model) {
+        return instance.put(CATEGORIES_URLS.UPDATE, model);
+    }
+
+    static deleteCategory(model) {
+        return instance.delete(CATEGORIES_URLS.DELETE + `?title=${model}`);
+    }
 }

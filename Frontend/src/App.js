@@ -12,7 +12,7 @@ import LoginPage from './pages/authentication/login/index';
 import ClientsBriefInfoPage from './pages/admin/clients/briefInfo/index';
 import { userRoles } from './constants/userRoles';
 import PageLayoutRoute from './layouts/index';
-import ViewCategoriesPage from './pages/admin/categories/view/index';
+import ViewAndManageCategoriesPage from './pages/admin/categories/viewAndManage/index';
 import { pageUrls } from './constants/pageUrls';
 import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
 
@@ -31,9 +31,9 @@ export default function App() {
 
                 <PageLayoutRoute
                     exact
-                    path={pageUrls.CATEGORIES_VIEW}
+                    path={pageUrls.CATEGORIES_VIEW_AND_MANAGE}
                     allowedRoles={[userRoles.ADMIN]}
-                    component={ViewCategoriesPage}
+                    component={ViewAndManageCategoriesPage}
                 />
 
                 <PageLayoutRoute

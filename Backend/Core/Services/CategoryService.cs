@@ -108,11 +108,6 @@ namespace Core.Services
                     HttpStatusCode.BadRequest);
             }
 
-            var categoryToUpdate = await _categoryRepository.SingleOrDefaultAsync(
-                new CategorySpecification.GetByTitle(updateCategoryDTO.CurrentTitle));
-
-            ExtensionMethods.CategoryNullCheck(categoryToUpdate);
-
             var isCategoryExist = await _categoryRepository.AnyAsync(
                 new CategorySpecification.GetByTitle(updateCategoryDTO.NewTitle));
 
@@ -122,6 +117,11 @@ namespace Core.Services
                     ErrorMessages.CategoryAlreadyExists,
                     HttpStatusCode.BadRequest);
             }
+
+            var categoryToUpdate = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(updateCategoryDTO.CurrentTitle));
+
+            ExtensionMethods.CategoryNullCheck(categoryToUpdate);
 
             categoryToUpdate.Title = updateCategoryDTO.NewTitle;
 

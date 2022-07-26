@@ -26,6 +26,18 @@
             padding: 10px;
 
             text-align: center;
+
+            .categoryInformation {
+                .actions {
+                    margin-top: 20px;
+                    
+                    span.icon svg {
+                        width: 20px;
+                        height: 24px;
+                        margin: 0 8px 1px 8px;
+                    }
+                }
+            }
         }
 
         .ant-pagination {
