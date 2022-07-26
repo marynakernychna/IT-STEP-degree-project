@@ -95,7 +95,7 @@ export function loginUser(userData, history) {
 }
 
 export function logoutUser() {
-    let model = {
+    const model = {
         refreshToken: tokenService.getLocalRefreshToken()
     };
 

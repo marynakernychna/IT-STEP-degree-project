@@ -9,11 +9,13 @@ import { logoutUser } from '../../services/authentication';
 function CustomMenu() {
     let history = useHistory();
     const role = store.getState().authenticationReducer.userRole;
+    const logoutKey = "Logout";
 
     const onSelect = (item) => {
-        if (item.key == "Logout") {
+        if (item.key == logoutKey) {
             logoutUser(history);
         }
+
         history.push(item.key);
     };
 

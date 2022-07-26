@@ -8,6 +8,5 @@ export const authenticationMessages = Object.freeze({
     SUCCESSFUL_LOGIN: "Successful login!",
     LOGIN_FAILED: "Login failed!",
     LOGIN_BLOCKED: "Login is blocked!",
-
     LOGOUT_FAILED: "Logout failed!"
 });
