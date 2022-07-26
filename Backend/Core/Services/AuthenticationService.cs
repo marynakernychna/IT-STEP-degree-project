@@ -22,6 +22,7 @@ namespace Core.Services
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly IRepository<RefreshToken> _refreshTokenRepository;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -29,7 +30,8 @@ namespace Core.Services
                 ITokenService tokenService,
                 UserManager<User> userManager,
                 RoleManager<IdentityRole> roleManager,
-                IMapper mapper
+                IMapper mapper,
+                IRepository<RefreshToken> refreshTokenRepository
             )
         {
             _userRepository = userRepository;
@@ -38,6 +40,7 @@ namespace Core.Services
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -85,6 +88,16 @@ namespace Core.Services
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
             ExtensionMethods.CheckIdentityResult(addToRoleResult);
+        }
+
+        public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
+        {
+            var refreshToken = await _refreshTokenRepository.GetBySpecAsync(
+                new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
+
+            ExtensionMethods.RefreshTokenNullCheck(refreshToken);
+
+            await _refreshTokenRepository.DeleteAsync(refreshToken);
         }
     }
 }

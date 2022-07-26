@@ -4,12 +4,18 @@ import { userRoles } from './../../constants/userRoles';
 import { useHistory } from 'react-router-dom';
 import { Menu } from 'antd';
 import { store } from './../../store';
+import { logoutUser } from '../../services/authentication';
 
 function CustomMenu() {
     let history = useHistory();
     const role = store.getState().authenticationReducer.userRole;
+    const logoutKey = "Logout";
 
     const onSelect = (item) => {
+        if (item.key == logoutKey) {
+            logoutUser(history);
+        }
+
         history.push(item.key);
     };
 

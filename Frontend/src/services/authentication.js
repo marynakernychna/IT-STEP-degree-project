@@ -4,9 +4,10 @@ import { successMessage, errorMessage } from './alerts';
 import { statusCodes } from './../constants/statusCodes';
 import authenticationService from './../api/authentication';
 import { store } from './../store';
-import { setAccess } from './../reduxActions/authentication/index';
+import { setAccess, logout } from './../reduxActions/authentication/index';
 import { userRoles } from '../constants/userRoles';
 import { pageUrls } from './../constants/pageUrls';
+import tokenService from './tokens';
 
 export function registerUser(userData, history) {
 
@@ -88,6 +89,32 @@ export function loginUser(userData, history) {
         .catch(() => {
             errorMessage(
                 authenticationMessages.LOGIN_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function logoutUser() {
+    const model = {
+        refreshToken: tokenService.getLocalRefreshToken()
+    };
+
+    authenticationService
+        .logout(model)
+        .then(
+            () => {
+                store.dispatch(logout());
+            },
+            () => {
+                errorMessage(
+                    authenticationMessages.LOGOUT_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                authenticationMessages.LOGOUT_FAILED,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });

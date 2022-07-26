@@ -7,5 +7,6 @@ namespace Core.Interfaces.CustomService
     {
         Task RegisterAsync(UserRegistrationDTO userRegistrationDTO);
         Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO);
+        Task LogoutAsync(UserLogoutDTO userLogoutDTO);
     }
 }

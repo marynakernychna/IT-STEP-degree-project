@@ -1,4 +1,4 @@
-import { SolutionOutlined, TagsOutlined, UserOutlined } from '@ant-design/icons';
+import { SolutionOutlined, TagsOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { pageUrls } from './../../constants/pageUrls';
 
 function getItem(label, key, icon, children, type) {
@@ -18,9 +18,11 @@ export const adminItems = [
     ]),
     getItem("Categories", 'sub2', <TagsOutlined />, [
         getItem("View", pageUrls.CATEGORIES_VIEW)
-    ])
+    ]),
+    getItem("Logout", "Logout", <LogoutOutlined />)
 ];
 
 export const userItems = [
-    getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />)
+    getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
+    getItem("Logout", "Logout", <LogoutOutlined />)
 ];
