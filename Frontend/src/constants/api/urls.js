@@ -17,5 +17,7 @@ export const USERS_URLS = {
 };
 
 export const CATEGORIES_URLS = {
-    GET_ALL: CATEGORIES_URL + "/all"
+    GET_ALL: CATEGORIES_URL + "/all",
+    UPDATE: CATEGORIES_URL + "/update",
+    DELETE: CATEGORIES_URL + "/delete"
 };

@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpDelete("delete")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> DeleteAsync(
-            [FromBody] CategoryDTO categoryDTO)
+            [FromQuery] CategoryDTO categoryDTO)
         {
             await _categoryService.DeleteAsync(categoryDTO.Title);
 
