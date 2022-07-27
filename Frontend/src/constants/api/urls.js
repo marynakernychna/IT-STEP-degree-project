@@ -5,7 +5,8 @@ const CATEGORIES_URL = "/Categories";
 
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
-    LOGIN: AUTHENTICATION_URL + "/login"
+    LOGIN: AUTHENTICATION_URL + "/login",
+    LOGOUT: AUTHENTICATION_URL + "/logout"
 };
 
 export const USERS_URLS = {
