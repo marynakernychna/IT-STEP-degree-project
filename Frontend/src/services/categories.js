@@ -35,9 +35,7 @@ export function updateCategory(model) {
     return categoriesService
         .updateCategory(model)
         .then(
-            (response) => {
-
-            },
+            () => { },
             () => {
                 errorMessage(
                     generalMessages.CHANGE_DATA_FAILED,
