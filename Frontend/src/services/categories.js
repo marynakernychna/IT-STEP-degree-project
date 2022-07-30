@@ -71,3 +71,32 @@ export function deleteCategory(title) {
             );
         });
 }
+
+export function createCategory(title) {
+
+    return categoriesService
+        .createCategory({ title })
+        .then(
+            () => {
+                return true;
+            },
+            (err) => {
+                err.response.status === statusCodes.BAD_REQUEST && err.response.data !== undefined ?
+                    errorMessage(
+                        err.response.data,
+                        generalMessages.SOMETHING_WENT_WRONG
+                    )
+                    :
+                    errorMessage(
+                        generalMessages.CREATE_FAILED,
+                        generalMessages.SOMETHING_WENT_WRONG
+                    );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.CREATE_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}

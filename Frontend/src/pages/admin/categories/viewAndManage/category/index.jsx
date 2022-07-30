@@ -3,8 +3,8 @@ import { Statistic, Card, Tooltip } from 'antd';
 import { DeleteOutlined, InboxOutlined } from '@ant-design/icons';
 import { DEFAULT_ACTION_ICON_SIZE, DEFAULT_MOUSE_ENTER_DELAY } from './../../../../../constants/others';
 import { AiOutlineEdit } from 'react-icons/ai';
-import UpdateCategoryModal from '../../../../../components/modals/updateCategoryInfo/index';
-import { confirmMessage, errorMessage, successMessage } from './../../../../../services/alerts';
+import UpdateCategoryModal from '../../../../../components/modals/category/updateCategoryInfo/index';
+import { confirmMessage, successMessage } from './../../../../../services/alerts';
 import { deleteCategory } from './../../../../../services/categories';
 import { generalMessages } from './../../../../../constants/messages/general';
 

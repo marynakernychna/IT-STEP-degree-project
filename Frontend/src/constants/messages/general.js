@@ -4,6 +4,8 @@ export const generalMessages = Object.freeze({
     CHANGE_SOMETHING_TO_SAVE: "Change something to save!",
     FIELD_MUST_NOT_BE_EMPTY: "The field must not be empty!",
     GET_DATA_FAILED: "Get data failed!",
+    CREATE_FAILED: "Creation failed!",
+    CREATION_SUCCESSFUL: "Creation is successful!",
     CHANGE_DATA_SUCCESSFULLY: "You have successfully edited data!",
     CHANGE_DATA_FAILED: "Edit data failed!",
     DELETE_DATA_SUCCESSFULLY: "You have successfully deleted data!",
