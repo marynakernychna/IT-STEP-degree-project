@@ -9,6 +9,10 @@ export default class categoriesService {
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
+    static createCategory(model) {
+        return instance.post(CATEGORIES_URLS.CREATE, model);
+    }
+
     static updateCategory(model) {
         return instance.put(CATEGORIES_URLS.UPDATE, model);
     }

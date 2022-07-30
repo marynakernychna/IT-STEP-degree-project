@@ -1,49 +1,32 @@
 import React from 'react';
-import { confirmMessage, errorMessage, successMessage } from '../../../services/alerts';
+import { errorMessage, successMessage } from '../../../../services/alerts';
 import { Modal, Form, Input, Button } from "antd";
-import { generalMessages } from '../../../constants/messages/general';
-import InputRules from '../../../constants/inputRules';
-import { inputValidationErrorMessages } from '../../../constants/messages/inputValidationErrors';
-import { updateCategory } from '../../../services/categories';
+import { generalMessages } from '../../../../constants/messages/general';
+import InputRules from '../../../../constants/inputRules';
+import { inputValidationErrorMessages } from '../../../../constants/messages/inputValidationErrors';
+import { createCategory } from '../../../../services/categories';
 
-function UpdateCategoryModal(props) {
+function CreateCategoryModal(props) {
 
     const close = () => {
         props.myClose();
     };
 
-    const updateCategoryInfo = () => {
-        props.updateCategoryInfo();
-    }
-
-    const onFinish = (values) => {
-        confirmMessage()
-            .then((result) => {
-                if (result) {
-                    if (props.title !== values.title) {
-
-                        const model = {
-                            currentTitle: props.title,
-                            newTitle: values.title
-                        };
-
-                        updateCategory(model)
-                            .then(() => {
-                                close();
-                                successMessage(
-                                    generalMessages.CHANGE_DATA_SUCCESSFULLY
-                                );
-                                updateCategoryInfo();
-                            });
-                    } else {
-                        errorMessage(
-                            generalMessages.CHANGE_SOMETHING_TO_SAVE,
-                            ""
-                        );
-                    }
-                }
-            });
+    const updateCategories = () => {
+        props.updateCategories();
     };
+
+    const create = async (values) => {
+        var isSuccessful = await createCategory(values.title);
+
+        if (isSuccessful) {
+            successMessage(
+                generalMessages.CREATION_SUCCESSFUL
+            );
+            updateCategories();
+            close();
+        }
+    }
 
     const onFinishFailed = () => {
         errorMessage(
@@ -54,7 +37,7 @@ function UpdateCategoryModal(props) {
 
     return (
         <Modal
-            title="Edit category info"
+            title="Create a category"
             visible={true}
             onCancel={() => close()}
             cancelButtonProps={{ style: { display: 'none' } }}
@@ -64,14 +47,13 @@ function UpdateCategoryModal(props) {
             <Form
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 32 }}
-                onFinish={onFinish}
+                onFinish={create}
                 onFinishFailed={onFinishFailed}
                 scrollToFirstError
             >
                 <Form.Item
                     name="title"
                     label="Title: "
-                    initialValue={props?.title}
                     rules={[
                         InputRules.required(
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
@@ -113,4 +95,4 @@ function UpdateCategoryModal(props) {
     );
 };
 
-export default UpdateCategoryModal;
+export default CreateCategoryModal;
