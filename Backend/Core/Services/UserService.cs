@@ -145,21 +145,26 @@ namespace Core.Services
             return user.Id;
         }
 
-        public async Task ChangePasswordAsync(ChangePasswordDTO changePassword)
+        public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
         {
-            var userId = await GetUserIdByEmailAsync(changePassword.Email);
+            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
+            {
+                throw new HttpException(
+                        ErrorMessages.NewPasswordSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
 
             var user = await _userRepository.GetByIdAsync(userId);
 
             var result = await _userManager.ChangePasswordAsync(
                 user,
-                changePassword.OldPassword,
-                changePassword.NewPassword);
+                changePasswordDTO.CurrentPassword,
+                changePasswordDTO.NewPassword);
 
             if (!result.Succeeded)
             {
                 throw new HttpException(
-                        ErrorMessages.ChangePasswordFaild,
+                        ErrorMessages.ChangePasswordFailed,
                         HttpStatusCode.BadRequest);
             }
         }

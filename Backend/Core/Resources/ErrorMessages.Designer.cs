@@ -79,11 +79,11 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Password Faild!.
+        ///   Looks up a localized string similar to Change password failed!.
         /// </summary>
-        internal static string ChangePasswordFaild {
+        internal static string ChangePasswordFailed {
             get {
-                return ResourceManager.GetString("ChangePasswordFaild", resourceCulture);
+                return ResourceManager.GetString("ChangePasswordFailed", resourceCulture);
             }
         }
         
@@ -138,6 +138,15 @@ namespace Core.Resources {
         internal static string NewInfoSamePrevious {
             get {
                 return ResourceManager.GetString("NewInfoSamePrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new password is the same previous one!.
+        /// </summary>
+        internal static string NewPasswordSamePrevious {
+            get {
+                return ResourceManager.GetString("NewPasswordSamePrevious", resourceCulture);
             }
         }
         

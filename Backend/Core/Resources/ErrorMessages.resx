@@ -123,8 +123,8 @@
   <data name="CategoryNotFound" xml:space="preserve">
     <value>Category not found!</value>
   </data>
-  <data name="ChangePasswordFaild" xml:space="preserve">
-    <value>Change Password Faild!</value>
+  <data name="ChangePasswordFailed" xml:space="preserve">
+    <value>Change password failed!</value>
   </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>There is already a user with this email!</value>
@@ -143,6 +143,9 @@
   </data>
   <data name="NewInfoSamePrevious" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
+  </data>
+  <data name="NewPasswordSamePrevious" xml:space="preserve">
+    <value>The new password is the same previous one!</value>
   </data>
   <data name="PreviousInfoIsTheSame" xml:space="preserve">
     <value>The previous information is the same!</value>
