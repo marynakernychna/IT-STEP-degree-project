@@ -79,6 +79,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password Faild!.
+        /// </summary>
+        internal static string ChangePasswordFaild {
+            get {
+                return ResourceManager.GetString("ChangePasswordFaild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already a user with this email!.
         /// </summary>
         internal static string EmailAlreadyExists {

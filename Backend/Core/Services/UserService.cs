@@ -65,7 +65,7 @@ namespace Core.Services
             if (user.Name == newUserInfo.Name &&
                 user.Surname == newUserInfo.Surname &&
                 user.PhoneNumber == newUserInfo.PhoneNumber &&
-                user.Email == newUserInfo.Email )
+                user.Email == newUserInfo.Email)
             {
                 throw new HttpException(
                     ErrorMessages.NewInfoSamePrevious,
@@ -82,7 +82,7 @@ namespace Core.Services
                     new UserSpecification.GetByEmail(newUserInfo.Email)))
                 {
                     throw new HttpException(
-                        ErrorMessages.FailedSendEmail, 
+                        ErrorMessages.FailedSendEmail,
                         HttpStatusCode.BadRequest);
                 }
 
@@ -143,6 +143,25 @@ namespace Core.Services
             ExtensionMethods.UserNullCheck(user);
 
             return user.Id;
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordDTO changePassword)
+        {
+            var userId = await GetUserIdByEmailAsync(changePassword.Email);
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePassword.OldPassword,
+                changePassword.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpException(
+                        ErrorMessages.ChangePasswordFaild,
+                        HttpStatusCode.BadRequest);
+            }
         }
     }
 }

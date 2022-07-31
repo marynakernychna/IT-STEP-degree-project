@@ -1,4 +1,4 @@
-﻿namespace Core.DTO
+﻿namespace Core.DTO.User
 {
     public class UserEditProfileInfoDTO
     {
