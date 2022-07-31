@@ -124,6 +124,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid password!.
+        /// </summary>
+        internal static string InvalidPassword {
+            get {
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Token!.
         /// </summary>
         internal static string InvalidToken {
@@ -138,15 +147,6 @@ namespace Core.Resources {
         internal static string NewInfoSamePrevious {
             get {
                 return ResourceManager.GetString("NewInfoSamePrevious", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The new password is the same previous one!.
-        /// </summary>
-        internal static string NewPasswordSamePrevious {
-            get {
-                return ResourceManager.GetString("NewPasswordSamePrevious", resourceCulture);
             }
         }
         

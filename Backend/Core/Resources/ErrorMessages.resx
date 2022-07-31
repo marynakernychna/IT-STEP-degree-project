@@ -138,14 +138,14 @@
   <data name="InvalidCredentials" xml:space="preserve">
     <value>The invalid credentials!</value>
   </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid password!</value>
+  </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid Token!</value>
   </data>
   <data name="NewInfoSamePrevious" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
-  </data>
-  <data name="NewPasswordSamePrevious" xml:space="preserve">
-    <value>The new password is the same previous one!</value>
   </data>
   <data name="PreviousInfoIsTheSame" xml:space="preserve">
     <value>The previous information is the same!</value>

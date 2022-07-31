@@ -150,11 +150,20 @@ namespace Core.Services
             if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
             {
                 throw new HttpException(
-                        ErrorMessages.NewPasswordSamePrevious,
+                        ErrorMessages.NewInfoSamePrevious,
                         HttpStatusCode.BadRequest);
             }
 
             var user = await _userRepository.GetByIdAsync(userId);
+
+            if (!await _userManager.CheckPasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidPassword,
+                        HttpStatusCode.BadRequest);
+            }
 
             var result = await _userManager.ChangePasswordAsync(
                 user,
@@ -165,7 +174,7 @@ namespace Core.Services
             {
                 throw new HttpException(
                         ErrorMessages.ChangePasswordFailed,
-                        HttpStatusCode.BadRequest);
+                        HttpStatusCode.InternalServerError);
             }
         }
     }
