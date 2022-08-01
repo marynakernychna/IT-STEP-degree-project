@@ -65,7 +65,7 @@ namespace Core.Services
             if (user.Name == newUserInfo.Name &&
                 user.Surname == newUserInfo.Surname &&
                 user.PhoneNumber == newUserInfo.PhoneNumber &&
-                user.Email == newUserInfo.Email )
+                user.Email == newUserInfo.Email)
             {
                 throw new HttpException(
                     ErrorMessages.NewInfoSamePrevious,
@@ -82,7 +82,7 @@ namespace Core.Services
                     new UserSpecification.GetByEmail(newUserInfo.Email)))
                 {
                     throw new HttpException(
-                        ErrorMessages.FailedSendEmail, 
+                        ErrorMessages.FailedSendEmail,
                         HttpStatusCode.BadRequest);
                 }
 
@@ -143,6 +143,39 @@ namespace Core.Services
             ExtensionMethods.UserNullCheck(user);
 
             return user.Id;
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
+        {
+            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
+            {
+                throw new HttpException(
+                        ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (!await _userManager.CheckPasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidPassword,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword,
+                changePasswordDTO.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpException(
+                        ErrorMessages.ChangePasswordFailed,
+                        HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

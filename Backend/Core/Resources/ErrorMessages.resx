@@ -123,6 +123,9 @@
   <data name="CategoryNotFound" xml:space="preserve">
     <value>Category not found!</value>
   </data>
+  <data name="ChangePasswordFailed" xml:space="preserve">
+    <value>Change password failed!</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>There is already a user with this email!</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
     <value>The invalid credentials!</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid password!</value>
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid Token!</value>

@@ -1,5 +1,6 @@
 ﻿using Core.Constants;
 using Core.DTO;
+using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +61,16 @@ namespace API.Controllers
             var userId = await _userService.GetUserIdByEmailAsync(email);
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
             await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+
+            return Ok();
+        }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _userService.ChangePasswordAsync(changePasswordDTO, userId);
 
             return Ok();
         }
