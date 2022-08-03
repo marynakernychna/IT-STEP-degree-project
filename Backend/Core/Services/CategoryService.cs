@@ -99,6 +99,19 @@ namespace Core.Services
                 totalPages);
         }
 
+        public async Task<List<CategoryDTO>> GetAllAsync()
+        {
+            var categories = await _categoryRepository.ListAsync(
+                new CategorySpecification.GetAll());
+
+            if (categories.Count == 0)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CategoryDTO>>(categories);
+        }
+
         public async Task UpdateAsync(UpdateCategoryDTO updateCategoryDTO)
         {
             if (String.Equals(updateCategoryDTO.CurrentTitle, updateCategoryDTO.NewTitle))

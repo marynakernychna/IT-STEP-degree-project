@@ -3,10 +3,14 @@ import { CATEGORIES_URLS } from './../constants/api/urls';
 
 export default class categoriesService {
 
-    static getAll(paginationFilterModel) {
-        return instance.get(CATEGORIES_URLS.GET_ALL +
+    static getPagedAll(paginationFilterModel) {
+        return instance.get(CATEGORIES_URLS.GET_PAGINATED_ALL +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
+    }
+
+    static getAll() {
+        return instance.get(CATEGORIES_URLS.GET_ALL);
     }
 
     static createCategory(model) {
