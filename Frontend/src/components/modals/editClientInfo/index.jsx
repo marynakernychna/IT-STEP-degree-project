@@ -111,7 +111,7 @@ function EditClientInfoModal(props) {
 
                 <Form.Item
                     name="phoneNumber"
-                    label="Phone Number: "
+                    label="Phone number: "
                     initialValue={userData?.phoneNumber}
                     rules={[
                         InputRules.phoneNumber(
