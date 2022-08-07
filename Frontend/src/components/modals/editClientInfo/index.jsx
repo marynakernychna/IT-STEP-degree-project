@@ -24,7 +24,8 @@ function EditClientInfoModal(props) {
                 if (result) {
                     if (userData.name !== values.name ||
                         userData.surname !== values.surname ||
-                        userData.email !== values.email) {
+                        userData.email !== values.email ||
+                        userData.phoneNumber !== values.phoneNumber) {
 
                         editClientInfo(values, userData.email)
                             .then((result) => {
@@ -60,7 +61,7 @@ function EditClientInfoModal(props) {
             footer={null}
         >
             <Form
-                labelCol={{ span: 5 }}
+                labelCol={{ span: 6 }}
                 wrapperCol={{ span: 32 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -102,6 +103,28 @@ function EditClientInfoModal(props) {
                             2,
                             50,
                             inputValidationErrorMessages.SURNAME_MUST_BE_BETWEEN_1_AND_50
+                        )
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    name="phoneNumber"
+                    label="Phone Number: "
+                    initialValue={userData?.phoneNumber}
+                    rules={[
+                        InputRules.phoneNumber(
+                            10,
+                            inputValidationErrorMessages.NOT_VALID_PHONE_NUMBER
+                        ),
+                        InputRules.required(
+                            generalMessages.FIELD_MUST_NOT_BE_EMPTY
+                        ),
+                        InputRules.lengthRange(
+                            10,
+                            20,
+                            inputValidationErrorMessages.PHONE_NUMBER_MUST_BE_BETWEEN_10_AND_20
                         )
                     ]}
                 >
