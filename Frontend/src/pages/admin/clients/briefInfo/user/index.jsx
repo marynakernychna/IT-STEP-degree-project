@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Tooltip } from "antd";
 import user_icon from "../../../../../assets/icons/user.svg";
 import email_icon from "../../../../../assets/icons/email.svg";
+import phoneNumber_icon from "../../../../../assets/icons/phoneNumber.svg";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import EditClientInfoModal from './../../../../../components/modals/editClientInfo/index';
 import { AiOutlineEdit } from "react-icons/ai";
@@ -9,7 +10,7 @@ import { DEFAULT_ACTION_ICON_SIZE } from "../../../../../constants/others";
 import { DEFAULT_MOUSE_ENTER_DELAY } from './../../../../../constants/others';
 
 function User(props) {
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -18,6 +19,11 @@ function User(props) {
                 <div className="fullName">
                     <img src={user_icon} />
                     <p>{props.info.name} {props.info.surname}</p>
+                </div>
+
+                <div className="phoneNumber">
+                    <img src={phoneNumber_icon} />
+                    <p>{props.info.phoneNumber}</p>
                 </div>
 
                 <div className="email">
