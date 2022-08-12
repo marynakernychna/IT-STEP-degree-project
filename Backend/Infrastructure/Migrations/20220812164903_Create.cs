@@ -253,11 +253,18 @@ namespace Infrastructure.Migrations
                     AvailableCount = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CartId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Wares", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Wares_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Wares_Carts_CartId",
                         column: x => x.CartId,
@@ -505,6 +512,11 @@ namespace Infrastructure.Migrations
                 name: "IX_Wares_CategoryId",
                 table: "Wares",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wares_CreatorId",
+                table: "Wares",
+                column: "CreatorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
