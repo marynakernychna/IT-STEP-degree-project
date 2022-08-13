@@ -88,6 +88,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duplicate name of the characteristic in a ware!.
+        /// </summary>
+        internal static string CharacteristicNameDuplicateInWare {
+            get {
+                return ResourceManager.GetString("CharacteristicNameDuplicateInWare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already a user with this email!.
         /// </summary>
         internal static string EmailAlreadyExists {
@@ -165,6 +174,15 @@ namespace Core.Resources {
         internal static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ware title duplicate by user!.
+        /// </summary>
+        internal static string WareTitleDuplicateByUser {
+            get {
+                return ResourceManager.GetString("WareTitleDuplicateByUser", resourceCulture);
             }
         }
     }

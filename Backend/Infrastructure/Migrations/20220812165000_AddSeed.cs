@@ -12,8 +12,8 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "User", "USER" },
-                    { "17d369ee-11e3-40dd-af63-30b9eef221b6", "17d369ee-11e3-40dd-af63-30b9eef221b6", "Admin", "ADMIN" }
+                    { "f008ba91-7336-4a6d-8217-5030db458fa5", "f008ba91-7336-4a6d-8217-5030db458fa5", "User", "USER" },
+                    { "81af2d7e-9df2-4f09-8131-72ffdab373b2", "81af2d7e-9df2-4f09-8131-72ffdab373b2", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -21,19 +21,19 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhotoLink", "RegistrationDate", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "08067daf-ed09-493f-a929-32b18ab898b0", 0, "e508e50e-705d-4164-8464-af01a6109507", "User", "marylou@gmail.com", true, false, null, "Mary", "MARYLOU@GMAIL.COM", "MARYLOU@GMAIL.COM", "AQAAAAEAACcQAAAAEDMRU7WisylSrOcwEiB1qKKSQR2akTjx7eCx5P7qCJZA2q//ob/AW8ftYEf3dXXOVg==", "+380986734245", false, null, new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 297, DateTimeKind.Unspecified).AddTicks(1508), new TimeSpan(0, 0, 0, 0, 0)), "689ca18a-dde7-4aa6-8abf-cf74a8b48773", "Lou", false, "marylou@gmail.com" },
-                    { "c9fff39d-9cb5-4143-af00-4237b2f5253c", 0, "aac5b2c4-c9aa-417b-94eb-38c7c12bcc7b", "User", "etsukomami@gmail.com", true, false, null, "Etsuko", "ETSUKOMAMI@GMAIL.COM", "ETSUKOMAMI@GMAIL.COM", "AQAAAAEAACcQAAAAEE8G6ExAwpdQoXykI77C8zvr0y2mT5DW/G2A/DDCzRsvOPGQ5nkS0LvDP/s5SvNpFA==", "+380988931245", false, null, new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 299, DateTimeKind.Unspecified).AddTicks(5066), new TimeSpan(0, 0, 0, 0, 0)), "4c9683a5-706a-4fa5-827d-e57dd5ad176c", "Mami", false, "etsukomami@gmail.com" }
+                    { "24e4da3e-931b-4918-b259-85d174d8fcd3", 0, "e5a60e6a-9efc-4593-a916-f2c07fcafca0", "User", "marylou@gmail.com", true, false, null, "Mary", "MARYLOU@GMAIL.COM", "MARYLOU@GMAIL.COM", "AQAAAAEAACcQAAAAENvUrKeZM4WnQBC/azrdjuOIhu1B1SVOTRyypWv6YwjmfnLjR4d9zIZfe/A+/eyPcg==", "+380986734245", false, null, new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 716, DateTimeKind.Unspecified).AddTicks(5664), new TimeSpan(0, 0, 0, 0, 0)), "634fcc81-9e99-425e-b0d2-b101ebe3a3ba", "Lou", false, "marylou@gmail.com" },
+                    { "22195e96-32e9-4740-bab9-6434e481f4f9", 0, "e14138cc-0197-46d6-a314-f4e02403ac52", "User", "etsukomami@gmail.com", true, false, null, "Etsuko", "ETSUKOMAMI@GMAIL.COM", "ETSUKOMAMI@GMAIL.COM", "AQAAAAEAACcQAAAAEPr9VxhZba26pGJwHMDWcXrEIE1/zPhE7OhFAzbQfYoVLMDaDpbKKAHlvZi9f48yTw==", "+380988931245", false, null, new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 719, DateTimeKind.Unspecified).AddTicks(9342), new TimeSpan(0, 0, 0, 0, 0)), "cd8ff034-f309-470c-8895-1abe8a552771", "Mami", false, "etsukomami@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "c9fff39d-9cb5-4143-af00-4237b2f5253c" });
+                values: new object[] { "f008ba91-7336-4a6d-8217-5030db458fa5", "22195e96-32e9-4740-bab9-6434e481f4f9" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "17d369ee-11e3-40dd-af63-30b9eef221b6", "08067daf-ed09-493f-a929-32b18ab898b0" });
+                values: new object[] { "81af2d7e-9df2-4f09-8131-72ffdab373b2", "24e4da3e-931b-4918-b259-85d174d8fcd3" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -41,32 +41,32 @@ namespace Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "17d369ee-11e3-40dd-af63-30b9eef221b6", "08067daf-ed09-493f-a929-32b18ab898b0" });
+                keyValues: new object[] { "f008ba91-7336-4a6d-8217-5030db458fa5", "22195e96-32e9-4740-bab9-6434e481f4f9" });
 
             migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5", "c9fff39d-9cb5-4143-af00-4237b2f5253c" });
+                keyValues: new object[] { "81af2d7e-9df2-4f09-8131-72ffdab373b2", "24e4da3e-931b-4918-b259-85d174d8fcd3" });
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "17d369ee-11e3-40dd-af63-30b9eef221b6");
+                keyValue: "81af2d7e-9df2-4f09-8131-72ffdab373b2");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5");
+                keyValue: "f008ba91-7336-4a6d-8217-5030db458fa5");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "08067daf-ed09-493f-a929-32b18ab898b0");
+                keyValue: "22195e96-32e9-4740-bab9-6434e481f4f9");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "c9fff39d-9cb5-4143-af00-4237b2f5253c");
+                keyValue: "24e4da3e-931b-4918-b259-85d174d8fcd3");
         }
     }
 }

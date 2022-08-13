@@ -14,6 +14,8 @@ namespace Core.Entities
         public DateTimeOffset CreationDate { get; set; } = DateTimeOffset.UtcNow;
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public string CreatorId { get; set; }
+        public User User { get; set; }
         public ICollection<Characteristic> Characteristics { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Report> Reports { get; set; }

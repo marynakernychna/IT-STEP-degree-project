@@ -22,6 +22,9 @@ namespace Core
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ITemplateHelper, TemplateHelper>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IWareService, WareService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ICharacteristicService, CharacteristicService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

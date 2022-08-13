@@ -126,6 +126,9 @@
   <data name="ChangePasswordFailed" xml:space="preserve">
     <value>Change password failed!</value>
   </data>
+  <data name="CharacteristicNameDuplicateInWare" xml:space="preserve">
+    <value>Duplicate name of the characteristic in a ware!</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>There is already a user with this email!</value>
   </data>
@@ -152,5 +155,8 @@
   </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>User not found!</value>
+  </data>
+  <data name="WareTitleDuplicateByUser" xml:space="preserve">
+    <value>Ware title duplicate by user!</value>
   </data>
 </root>
