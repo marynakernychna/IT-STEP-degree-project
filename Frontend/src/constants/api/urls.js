@@ -2,6 +2,7 @@ export const SERVER_URL = "https://localhost:44314/api";
 const AUTHENTICATION_URL = "/Authentication";
 const USERS_URL = "/Users";
 const CATEGORIES_URL = "/Categories";
+const GOODS_URL = "/Wares";
 
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
@@ -22,4 +23,8 @@ export const CATEGORIES_URLS = {
     CREATE: CATEGORIES_URL + "/create",
     UPDATE: CATEGORIES_URL + "/update",
     DELETE: CATEGORIES_URL + "/delete"
+};
+
+export const GOODS_URLS = {
+    CREATE: GOODS_URL + "/create"
 };

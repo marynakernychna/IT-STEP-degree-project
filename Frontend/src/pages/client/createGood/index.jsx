@@ -10,6 +10,7 @@ import InputRules from './../../../constants/inputRules';
 import { generalMessages } from './../../../constants/messages/general';
 import { errorMessage, confirmMessage } from './../../../services/alerts';
 import { goodsMessages } from './../../../constants/messages/goods';
+import { createGood } from './../../../services/goods';
 
 const { TextArea } = Input;
 
@@ -94,6 +95,8 @@ const CreateGoodPage = () => {
                         categoryTitle: categoryTitle,
                         characteristics: characteristics
                     };
+
+                    createGood(model);
                 }
             });
     };
