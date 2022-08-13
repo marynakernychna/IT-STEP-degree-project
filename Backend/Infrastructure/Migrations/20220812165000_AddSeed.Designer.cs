@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220711162237_Create")]
-    partial class Create
+    [Migration("20220812165000_AddSeed")]
+    partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,6 +278,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -296,6 +299,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Wares");
                 });
@@ -325,6 +330,22 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f008ba91-7336-4a6d-8217-5030db458fa5",
+                            ConcurrencyStamp = "f008ba91-7336-4a6d-8217-5030db458fa5",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "81af2d7e-9df2-4f09-8131-72ffdab373b2",
+                            ConcurrencyStamp = "81af2d7e-9df2-4f09-8131-72ffdab373b2",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -486,6 +507,18 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "24e4da3e-931b-4918-b259-85d174d8fcd3",
+                            RoleId = "81af2d7e-9df2-4f09-8131-72ffdab373b2"
+                        },
+                        new
+                        {
+                            UserId = "22195e96-32e9-4740-bab9-6434e481f4f9",
+                            RoleId = "f008ba91-7336-4a6d-8217-5030db458fa5"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -529,6 +562,48 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "24e4da3e-931b-4918-b259-85d174d8fcd3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e5a60e6a-9efc-4593-a916-f2c07fcafca0",
+                            Email = "marylou@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MARYLOU@GMAIL.COM",
+                            NormalizedUserName = "MARYLOU@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAENvUrKeZM4WnQBC/azrdjuOIhu1B1SVOTRyypWv6YwjmfnLjR4d9zIZfe/A+/eyPcg==",
+                            PhoneNumber = "+380986734245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "634fcc81-9e99-425e-b0d2-b101ebe3a3ba",
+                            TwoFactorEnabled = false,
+                            UserName = "marylou@gmail.com",
+                            Name = "Mary",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 716, DateTimeKind.Unspecified).AddTicks(5664), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Lou"
+                        },
+                        new
+                        {
+                            Id = "22195e96-32e9-4740-bab9-6434e481f4f9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e14138cc-0197-46d6-a314-f4e02403ac52",
+                            Email = "etsukomami@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
+                            NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPr9VxhZba26pGJwHMDWcXrEIE1/zPhE7OhFAzbQfYoVLMDaDpbKKAHlvZi9f48yTw==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "cd8ff034-f309-470c-8895-1abe8a552771",
+                            TwoFactorEnabled = false,
+                            UserName = "etsukomami@gmail.com",
+                            Name = "Etsuko",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 719, DateTimeKind.Unspecified).AddTicks(9342), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Mami"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -654,7 +729,13 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.User", "User")
+                        .WithMany("Wares")
+                        .HasForeignKey("CreatorId");
+
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -744,6 +825,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reports");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Wares");
                 });
 #pragma warning restore 612, 618
         }
