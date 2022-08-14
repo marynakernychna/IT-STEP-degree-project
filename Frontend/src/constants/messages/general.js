@@ -9,5 +9,6 @@ export const generalMessages = Object.freeze({
     CHANGE_DATA_SUCCESSFULLY: "You have successfully edited data!",
     CHANGE_DATA_FAILED: "Edit data failed!",
     DELETE_DATA_SUCCESSFULLY: "You have successfully deleted data!",
-    DELETE_DATA_FAILED: "Delete data failed!"
+    DELETE_DATA_FAILED: "Delete data failed!",
+    ARE_YOU_SURE: "Are you sure?"
 });

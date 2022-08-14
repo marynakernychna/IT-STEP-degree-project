@@ -27,6 +27,12 @@ namespace Core.Specifications
                      .Take(paginationFilter.PageSize)
                      .AsNoTracking();
             }
+
+            public GetAll()
+            {
+                Query.OrderBy(c => c.Title)
+                     .AsNoTracking();
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { customPageSizeOptions, paginationDefaultFilter } from './../../../../constants/pagination';
 import { Button, Pagination, Result } from 'antd';
-import { getCategories } from './../../../../services/categories';
+import { getPagedCategories } from './../../../../services/categories';
 import Category from './category';
 import { PlusOutlined } from '@ant-design/icons';
 import CreateCategoryModal from './../../../../components/modals/category/createCategory/index';
@@ -17,18 +17,18 @@ const ViewAndManageCategoriesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(async () => {
-        setCategories(await getCategories(paginationFilterModel));
+        setCategories(await getPagedCategories(paginationFilterModel));
     }, []);
 
     const onPaginationChange = async (page, pageSize) => {
         paginationFilterModel.pageNumber = page;
         paginationFilterModel.pageSize = pageSize;
 
-        setCategories(await getCategories(paginationFilterModel));
+        setCategories(await getPagedCategories(paginationFilterModel));
     };
 
     const reloadCategories = async () => {
-        setCategories(await getCategories(paginationFilterModel));
+        setCategories(await getPagedCategories(paginationFilterModel));
     };
 
     return (

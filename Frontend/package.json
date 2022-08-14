@@ -9,6 +9,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.19.5",
+    "antd-img-crop": "^4.2.4",
     "axios": "^0.26.1",
     "dotenv": "^16.0.1",
     "jwt-decode": "^3.1.2",
@@ -55,9 +56,9 @@
     ]
   },
   "devDependencies": {
+    "react-scripts": "5.0.0",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
-    "webpack": "^5.72.0",
-    "react-scripts": "5.0.0"
+    "webpack": "^5.72.0"
   }
 }
