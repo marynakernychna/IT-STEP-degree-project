@@ -10,6 +10,9 @@ using System.Net;
 using Core.Resources;
 using System.Collections.Generic;
 using Core.DTO;
+using AutoMapper;
+using Core.DTO.Characteristic;
+using Core.DTO.PaginationFilter;
 
 namespace Core.Services
 {
@@ -20,19 +23,25 @@ namespace Core.Services
         private readonly IRepository<Ware> _wareRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Characteristic> _characteristicRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IMapper _mapper;
 
         public WareService(
             IFileService fileService,
             ICharacteristicService characteristicService,
             IRepository<Ware> wareRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Characteristic> characteristicRepository)
+            IRepository<Characteristic> characteristicRepository,
+            IRepository<User> userRepository,
+            IMapper mapper)
         {
             _fileService = fileService;
             _characteristicService = characteristicService;
             _wareRepository = wareRepository;
             _categoryRepository = categoryRepository;
             _characteristicRepository = characteristicRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task CreateAsync(CreateWareDTO createWareDTO, string userId)
@@ -86,47 +95,78 @@ namespace Core.Services
         }
 
         public async Task<PaginatedList<WareInfoDTO>> GetByCategoryAsync(
-            PaginationFilterDTO paginationFilter,
-            string categoryTitle)
+            PaginationFilterWareDTO paginationFilter)
         {
             if (!await _categoryRepository.AnyAsync(
-               new CategorySpecification.GetByTitle(categoryTitle)))
+               new CategorySpecification.GetByTitle(paginationFilter.CategoryTitle)))
             {
                 throw new HttpException(
-               ErrorMessages.CategoryNotFound,
-               HttpStatusCode.NotFound);
+                    ErrorMessages.CategoryNotFound,
+                    HttpStatusCode.NotFound);
             }
 
             var waresCount = await _wareRepository.CountAsync(
-                new WareSpecification.GetByCategory(paginationFilter, categoryTitle));
+                new WareSpecification.GetByCategory(paginationFilter));
+
+            var paginationFilterDTO = new PaginationFilterDTO()
+            {
+                PageNumber = paginationFilter.PageNumber,
+                PageSize = paginationFilter.PageSize
+            };
 
             int totalPages = PaginatedList<WareInfoDTO>
-                .GetTotalPages(paginationFilter, waresCount);
+                .GetTotalPages(paginationFilterDTO, waresCount);
 
             if (totalPages == 0)
             {
                 return null;
             }
 
-            var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetByCategory(paginationFilter, categoryTitle));
+            var waresDTOs = await _wareRepository.ListAsync(
+                new WareSpecification.GetByCategory(paginationFilter));
 
             var result = new List<WareInfoDTO>();
 
-            foreach (var ware in wares)
+            foreach (var ware in waresDTOs)
             {
+                var creator = await _userRepository.GetByIdAsync(ware.CreatorId);
 
-                result.Add(new WareInfoDTO
+                var wareCharacteristics = await _characteristicRepository.ListAsync(
+                    new CharacteristicSpecification.GetByWareId(ware.Id));
+
+                List<CharacteristicWithoutWareIdDTO> characteristicsMap = null;
+
+                if (wareCharacteristics != null)
                 {
-                    Title = ware.Title,
-                    Description = ware.Description,
-                    Cost = ware.Cost,
-                    PhotoLink = ware.PhotoLink,
-                    AvailableCount = ware.AvailableCount,
-                    CategoryTitle = ware.Category.Title,
-                    Characteristics = (
-                    List<DTO.Characteristic.CharacteristicWithoutWareIdDTO>)ware.Characteristics
-                });
+                    var characteristics = new List<Characteristic>();
+
+                    foreach (var characteristic in wareCharacteristics)
+                    {
+                        characteristics.Add(
+                            new Characteristic
+                            {
+                                Name = characteristic.Name,
+                                Value = characteristic.Value,
+                                WareId = ware.Id
+                            });
+                    }
+
+                    characteristicsMap = _mapper.Map<List<CharacteristicWithoutWareIdDTO>>(
+                        characteristics);
+                }
+
+                result.Add(
+                    new WareInfoDTO
+                    {
+                        Title = ware.Title,
+                        Description = ware.Description,
+                        FullNameAuthor = creator.Name + " " + creator.Surname,
+                        Cost = ware.Cost,
+                        PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
+                        AvailableCount = ware.AvailableCount,
+                        CategoryTitle = ware.Category.Title,
+                        Characteristics = characteristicsMap
+                    });
             }
 
             return PaginatedList<WareInfoDTO>.Evaluate(

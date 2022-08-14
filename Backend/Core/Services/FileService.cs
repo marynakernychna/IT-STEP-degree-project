@@ -1,5 +1,6 @@
 ﻿using Core.Interfaces.CustomService;
 using System;
+using System.Drawing;
 using System.IO;
 
 namespace Core.Services
@@ -46,6 +47,24 @@ namespace Core.Services
             string projectDirectory = Directory.GetParent(workingDirectory).FullName;
 
             return projectDirectory;
+        }
+
+        public string GenereteBase64(string imagePath)
+        {
+            string _base64String = null;
+            var projectDirectoryPath = GetProjectDirectoryPath();
+
+            using (Image _image = Image.FromFile(projectDirectoryPath + WARES_IMAGES_PATH + imagePath))
+            {
+                using (MemoryStream _mStream = new MemoryStream())
+                {
+                    _image.Save(_mStream, _image.RawFormat);
+                    byte[] _imageBytes = _mStream.ToArray();
+                    _base64String = Convert.ToBase64String(_imageBytes);
+
+                    return "data:image/jpg;base64," + _base64String;
+                }
+            }
         }
     }
 }

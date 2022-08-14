@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using Core.DTO;
+using Core.DTO.PaginationFilter;
 using Core.Entities;
 using System.Linq;
 
@@ -20,9 +20,9 @@ namespace Core.Specifications
 
         internal class GetByCategory : Specification<Ware>
         {
-            public GetByCategory(PaginationFilterDTO paginationFilter, string categoryTitle)
+            public GetByCategory(PaginationFilterWareDTO paginationFilter)
             {
-                Query.Where(w => w.Category.Title == categoryTitle)
+                Query.Where(w => w.Category.Title == paginationFilter.CategoryTitle)
                      .Include(c => c.Category)
                      .OrderBy(c => c.Title)
                      .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)

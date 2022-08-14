@@ -7,8 +7,9 @@ namespace Core.DTO.Ware
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public string FullNameAuthor { get; set; }
         public double Cost { get; set; }
-        public string PhotoLink { get; set; }
+        public string PhotoBase64 { get; set; }
         public int AvailableCount { get; set; }
         public string CategoryTitle { get; set; }
         public List<CharacteristicWithoutWareIdDTO> Characteristics { get; set; }
