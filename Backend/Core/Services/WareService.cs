@@ -9,6 +9,7 @@ using Core.Exceptions;
 using System.Net;
 using Core.Resources;
 using System.Collections.Generic;
+using Core.DTO;
 
 namespace Core.Services
 {
@@ -82,6 +83,57 @@ namespace Core.Services
             }
 
             await _characteristicRepository.AddRangeAsync(characteristics);
+        }
+
+        public async Task<PaginatedList<WareInfoDTO>> GetByCategoryAsync(
+            PaginationFilterDTO paginationFilter,
+            string categoryTitle)
+        {
+            if (!await _categoryRepository.AnyAsync(
+               new CategorySpecification.GetByTitle(categoryTitle)))
+            {
+                throw new HttpException(
+               ErrorMessages.CategoryNotFound,
+               HttpStatusCode.NotFound);
+            }
+
+            var waresCount = await _wareRepository.CountAsync(
+                new WareSpecification.GetByCategory(paginationFilter, categoryTitle));
+
+            int totalPages = PaginatedList<WareInfoDTO>
+                .GetTotalPages(paginationFilter, waresCount);
+
+            if (totalPages == 0)
+            {
+                return null;
+            }
+
+            var wares = await _wareRepository.ListAsync(
+                new WareSpecification.GetByCategory(paginationFilter, categoryTitle));
+
+            var result = new List<WareInfoDTO>();
+
+            foreach (var ware in wares)
+            {
+
+                result.Add(new WareInfoDTO
+                {
+                    Title = ware.Title,
+                    Description = ware.Description,
+                    Cost = ware.Cost,
+                    PhotoLink = ware.PhotoLink,
+                    AvailableCount = ware.AvailableCount,
+                    CategoryTitle = ware.Category.Title,
+                    Characteristics = (
+                    List<DTO.Characteristic.CharacteristicWithoutWareIdDTO>)ware.Characteristics
+                });
+            }
+
+            return PaginatedList<WareInfoDTO>.Evaluate(
+                result,
+                paginationFilter.PageNumber,
+                waresCount,
+                totalPages);
         }
     }
 }
