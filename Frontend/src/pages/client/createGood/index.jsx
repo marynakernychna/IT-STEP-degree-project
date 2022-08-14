@@ -67,7 +67,7 @@ const CreateGoodPage = () => {
         );
     };
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         if (photo === undefined) {
             errorMessage(
                 goodsMessages.NO_IMAGE,
@@ -76,29 +76,35 @@ const CreateGoodPage = () => {
             return;
         }
 
-        confirmMessage(
-            goodsMessages.NO_CHARACTERISTICS_WARNING,
-            generalMessages.ARE_YOU_SURE
-        )
-            .then((result) => {
-                if (result) {
-                    const photoBase64 = photo.split(',')[1];
-                    const photoExtension = '.' + photo.split('/')[1].split(';')[0];
+        if (characteristics.length === 0) {
+            const confirm = await confirmMessage(
+                goodsMessages.NO_CHARACTERISTICS_WARNING,
+                generalMessages.ARE_YOU_SURE
+            )
+                .then((result) => {
+                    return result;
+                });
 
-                    const model = {
-                        title: values.name,
-                        description: values.description,
-                        cost: values.cost,
-                        photoBase64: photoBase64,
-                        photoExtension: photoExtension,
-                        availableCount: values.available,
-                        categoryTitle: categoryTitle,
-                        characteristics: characteristics
-                    };
+            if (!confirm) {
+                return;
+            }
+        }
 
-                    createGood(model);
-                }
-            });
+        const photoBase64 = photo.split(',')[1];
+        const photoExtension = '.' + photo.split('/')[1].split(';')[0];
+
+        const model = {
+            title: values.name,
+            description: values.description,
+            cost: values.cost,
+            photoBase64: photoBase64,
+            photoExtension: photoExtension,
+            availableCount: values.available,
+            categoryTitle: categoryTitle,
+            characteristics: characteristics
+        };
+
+        createGood(model);
     };
 
     const addCharacteristic = () => {
