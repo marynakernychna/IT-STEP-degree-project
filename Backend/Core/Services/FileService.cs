@@ -54,7 +54,7 @@ namespace Core.Services
             var filePath = projectDirectoryPath + WARES_IMAGES_PATH + imagePath;
             var imageBytes = File.ReadAllBytes(filePath);
             var base64String = Convert.ToBase64String(imageBytes);
-            var fileExtension = Path.GetExtension(filePath);
+            var fileExtension = Path.GetExtension(filePath).TrimStart('.');
 
             return "data:image/" + fileExtension + ";base64," + base64String;
         }
