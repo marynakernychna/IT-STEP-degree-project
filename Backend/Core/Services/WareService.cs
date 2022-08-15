@@ -134,25 +134,13 @@ namespace Core.Services
                 var wareCharacteristics = await _characteristicRepository.ListAsync(
                     new CharacteristicSpecification.GetByWareId(ware.Id));
 
-                List<CharacteristicWithoutWareIdDTO> characteristicsMap = null;
+                List<CharacteristicWithoutWareIdDTO> characteristicsDTOs = 
+                    new List<CharacteristicWithoutWareIdDTO>();
 
                 if (wareCharacteristics != null)
                 {
-                    var characteristics = new List<Characteristic>();
-
-                    foreach (var characteristic in wareCharacteristics)
-                    {
-                        characteristics.Add(
-                            new Characteristic
-                            {
-                                Name = characteristic.Name,
-                                Value = characteristic.Value,
-                                WareId = ware.Id
-                            });
-                    }
-
-                    characteristicsMap = _mapper.Map<List<CharacteristicWithoutWareIdDTO>>(
-                        characteristics);
+                    characteristicsDTOs = _mapper.Map<List<CharacteristicWithoutWareIdDTO>>(
+                        wareCharacteristics);
                 }
 
                 result.Add(
@@ -165,7 +153,7 @@ namespace Core.Services
                         PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
                         AvailableCount = ware.AvailableCount,
                         CategoryTitle = ware.Category.Title,
-                        Characteristics = characteristicsMap
+                        Characteristics = characteristicsDTOs
                     });
             }
 

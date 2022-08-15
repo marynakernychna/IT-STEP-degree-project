@@ -8,7 +8,7 @@ namespace Core.Helpers.ApplicationProfiles
     {
         public CharacteristicMap()
         {
-            CreateMap<Characteristic, CharacteristicWithoutWareIdDTO>().ReverseMap();
+            CreateMap<Characteristic, CharacteristicWithoutWareIdDTO>();
         }
     }
 }

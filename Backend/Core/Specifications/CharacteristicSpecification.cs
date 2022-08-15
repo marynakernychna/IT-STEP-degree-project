@@ -10,7 +10,7 @@ namespace Core.Specifications
             public GetByWareId(int wareId)
             {
                 Query.Where(c => c.WareId == wareId)
-                      .AsNoTracking();
+                     .AsNoTracking();
             }
         }
     }

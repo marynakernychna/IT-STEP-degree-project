@@ -16,7 +16,11 @@ namespace Core.Validation
                 .GreaterThan(0);
 
             RuleFor(pf => pf.CategoryTitle)
-                .NotEmpty();
+                .NotEmpty()
+                .Length(2, 50)
+                .Matches(@"^[A-Z][a-z]+$")
+                .WithMessage("The first letter in '{PropertyName}' " +
+                   "must be uppercase, the others lowercase! And only in Latin letters!");
         }
     }
 }
