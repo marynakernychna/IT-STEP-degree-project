@@ -1,6 +1,5 @@
 ﻿using Core.Interfaces.CustomService;
 using System;
-using System.Drawing;
 using System.IO;
 
 namespace Core.Services
@@ -14,7 +13,7 @@ namespace Core.Services
 
         public string CreateWarePhotoFile(string imageBase64String, string extension)
         {
-            var fileName = GenerateFileName(extension);
+            var fileName = GenerateFileName(extension) + "." + extension;
             var filePath = GenerateNewFilePath(fileName);
             var imageBytes = Convert.FromBase64String(imageBase64String);
 
@@ -52,11 +51,12 @@ namespace Core.Services
         public string GenereteBase64(string imagePath)
         {
             var projectDirectoryPath = GetProjectDirectoryPath();
-            var imageBytes = File.ReadAllBytes(
-                projectDirectoryPath + WARES_IMAGES_PATH + imagePath);
+            var filePath = projectDirectoryPath + WARES_IMAGES_PATH + imagePath;
+            var imageBytes = File.ReadAllBytes(filePath);
             var base64String = Convert.ToBase64String(imageBytes);
+            var fileExtension = Path.GetExtension(filePath);
 
-            return "data:image/jpg;base64," + base64String;
+            return "data:image/" + fileExtension + ";base64," + base64String;
         }
     }
 }

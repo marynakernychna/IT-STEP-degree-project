@@ -134,13 +134,12 @@ namespace Core.Services
                 var wareCharacteristics = await _characteristicRepository.ListAsync(
                     new CharacteristicSpecification.GetByWareId(ware.Id));
 
-                List<CharacteristicWithoutWareIdDTO> characteristicsDTOs = 
-                    new List<CharacteristicWithoutWareIdDTO>();
+                var characteristicsDTOs = new List<CharacteristicWithoutWareIdDTO>();
 
                 if (wareCharacteristics != null)
                 {
-                    characteristicsDTOs = _mapper.Map<List<CharacteristicWithoutWareIdDTO>>(
-                        wareCharacteristics);
+                    characteristicsDTOs = _mapper
+                        .Map<List<CharacteristicWithoutWareIdDTO>>(wareCharacteristics);
                 }
 
                 result.Add(
