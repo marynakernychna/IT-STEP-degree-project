@@ -156,6 +156,9 @@
   <data name="UserNotFound" xml:space="preserve">
     <value>User not found!</value>
   </data>
+  <data name="WareNotFound" xml:space="preserve">
+    <value>Ware not found!</value>
+  </data>
   <data name="WareTitleDuplicateByUser" xml:space="preserve">
     <value>Ware title duplicate by user!</value>
   </data>

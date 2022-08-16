@@ -23,7 +23,6 @@ namespace Core.Services
         private readonly IRepository<Ware> _wareRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Characteristic> _characteristicRepository;
-        private readonly IRepository<User> _userRepository;
         private readonly IMapper _mapper;
 
         public WareService(
@@ -32,7 +31,6 @@ namespace Core.Services
             IRepository<Ware> wareRepository,
             IRepository<Category> categoryRepository,
             IRepository<Characteristic> characteristicRepository,
-            IRepository<User> userRepository,
             IMapper mapper)
         {
             _fileService = fileService;
@@ -40,7 +38,6 @@ namespace Core.Services
             _wareRepository = wareRepository;
             _categoryRepository = categoryRepository;
             _characteristicRepository = characteristicRepository;
-            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -94,7 +91,31 @@ namespace Core.Services
             await _characteristicRepository.AddRangeAsync(characteristics);
         }
 
-        public async Task<PaginatedList<WareInfoDTO>> GetByCategoryAsync(
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(
+            PaginationFilterDTO paginationFilter)
+        {
+            var waresCount = await _wareRepository.CountAsync(
+                new WareSpecification.GetAll(paginationFilter));
+
+            if (waresCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<WareInfoDTO>
+                .GetTotalPages(paginationFilter, waresCount);
+
+            var wares = await _wareRepository.ListAsync(
+                new WareSpecification.GetAll(paginationFilter));
+
+            return FormPaginatedList(
+                wares,
+                waresCount,
+                paginationFilter.PageNumber,
+                totalPages);
+        }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetByCategoryAsync(
             PaginationFilterWareDTO paginationFilter)
         {
             if (!await _categoryRepository.AnyAsync(
@@ -108,57 +129,74 @@ namespace Core.Services
             var waresCount = await _wareRepository.CountAsync(
                 new WareSpecification.GetByCategory(paginationFilter));
 
+            if (waresCount == 0)
+            {
+                return null;
+            }
+
             var paginationFilterDTO = new PaginationFilterDTO()
             {
                 PageNumber = paginationFilter.PageNumber,
                 PageSize = paginationFilter.PageSize
             };
 
-            int totalPages = PaginatedList<WareInfoDTO>
+            var totalPages = PaginatedList<WareInfoDTO>
                 .GetTotalPages(paginationFilterDTO, waresCount);
 
-            if (totalPages == 0)
-            {
-                return null;
-            }
-
-            var waresDTOs = await _wareRepository.ListAsync(
+            var wares = await _wareRepository.ListAsync(
                 new WareSpecification.GetByCategory(paginationFilter));
 
-            var result = new List<WareInfoDTO>();
+            return FormPaginatedList(
+                wares,
+                waresCount,
+                paginationFilter.PageNumber,
+                totalPages);
+        }
 
-            foreach (var ware in waresDTOs)
+        public async Task<WareInfoDTO> GetByIdAsync(int id)
+        {
+            var ware = await _wareRepository.SingleOrDefaultAsync(
+                new WareSpecification.GetById(id));
+
+            ExtensionMethods.WareNullCheck(ware);
+
+            return new WareInfoDTO
             {
-                var creator = await _userRepository.GetByIdAsync(ware.CreatorId);
+                Title = ware.Title,
+                Description = ware.Description,
+                CreatorFullName = ware.Creator.Name + ' ' + ware.Creator.Surname,
+                Cost = ware.Cost,
+                PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
+                AvailableCount = ware.AvailableCount,
+                CreationDate = ware.CreationDate,
+                CategoryTitle = ware.Category.Title,
+                Characteristics = _mapper
+                    .Map<List<CharacteristicWithoutWareIdDTO>>(ware.Characteristics)
+            };
+        }
 
-                var wareCharacteristics = await _characteristicRepository.ListAsync(
-                    new CharacteristicSpecification.GetByWareId(ware.Id));
+        private PaginatedList<WareBriefInfoDTO> FormPaginatedList(
+            List<Ware> wares, int waresCount, int pageNumber, int totalPages)
+        {
+            var wareDTOs = new List<WareBriefInfoDTO>();
 
-                var characteristicsDTOs = new List<CharacteristicWithoutWareIdDTO>();
-
-                if (wareCharacteristics != null)
-                {
-                    characteristicsDTOs = _mapper
-                        .Map<List<CharacteristicWithoutWareIdDTO>>(wareCharacteristics);
-                }
-
-                result.Add(
-                    new WareInfoDTO
+            foreach (var ware in wares)
+            {
+                wareDTOs.Add(
+                    new WareBriefInfoDTO
                     {
+                        Id = ware.Id,
                         Title = ware.Title,
-                        Description = ware.Description,
-                        FullNameAuthor = creator.Name + " " + creator.Surname,
                         Cost = ware.Cost,
                         PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
                         AvailableCount = ware.AvailableCount,
-                        CategoryTitle = ware.Category.Title,
-                        Characteristics = characteristicsDTOs
+                        CategoryTitle = ware.Category.Title
                     });
             }
 
-            return PaginatedList<WareInfoDTO>.Evaluate(
-                result,
-                paginationFilter.PageNumber,
+            return PaginatedList<WareBriefInfoDTO>.Evaluate(
+                wareDTOs,
+                pageNumber,
                 waresCount,
                 totalPages);
         }

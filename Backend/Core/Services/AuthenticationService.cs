@@ -78,7 +78,7 @@ namespace Core.Services
             var createUserResult = await _userManager
                                             .CreateAsync(user, userRegistrationDTO.Password);
 
-            ExtensionMethods.CheckIdentityResult(createUserResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
 
             var roleName = IdentityRoleNames.User.ToString();
             var userRole = await _roleManager.FindByNameAsync(roleName);
@@ -87,12 +87,12 @@ namespace Core.Services
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
-            ExtensionMethods.CheckIdentityResult(addToRoleResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
         }
 
         public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
         {
-            var refreshToken = await _refreshTokenRepository.GetBySpecAsync(
+            var refreshToken = await _refreshTokenRepository.SingleOrDefaultAsync(
                 new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
 
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);
