@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
@@ -33,6 +34,16 @@ namespace API.Controllers
             await _wareService.CreateAsync(createWareDTO, userId);
 
             return Ok();
+        }
+
+        [HttpGet("get-by-category")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetByCategoryAsync(
+           [FromQuery] PaginationFilterWareDTO paginationFilter)
+        {
+            var wares = await _wareService.GetByCategoryAsync(paginationFilter);
+
+            return Ok(wares);
         }
     }
 }

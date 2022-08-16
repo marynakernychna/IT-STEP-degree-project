@@ -34,6 +34,7 @@ namespace Core
                 mc.AddProfile(new Authentication());
                 mc.AddProfile(new UserMap());
                 mc.AddProfile(new CategoryMap());
+                mc.AddProfile(new CharacteristicMap());
             });
 
             var mapper = configures.CreateMapper();
