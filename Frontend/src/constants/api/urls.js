@@ -26,5 +26,8 @@ export const CATEGORIES_URLS = {
 };
 
 export const GOODS_URLS = {
-    CREATE: GOODS_URL + "/create"
+    CREATE: GOODS_URL + "/create",
+    GET_PAGINATED_ALL: GOODS_URL,
+    GET_PAGINATED_BY_CATEGORY: GOODS_URL + "/by-category",
+    GET_BY_ID: GOODS_URL + "/by-id"
 };

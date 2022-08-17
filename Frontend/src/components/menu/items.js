@@ -31,6 +31,7 @@ export const adminItems = [
 export const userItems = [
     getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
     getItem("Goods", 'sub1', <AppstoreOutlined />, [
+        getItem("View", pageUrls.VIEW_GOODS),
         getItem("Create", pageUrls.CREATE_GOOD)
     ]),
     getItem("Logout", "Logout", <LogoutOutlined />)
