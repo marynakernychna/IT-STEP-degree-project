@@ -189,7 +189,6 @@ namespace Core.Services
                         Title = ware.Title,
                         Cost = ware.Cost,
                         PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
-                        AvailableCount = ware.AvailableCount,
                         CategoryTitle = ware.Category.Title
                     });
             }

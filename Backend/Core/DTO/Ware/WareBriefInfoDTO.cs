@@ -6,7 +6,6 @@
         public string Title { get; set; }
         public double Cost { get; set; }
         public string PhotoBase64 { get; set; }
-        public int AvailableCount { get; set; }
         public string CategoryTitle { get; set; }
     }
 }
