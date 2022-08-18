@@ -151,6 +151,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Passwords don&apos;t match!.
+        /// </summary>
+        internal static string PasswordsDontMatch {
+            get {
+                return ResourceManager.GetString("PasswordsDontMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The previous information is the same!.
         /// </summary>
         internal static string PreviousInfoIsTheSame {

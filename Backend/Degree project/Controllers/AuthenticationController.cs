@@ -1,7 +1,11 @@
 using Core.Constants;
 using Core.DTO.Authentication;
+using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,12 +16,15 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IUserService _userService;
 
         public AuthenticationController(
-                IAuthenticationService authenticationService
+                IAuthenticationService authenticationService,
+                IUserService userService
             )
         {
             _authenticationService = authenticationService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -42,6 +49,17 @@ namespace API.Controllers
         public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);
+            return Ok();
+        }
+
+        [HttpPut("reset-password")]
+        public async Task<IActionResult> ResetPasswordAsync(
+            [FromBody] ResetPasswordDTO resetPasswordDTO)
+        {
+            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+
+            await _userService.ResetPasswordAsync(resetPasswordDTO, callbackUrl);
+
             return Ok();
         }
     }
