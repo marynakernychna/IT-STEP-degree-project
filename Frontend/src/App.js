@@ -15,7 +15,8 @@ import PageLayoutRoute from './layouts/index';
 import ViewAndManageCategoriesPage from './pages/admin/categories/viewAndManage/index';
 import { pageUrls } from './constants/pageUrls';
 import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
-import CreateGoodPage from "./pages/client/createGood/index";
+import CreateGoodPage from './pages/client/goods/createGood/index';
+import ViewGoods from './pages/client/goods/view/index';
 
 const history = createBrowserHistory();
 
@@ -28,6 +29,13 @@ export default function App() {
                     path={pageUrls.CREATE_GOOD}
                     allowedRoles={[userRoles.USER]}
                     component={CreateGoodPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_GOODS}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewGoods}
                 />
 
                 <PageLayoutRoute

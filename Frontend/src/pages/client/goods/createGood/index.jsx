@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Input, InputNumber, Select, Button, Table, Form } from 'antd';
-import { getCategories } from '../../../services/categories';
+import { getCategories } from '../../../../services/categories';
 import Upload from 'antd/lib/upload/Upload';
 import ImgCrop from 'antd-img-crop';
 import { UploadOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
-import { getBase64 } from './../../../services/helpers';
-import { fileExtensions } from '../../../constants/others';
-import InputRules from './../../../constants/inputRules';
-import { generalMessages } from './../../../constants/messages/general';
-import { errorMessage, confirmMessage } from './../../../services/alerts';
-import { goodsMessages } from './../../../constants/messages/goods';
-import { createGood } from './../../../services/goods';
+import { getBase64 } from '../../../../services/helpers';
+import { fileExtensions } from '../../../../constants/others';
+import InputRules from '../../../../constants/inputRules';
+import { generalMessages } from '../../../../constants/messages/general';
+import { errorMessage, confirmMessage } from '../../../../services/alerts';
+import { goodsMessages } from '../../../../constants/messages/goods';
+import { createGood } from '../../../../services/goods';
 
 const { TextArea } = Input;
 

@@ -20,7 +20,7 @@ namespace Core.Entities
                 .WithMany(c => c.Wares)
                 .HasForeignKey(w => w.CategoryId);
             builder
-                .HasOne(w => w.User)
+                .HasOne(w => w.Creator)
                 .WithMany(u => u.Wares)
                 .HasForeignKey(w => w.CreatorId);
         }

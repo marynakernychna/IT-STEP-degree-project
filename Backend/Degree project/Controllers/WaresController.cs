@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.DTO;
 using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
 using Core.Helpers;
@@ -36,7 +37,17 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("get-by-category")]
+        [HttpGet]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetAllAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var wares = await _wareService.GetAllAsync(paginationFilter);
+
+            return Ok(wares);
+        }
+
+        [HttpGet("by-category")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetByCategoryAsync(
            [FromQuery] PaginationFilterWareDTO paginationFilter)
@@ -44,6 +55,16 @@ namespace API.Controllers
             var wares = await _wareService.GetByCategoryAsync(paginationFilter);
 
             return Ok(wares);
+        }
+
+        [HttpGet("by-id")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetByIdAsync(
+           [FromQuery] EntityIdDTO entityIdDTO)
+        {
+            var ware = await _wareService.GetByIdAsync(entityIdDTO.Id);
+
+            return Ok(ware);
         }
     }
 }

@@ -178,6 +178,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ware not found!.
+        /// </summary>
+        internal static string WareNotFound {
+            get {
+                return ResourceManager.GetString("WareNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ware title duplicate by user!.
         /// </summary>
         internal static string WareTitleDuplicateByUser {

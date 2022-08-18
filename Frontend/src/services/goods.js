@@ -33,3 +33,57 @@ export function createGood(model) {
             );
         });
 }
+
+export function getAllGoods(paginationFilterModel) {
+
+    return goodsService
+        .getAll(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function getGoodsByCategory(paginationFilterModel) {
+
+    return goodsService
+        .getByCategory(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
