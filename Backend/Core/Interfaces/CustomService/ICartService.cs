@@ -10,6 +10,7 @@ namespace Core.Interfaces.CustomService
     {
         Task CreateAsync(User user);
         Task AddWareAsync(string userId, int wareId);
+        Task DeleteWareAsync(string userId, int wareId);
         Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
     }

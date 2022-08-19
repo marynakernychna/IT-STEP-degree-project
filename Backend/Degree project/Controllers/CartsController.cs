@@ -47,5 +47,17 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("delete-ware")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> DeleteWareAsync(
+            [FromQuery] EntityIdDTO entityIdDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _cartService.DeleteWareAsync(userId, entityIdDTO.Id);
+
+            return Ok();
+        }
     }
 }
