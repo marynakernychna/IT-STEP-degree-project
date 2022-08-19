@@ -19,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Ware> Wares { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<WareCart> WareCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,6 +33,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new WareConfiguration());
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
+            builder.ApplyConfiguration(new WareCartConfiguration());
             builder.Seed();
             base.OnModelCreating(builder);
         }
