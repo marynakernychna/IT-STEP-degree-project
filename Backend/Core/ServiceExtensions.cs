@@ -25,6 +25,7 @@ namespace Core
             services.AddScoped<IWareService, WareService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ICharacteristicService, CharacteristicService>();
+            services.AddScoped<ICartService, CartService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
