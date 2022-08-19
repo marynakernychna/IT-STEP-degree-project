@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220725165956_AddSeed")]
-    partial class AddSeed
+    [Migration("20220819004534_Create")]
+    partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -266,9 +266,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AvailableCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -277,6 +274,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -293,11 +293,36 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("CreatorId");
+
                     b.ToTable("Wares");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("DateOfAdding")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("WareId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("WareId");
+
+                    b.ToTable("WareCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -325,22 +350,6 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5",
-                            ConcurrencyStamp = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "17d369ee-11e3-40dd-af63-30b9eef221b6",
-                            ConcurrencyStamp = "17d369ee-11e3-40dd-af63-30b9eef221b6",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -502,18 +511,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "08067daf-ed09-493f-a929-32b18ab898b0",
-                            RoleId = "17d369ee-11e3-40dd-af63-30b9eef221b6"
-                        },
-                        new
-                        {
-                            UserId = "c9fff39d-9cb5-4143-af00-4237b2f5253c",
-                            RoleId = "34ef1daf-d38b-4ef7-87cf-6f7a6dae0dd5"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -557,48 +554,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "08067daf-ed09-493f-a929-32b18ab898b0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e508e50e-705d-4164-8464-af01a6109507",
-                            Email = "marylou@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MARYLOU@GMAIL.COM",
-                            NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDMRU7WisylSrOcwEiB1qKKSQR2akTjx7eCx5P7qCJZA2q//ob/AW8ftYEf3dXXOVg==",
-                            PhoneNumber = "+380986734245",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "689ca18a-dde7-4aa6-8abf-cf74a8b48773",
-                            TwoFactorEnabled = false,
-                            UserName = "marylou@gmail.com",
-                            Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 297, DateTimeKind.Unspecified).AddTicks(1508), new TimeSpan(0, 0, 0, 0, 0)),
-                            Surname = "Lou"
-                        },
-                        new
-                        {
-                            Id = "c9fff39d-9cb5-4143-af00-4237b2f5253c",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "aac5b2c4-c9aa-417b-94eb-38c7c12bcc7b",
-                            Email = "etsukomami@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
-                            NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE8G6ExAwpdQoXykI77C8zvr0y2mT5DW/G2A/DDCzRsvOPGQ5nkS0LvDP/s5SvNpFA==",
-                            PhoneNumber = "+380988931245",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4c9683a5-706a-4fa5-827d-e57dd5ad176c",
-                            TwoFactorEnabled = false,
-                            UserName = "etsukomami@gmail.com",
-                            Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 7, 25, 16, 59, 55, 299, DateTimeKind.Unspecified).AddTicks(5066), new TimeSpan(0, 0, 0, 0, 0)),
-                            Surname = "Mami"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -714,17 +669,38 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
                 {
-                    b.HasOne("Core.Entities.Cart", null)
-                        .WithMany("Wares")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("Core.Entities.Category", "Category")
                         .WithMany("Wares")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.User", "Creator")
+                        .WithMany("Wares")
+                        .HasForeignKey("CreatorId");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.HasOne("Core.Entities.Cart", "Cart")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Ware", "Ware")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("WareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Ware");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -782,7 +758,7 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Order");
 
-                    b.Navigation("Wares");
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -799,6 +775,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reports");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -814,6 +792,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reports");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Wares");
                 });
 #pragma warning restore 612, 618
         }

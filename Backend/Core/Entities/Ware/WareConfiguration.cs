@@ -19,6 +19,10 @@ namespace Core.Entities
                 .HasOne(w => w.Category)
                 .WithMany(c => c.Wares)
                 .HasForeignKey(w => w.CategoryId);
+            builder
+                .HasOne(w => w.Creator)
+                .WithMany(u => u.Wares)
+                .HasForeignKey(w => w.CreatorId);
         }
     }
 }

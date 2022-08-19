@@ -52,6 +52,15 @@ namespace API.Controllers
             return Ok(categories);
         }
 
+        [HttpGet]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetAsync()
+        {
+            var categories = await _categoryService.GetAllAsync();
+
+            return Ok(categories);
+        }
+
         [HttpPut("update")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> UpdateAsync(

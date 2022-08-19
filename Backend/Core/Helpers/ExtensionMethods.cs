@@ -9,7 +9,7 @@ namespace Core.Helpers
 {
     public static class ExtensionMethods
     {
-        public static void CheckIdentityResult(IdentityResult identityResult)
+        public static void CheckIdentityResultNullCheck(IdentityResult identityResult)
         {
             if (!identityResult.Succeeded)
             {
@@ -20,7 +20,9 @@ namespace Core.Helpers
                     messageBuilder.AppendLine(error.Description);
                 }
 
-                throw new HttpException(messageBuilder.ToString(), HttpStatusCode.BadRequest);
+                throw new HttpException(
+                    messageBuilder.ToString(),
+                    HttpStatusCode.BadRequest);
             }
         }
 
@@ -60,6 +62,16 @@ namespace Core.Helpers
             {
                 throw new HttpException(
                     ErrorMessages.InvalidToken,
+                    HttpStatusCode.NotFound);
+            }
+        }
+
+        public static void WareNullCheck(Ware ware)
+        {
+            if (ware == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.WareNotFound,
                     HttpStatusCode.NotFound);
             }
         }

@@ -26,6 +26,7 @@ namespace Core.Services
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
         private readonly IEmailService _emailService;
+        private readonly ICartService _cartService;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -35,7 +36,8 @@ namespace Core.Services
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
                 IRepository<RefreshToken> refreshTokenRepository,
-                IEmailService emailService
+                IEmailService emailService,
+                ICartService cartService
             )
         {
             _userRepository = userRepository;
@@ -46,6 +48,7 @@ namespace Core.Services
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
             _emailService = emailService;
+            _cartService = cartService;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -83,7 +86,7 @@ namespace Core.Services
             var createUserResult = await _userManager
                                             .CreateAsync(user, userRegistrationDTO.Password);
 
-            ExtensionMethods.CheckIdentityResult(createUserResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
 
             var roleName = IdentityRoleNames.User.ToString();
             var userRole = await _roleManager.FindByNameAsync(roleName);
@@ -92,12 +95,14 @@ namespace Core.Services
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
-            ExtensionMethods.CheckIdentityResult(addToRoleResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            await _cartService.CreateAsync(user);
         }
 
         public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
         {
-            var refreshToken = await _refreshTokenRepository.GetBySpecAsync(
+            var refreshToken = await _refreshTokenRepository.SingleOrDefaultAsync(
                 new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
 
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);

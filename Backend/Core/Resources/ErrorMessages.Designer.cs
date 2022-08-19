@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cart not found!.
+        /// </summary>
+        internal static string CartNotFound_ {
+            get {
+                return ResourceManager.GetString("CartNotFound!", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category already exists!.
         /// </summary>
         internal static string CategoryAlreadyExists {
@@ -84,6 +93,15 @@ namespace Core.Resources {
         internal static string ChangePasswordFailed {
             get {
                 return ResourceManager.GetString("ChangePasswordFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate name of the characteristic in a ware!.
+        /// </summary>
+        internal static string CharacteristicNameDuplicateInWare {
+            get {
+                return ResourceManager.GetString("CharacteristicNameDuplicateInWare", resourceCulture);
             }
         }
         
@@ -174,6 +192,24 @@ namespace Core.Resources {
         internal static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ware not found!.
+        /// </summary>
+        internal static string WareNotFound {
+            get {
+                return ResourceManager.GetString("WareNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ware title duplicate by user!.
+        /// </summary>
+        internal static string WareTitleDuplicateByUser {
+            get {
+                return ResourceManager.GetString("WareTitleDuplicateByUser", resourceCulture);
             }
         }
     }

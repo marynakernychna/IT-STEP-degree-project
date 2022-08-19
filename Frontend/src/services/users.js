@@ -10,6 +10,10 @@ export function getBriefUsersInfo(paginationFilterModel) {
         .getBriefUsersInfo(paginationFilterModel)
         .then(
             (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
                 return response.data;
             },
             () => {

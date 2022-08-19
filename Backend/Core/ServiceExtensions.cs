@@ -22,6 +22,10 @@ namespace Core
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ITemplateHelper, TemplateHelper>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IWareService, WareService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ICharacteristicService, CharacteristicService>();
+            services.AddScoped<ICartService, CartService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -31,6 +35,7 @@ namespace Core
                 mc.AddProfile(new Authentication());
                 mc.AddProfile(new UserMap());
                 mc.AddProfile(new CategoryMap());
+                mc.AddProfile(new CharacteristicMap());
             });
 
             var mapper = configures.CreateMapper();
