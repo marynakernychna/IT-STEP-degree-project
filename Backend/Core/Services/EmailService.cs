@@ -72,8 +72,8 @@ namespace Core.Services
 
         public async Task SendConfirmationResetPasswordEmailAsync(User user, string callbackUrl)
         {
-            var confirmationToken = await _userManager
-                .GenerateEmailConfirmationTokenAsync(user);
+            var passwordResetToken = await _userManager
+                .GeneratePasswordResetTokenAsync(user);
 
             var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
             "ConfirmationResetPasswordEmail",
@@ -81,10 +81,10 @@ namespace Core.Services
             {
                 Name = user.Name,
                 Surname = user.Surname,
-                Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
+                Link = callbackUrl + "/reset-password/" + passwordResetToken + "/" + user.Email
             });
 
-            await SendEmailAsync(user.Email, "Confirm your account", message);
+            await SendEmailAsync(user.Email, "Confirm reset password", message);
         }
     }
 }

@@ -6,6 +6,7 @@ using Core.Interfaces.CustomService;
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -49,16 +50,27 @@ namespace API.Controllers
         public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);
+
+            return Ok();
+        }
+
+        [HttpPost("send-confirm-reset-password-email")]
+        public async Task<IActionResult> SendConfirmResetPasswordEmailAsync(
+            [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
+        {
+            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+
+            await _authenticationService.SendConfirmResetPasswordEmail(
+                confirmationResetPasswordDTO.Email, callbackUrl);
+
             return Ok();
         }
 
         [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPasswordAsync(
-            [FromBody] ResetPasswordDTO resetPasswordDTO)
+            [FromQuery] ResetPasswordDTO resetPasswordDTO)
         {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
-            await _userService.ResetPasswordAsync(resetPasswordDTO, callbackUrl);
+            await _authenticationService.ResetPasswordAsync(resetPasswordDTO);
 
             return Ok();
         }

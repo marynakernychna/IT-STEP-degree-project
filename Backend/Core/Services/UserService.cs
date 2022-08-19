@@ -177,40 +177,5 @@ namespace Core.Services
                         HttpStatusCode.InternalServerError);
             }
         }
-
-        public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO, string callbackUrl)
-        {
-            if (resetPasswordDTO.NewPassword != resetPasswordDTO.ConfirmPassword)
-            {
-                throw new HttpException(
-                        ErrorMessages.PasswordsDontMatch,
-                        HttpStatusCode.BadRequest);
-            }
-
-            var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
-
-            if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
-            {
-                throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
-                        HttpStatusCode.BadRequest);
-            }
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
-
-            var result = await _userManager.ResetPasswordAsync(
-                user,
-                token,
-                resetPasswordDTO.NewPassword);
-
-            if (!result.Succeeded)
-            {
-                throw new HttpException(
-                        ErrorMessages.ChangePasswordFailed,
-                        HttpStatusCode.InternalServerError);
-            }
-        }
     }
 }

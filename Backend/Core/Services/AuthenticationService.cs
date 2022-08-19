@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Constants;
 using Core.DTO.Authentication;
+using Core.DTO.User;
 using Core.Entities;
 using Core.Exceptions;
 using Core.Helpers;
@@ -9,6 +10,7 @@ using Core.Interfaces.CustomService;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -23,6 +25,7 @@ namespace Core.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IEmailService _emailService;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -31,7 +34,8 @@ namespace Core.Services
                 UserManager<User> userManager,
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
-                IRepository<RefreshToken> refreshTokenRepository
+                IRepository<RefreshToken> refreshTokenRepository,
+                IEmailService emailService
             )
         {
             _userRepository = userRepository;
@@ -41,6 +45,7 @@ namespace Core.Services
             _roleManager = roleManager;
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
+            _emailService = emailService;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -98,6 +103,44 @@ namespace Core.Services
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);
 
             await _refreshTokenRepository.DeleteAsync(refreshToken);
+        }
+
+        public async Task SendConfirmResetPasswordEmail(string email, string callbackUrl)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new HttpException(
+                        ErrorMessages.UserNotFound,
+                        HttpStatusCode.BadRequest);
+            }
+
+            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
+        }
+
+        public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+
+            if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var result = await _userManager.ResetPasswordAsync(
+                user,
+                resetPasswordDTO.Token,
+                resetPasswordDTO.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpException(
+                        ErrorMessages.ChangePasswordFailed,
+                        HttpStatusCode.InternalServerError);
+            }
         }
     }
 }
