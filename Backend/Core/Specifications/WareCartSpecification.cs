@@ -19,5 +19,16 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetByIds : Specification<WareCart>,
+                                  ISingleResultSpecification<WareCart>
+        {
+            public GetByIds(int cartId, int wareId)
+            {
+                Query.Where(wc => wc.CartId == cartId &&
+                            wc.WareId == wareId)
+                     .AsNoTracking();
+            }
+        }
     }
 }

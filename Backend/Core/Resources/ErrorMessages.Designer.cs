@@ -63,9 +63,9 @@ namespace Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Cart not found!.
         /// </summary>
-        internal static string CartNotFound_ {
+        internal static string CartNotFound {
             get {
-                return ResourceManager.GetString("CartNotFound!", resourceCulture);
+                return ResourceManager.GetString("CartNotFound", resourceCulture);
             }
         }
         
@@ -183,6 +183,15 @@ namespace Core.Resources {
         internal static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ware is already in the cart!.
+        /// </summary>
+        internal static string WareIsAlreadyInTheCart {
+            get {
+                return ResourceManager.GetString("WareIsAlreadyInTheCart", resourceCulture);
             }
         }
         
