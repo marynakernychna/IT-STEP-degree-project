@@ -14,15 +14,12 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
 
         public AuthenticationController(
-                IAuthenticationService authenticationService,
-                IUserService userService
+                IAuthenticationService authenticationService
             )
         {
             _authenticationService = authenticationService;
-            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -51,13 +48,13 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPost("send-confirm-reset-password-email")]
+        [HttpPost("request-password-reset")]
         public async Task<IActionResult> SendConfirmResetPasswordEmailAsync(
             [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
 
-            await _authenticationService.SendConfirmResetPasswordEmail(
+            await _authenticationService.SendConfirmResetPasswordEmailAsync(
                 confirmationResetPasswordDTO.Email, callbackUrl);
 
             return Ok();
@@ -65,7 +62,7 @@ namespace API.Controllers
 
         [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPasswordAsync(
-            [FromQuery] ResetPasswordDTO resetPasswordDTO)
+            [FromBody] ResetPasswordDTO resetPasswordDTO)
         {
             await _authenticationService.ResetPasswordAsync(resetPasswordDTO);
 

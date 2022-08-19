@@ -10,6 +10,6 @@ namespace Core.Interfaces.CustomService
         Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO);
         Task LogoutAsync(UserLogoutDTO userLogoutDTO);
         Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO);
-        Task SendConfirmResetPasswordEmail(string email, string callbackUrl);
+        Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl);
     }
 }

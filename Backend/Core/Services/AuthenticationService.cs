@@ -25,6 +25,7 @@ namespace Core.Services
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
         private readonly IEmailService _emailService;
+        private readonly ICartService _cartService;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -34,7 +35,8 @@ namespace Core.Services
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
                 IRepository<RefreshToken> refreshTokenRepository,
-                IEmailService emailService
+                IEmailService emailService,
+                ICartService cartService
             )
         {
             _userRepository = userRepository;
@@ -45,6 +47,7 @@ namespace Core.Services
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
             _emailService = emailService;
+            _cartService = cartService;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -92,11 +95,13 @@ namespace Core.Services
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
             ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            await _cartService.CreateAsync(user);
         }
 
         public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
         {
-            var refreshToken = await _refreshTokenRepository.GetBySpecAsync(
+            var refreshToken = await _refreshTokenRepository.SingleOrDefaultAsync(
                 new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
 
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);
@@ -104,16 +109,11 @@ namespace Core.Services
             await _refreshTokenRepository.DeleteAsync(refreshToken);
         }
 
-        public async Task SendConfirmResetPasswordEmail(string email, string callbackUrl)
+        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            if (user == null)
-            {
-                throw new HttpException(
-                        ErrorMessages.UserNotFound,
-                        HttpStatusCode.BadRequest);
-            }
+            ExtensionMethods.UserNullCheck(user);
 
             await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
         }
@@ -134,12 +134,7 @@ namespace Core.Services
                 resetPasswordDTO.Token,
                 resetPasswordDTO.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                throw new HttpException(
-                        ErrorMessages.ChangePasswordFailed,
-                        HttpStatusCode.InternalServerError);
-            }
+            ExtensionMethods.CheckIdentityResultNullCheck(result);
         }
     }
 }
