@@ -9,6 +9,7 @@ namespace Core.Interfaces.CustomService
     public interface ICartService
     {
         Task CreateAsync(User user);
+        Task AddWareAsync(string userId, int wareId);
         Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
     }

@@ -35,5 +35,17 @@ namespace API.Controllers
 
             return Ok(wares);
         }
+
+        [HttpPost("add-ware")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> AddWareAsync(
+            [FromBody] EntityIdDTO entityIdDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _cartService.AddWareAsync(userId, entityIdDTO.Id);
+
+            return Ok();
+        }
     }
 }

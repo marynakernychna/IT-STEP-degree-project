@@ -18,18 +18,55 @@ namespace Core.Services
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<WareCart> _wareCartRepository;
+        private readonly IRepository<Ware> _wareRepository;
         private readonly IFileService _fileService;
 
         public CartService(
             IRepository<User> userRepository,
             IRepository<Cart> cartRepository,
             IRepository<WareCart> wareCartRepository,
+            IRepository<Ware> wareRepository,
             IFileService fileService)
         {
             _userRepository = userRepository;
             _cartRepository = cartRepository;
             _wareCartRepository = wareCartRepository;
+            _wareRepository = wareRepository;
             _fileService = fileService;
+        }
+
+        public async Task AddWareAsync(string userId, int wareId)
+        {
+            var ware = await _wareRepository.GetByIdAsync(wareId);
+
+            ExtensionMethods.WareNullCheck(ware);
+
+            var cart = await _cartRepository.SingleOrDefaultAsync(
+                new CartSpecification.GetByCreatorId(userId));
+
+            if (cart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.CartNotFound,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            var duplicate = await _wareCartRepository.SingleOrDefaultAsync(
+                new WareCartSpecification.GetByIds(cart.Id, wareId));
+
+            if (duplicate != null)
+            {
+                throw new HttpException(
+                    ErrorMessages.WareIsAlreadyInTheCart,
+                    HttpStatusCode.BadRequest);
+            }
+
+            await _wareCartRepository.AddAsync(
+                new WareCart
+                {
+                    WareId = wareId,
+                    CartId = cart.Id
+                });
         }
 
         public async Task CreateAsync(User user)
@@ -56,7 +93,7 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryNotFound,
+                    ErrorMessages.CartNotFound,
                     HttpStatusCode.InternalServerError);
             }
 
