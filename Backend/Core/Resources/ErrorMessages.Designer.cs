@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cart not found!.
+        /// </summary>
+        internal static string CartNotFound_ {
+            get {
+                return ResourceManager.GetString("CartNotFound!", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category already exists!.
         /// </summary>
         internal static string CategoryAlreadyExists {

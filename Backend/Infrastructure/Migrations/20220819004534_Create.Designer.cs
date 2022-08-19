@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220812164903_Create")]
+    [Migration("20220819004534_Create")]
     partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,9 +266,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AvailableCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -296,13 +293,36 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Wares");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("DateOfAdding")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("WareId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("WareId");
+
+                    b.ToTable("WareCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -649,23 +669,38 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
                 {
-                    b.HasOne("Core.Entities.Cart", null)
-                        .WithMany("Wares")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("Core.Entities.Category", "Category")
                         .WithMany("Wares")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.User", "User")
+                    b.HasOne("Core.Entities.User", "Creator")
                         .WithMany("Wares")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.HasOne("Core.Entities.Cart", "Cart")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Ware", "Ware")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("WareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Ware");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -723,7 +758,7 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Order");
 
-                    b.Navigation("Wares");
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -740,6 +775,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reports");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>

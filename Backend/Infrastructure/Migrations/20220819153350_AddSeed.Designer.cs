@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220812165000_AddSeed")]
+    [Migration("20220819153350_AddSeed")]
     partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,13 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatorId = "3cb616b5-deff-4176-b794-88d6fda8e5de"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -266,9 +273,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AvailableCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -296,13 +300,36 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Wares");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("DateOfAdding")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("WareId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("WareId");
+
+                    b.ToTable("WareCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -334,15 +361,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f008ba91-7336-4a6d-8217-5030db458fa5",
-                            ConcurrencyStamp = "f008ba91-7336-4a6d-8217-5030db458fa5",
+                            Id = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358",
+                            ConcurrencyStamp = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "81af2d7e-9df2-4f09-8131-72ffdab373b2",
-                            ConcurrencyStamp = "81af2d7e-9df2-4f09-8131-72ffdab373b2",
+                            Id = "a81cba07-81a2-4df3-b17c-ebe3d27758ff",
+                            ConcurrencyStamp = "a81cba07-81a2-4df3-b17c-ebe3d27758ff",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -511,13 +538,13 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "24e4da3e-931b-4918-b259-85d174d8fcd3",
-                            RoleId = "81af2d7e-9df2-4f09-8131-72ffdab373b2"
+                            UserId = "5d52f215-96eb-495d-97ca-a7ba810a4a9a",
+                            RoleId = "a81cba07-81a2-4df3-b17c-ebe3d27758ff"
                         },
                         new
                         {
-                            UserId = "22195e96-32e9-4740-bab9-6434e481f4f9",
-                            RoleId = "f008ba91-7336-4a6d-8217-5030db458fa5"
+                            UserId = "3cb616b5-deff-4176-b794-88d6fda8e5de",
+                            RoleId = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358"
                         });
                 });
 
@@ -566,42 +593,42 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "24e4da3e-931b-4918-b259-85d174d8fcd3",
+                            Id = "5d52f215-96eb-495d-97ca-a7ba810a4a9a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e5a60e6a-9efc-4593-a916-f2c07fcafca0",
+                            ConcurrencyStamp = "3280676b-3789-4bdb-991e-b139b501c727",
                             Email = "marylou@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARYLOU@GMAIL.COM",
                             NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENvUrKeZM4WnQBC/azrdjuOIhu1B1SVOTRyypWv6YwjmfnLjR4d9zIZfe/A+/eyPcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ7S42vVrxTDVSqB9kvwjE/Z+adXvbDJ3a4R8x1NjWNRL+PhcdtLqR9deL6D7BJ7ZQ==",
                             PhoneNumber = "+380986734245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "634fcc81-9e99-425e-b0d2-b101ebe3a3ba",
+                            SecurityStamp = "80f1e68f-1138-4357-aaf5-3bff768be85d",
                             TwoFactorEnabled = false,
                             UserName = "marylou@gmail.com",
                             Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 716, DateTimeKind.Unspecified).AddTicks(5664), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 19, 15, 33, 49, 158, DateTimeKind.Unspecified).AddTicks(3991), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Lou"
                         },
                         new
                         {
-                            Id = "22195e96-32e9-4740-bab9-6434e481f4f9",
+                            Id = "3cb616b5-deff-4176-b794-88d6fda8e5de",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e14138cc-0197-46d6-a314-f4e02403ac52",
+                            ConcurrencyStamp = "93cd0e0e-d025-4cf5-9bd7-d4ca030811ef",
                             Email = "etsukomami@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
                             NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPr9VxhZba26pGJwHMDWcXrEIE1/zPhE7OhFAzbQfYoVLMDaDpbKKAHlvZi9f48yTw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMIgFO2TZLPpkQjlYASmPNZSE8N6CymHOsCgAhN9V4Th28AzlGENc6uODOKI0Ih6HA==",
                             PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd8ff034-f309-470c-8895-1abe8a552771",
+                            SecurityStamp = "65ef944c-5452-4320-bd75-7bedbd4ceaf8",
                             TwoFactorEnabled = false,
                             UserName = "etsukomami@gmail.com",
                             Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 12, 16, 49, 57, 719, DateTimeKind.Unspecified).AddTicks(9342), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 19, 15, 33, 49, 160, DateTimeKind.Unspecified).AddTicks(7903), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Mami"
                         });
                 });
@@ -719,23 +746,38 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
                 {
-                    b.HasOne("Core.Entities.Cart", null)
-                        .WithMany("Wares")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("Core.Entities.Category", "Category")
                         .WithMany("Wares")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.User", "User")
+                    b.HasOne("Core.Entities.User", "Creator")
                         .WithMany("Wares")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Core.Entities.WareCart", b =>
+                {
+                    b.HasOne("Core.Entities.Cart", "Cart")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Ware", "Ware")
+                        .WithMany("WareCarts")
+                        .HasForeignKey("WareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Ware");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -793,7 +835,7 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Order");
 
-                    b.Navigation("Wares");
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -810,6 +852,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reports");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("WareCarts");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>

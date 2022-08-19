@@ -29,6 +29,7 @@ namespace Infrastructure.Data.SeedData
             SeedUser(builder);
             SeedIdentityRole(builder);
             SeedIdentityUserRole(builder);
+            SeedCart(builder);
         }
 
         #region SeedUser
@@ -111,6 +112,22 @@ namespace Infrastructure.Data.SeedData
                            RoleId = ROLE_USER_ID,
                            UserId = USER_ID
                        });
+
+        #endregion
+
+        #region SeedCart
+
+        public static void SeedCart(ModelBuilder builder)
+        {
+            var defaultUserCart = new Cart()
+            {
+                Id = 1,
+                CreatorId = USER_ID
+            };
+
+            builder.Entity<Cart>()
+                   .HasData(defaultUserCart);
+        }
 
         #endregion
     }

@@ -20,5 +20,6 @@ namespace Core.Entities
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Report> Reports { get; set; }
         public ICollection<Rate> Rates { get; set; }
+        public ICollection<WareCart> WareCarts { get; set; }
     }
 }

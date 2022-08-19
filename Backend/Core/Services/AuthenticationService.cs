@@ -23,6 +23,7 @@ namespace Core.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly ICartService _cartService;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -31,7 +32,8 @@ namespace Core.Services
                 UserManager<User> userManager,
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
-                IRepository<RefreshToken> refreshTokenRepository
+                IRepository<RefreshToken> refreshTokenRepository,
+                ICartService cartService
             )
         {
             _userRepository = userRepository;
@@ -41,6 +43,7 @@ namespace Core.Services
             _roleManager = roleManager;
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
+            _cartService = cartService;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -88,6 +91,8 @@ namespace Core.Services
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
             ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            await _cartService.CreateAsync(user);
         }
 
         public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
