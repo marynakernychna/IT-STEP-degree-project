@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Constants;
 using Core.DTO.Authentication;
+using Core.DTO.User;
 using Core.Entities;
 using Core.Exceptions;
 using Core.Helpers;
@@ -23,6 +24,7 @@ namespace Core.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IEmailService _emailService;
         private readonly ICartService _cartService;
 
         public AuthenticationService(
@@ -33,6 +35,7 @@ namespace Core.Services
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
                 IRepository<RefreshToken> refreshTokenRepository,
+                IEmailService emailService,
                 ICartService cartService
             )
         {
@@ -43,6 +46,7 @@ namespace Core.Services
             _roleManager = roleManager;
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
+            _emailService = emailService;
             _cartService = cartService;
         }
 
@@ -103,6 +107,34 @@ namespace Core.Services
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);
 
             await _refreshTokenRepository.DeleteAsync(refreshToken);
+        }
+
+        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
+        }
+
+        public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+
+            if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var result = await _userManager.ResetPasswordAsync(
+                user,
+                resetPasswordDTO.Token,
+                resetPasswordDTO.NewPassword);
+
+            ExtensionMethods.CheckIdentityResultNullCheck(result);
         }
     }
 }
