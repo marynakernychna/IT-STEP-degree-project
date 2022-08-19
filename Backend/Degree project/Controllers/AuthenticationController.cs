@@ -3,10 +3,7 @@ using Core.DTO.Authentication;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
-using Core.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

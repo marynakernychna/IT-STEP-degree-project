@@ -10,7 +10,6 @@ using Core.Interfaces.CustomService;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -26,7 +25,6 @@ namespace Core.Services
         private readonly IMapper _mapper;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
         private readonly IEmailService _emailService;
-        private readonly ICartService _cartService;
 
         public AuthenticationService(
                 IRepository<User> userRepository,
@@ -36,8 +34,7 @@ namespace Core.Services
                 RoleManager<IdentityRole> roleManager,
                 IMapper mapper,
                 IRepository<RefreshToken> refreshTokenRepository,
-                IEmailService emailService,
-                ICartService cartService
+                IEmailService emailService
             )
         {
             _userRepository = userRepository;
@@ -48,7 +45,6 @@ namespace Core.Services
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
             _emailService = emailService;
-            _cartService = cartService;
         }
 
         public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
@@ -96,13 +92,11 @@ namespace Core.Services
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
             ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
-
-            await _cartService.CreateAsync(user);
         }
 
         public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
         {
-            var refreshToken = await _refreshTokenRepository.SingleOrDefaultAsync(
+            var refreshToken = await _refreshTokenRepository.GetBySpecAsync(
                 new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
 
             ExtensionMethods.RefreshTokenNullCheck(refreshToken);

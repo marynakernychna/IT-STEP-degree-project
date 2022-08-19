@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -81,7 +80,7 @@ namespace Core.Services
             {
                 Name = user.Name,
                 Surname = user.Surname,
-                Link = callbackUrl + "/reset-password/" + passwordResetToken + "/" + user.Email
+                Link = callbackUrl + "reset-password/" + passwordResetToken + "/" + user.Email
             });
 
             await SendEmailAsync(user.Email, "Confirm reset password", message);
