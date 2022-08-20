@@ -80,6 +80,31 @@ namespace Core.Services
                 });
         }
 
+        public async Task DeleteWareAsync(string userId, int wareId)
+        {
+            var cart = await _cartRepository.SingleOrDefaultAsync(
+                new CartSpecification.GetByCreatorId(userId));
+
+            if (cart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.CartNotFound,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            var wareCart = await _wareCartRepository.SingleOrDefaultAsync(
+                new WareCartSpecification.GetByIds(cart.Id, wareId));
+
+            if (wareCart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.WareNotFound,
+                    HttpStatusCode.BadRequest);
+            }
+
+            await _wareCartRepository.DeleteAsync(wareCart);
+        }
+
         public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
