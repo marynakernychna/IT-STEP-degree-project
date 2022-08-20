@@ -52,6 +52,17 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPut("change-password")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
+
+            return Ok();
+        }
+
         [HttpPost("request-password-reset")]
         public async Task<IActionResult> SendConfirmResetPasswordEmailAsync(
             [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
@@ -60,17 +71,6 @@ namespace API.Controllers
 
             await _authenticationService.SendConfirmResetPasswordEmailAsync(
                 confirmationResetPasswordDTO.Email, callbackUrl);
-
-            return Ok();
-        }
-
-        [HttpPut("change-password")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
-        {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
 
             return Ok();
         }

@@ -109,16 +109,6 @@ namespace Core.Services
             await _refreshTokenRepository.DeleteAsync(refreshToken);
         }
 
-        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
-        }
-
-
         public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
         {
             if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
@@ -150,6 +140,15 @@ namespace Core.Services
                         ErrorMessages.ChangePasswordFailed,
                         HttpStatusCode.InternalServerError);
             }
+        }
+
+        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
         }
 
         public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)

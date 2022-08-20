@@ -129,7 +129,6 @@ export async function changePassword(model) {
                     successMessage(authenticationMessages.CHANGE_PASSWORD_SUCCESS);
                 },
                 (err) => {
-                    console.log(err.response.status)
                     err.response.status === statusCodes.BAD_REQUEST
                         ? errorMessage(
                             authenticationMessages.WRONG_CURRENT_PASSWORD,
@@ -137,6 +136,63 @@ export async function changePassword(model) {
                         )
                         : errorMessage(
                             authenticationMessages.CHANGE_PASSWORD_FAILED,
+                            generalMessages.SOMETHING_WENT_WRONG
+                        );
+                }
+            )
+            .catch(() => {
+                errorMessage(
+                    generalMessages.SOMETHING_WENT_WRONG,
+                    ""
+                );
+            });
+}
+
+export async function requestPasswordReset(model) {
+
+    return await
+        authenticationService.requestPasswordReset(model)
+            .then(
+                () => {
+                    successMessage(authenticationMessages.SEND_REQUES_SUCCESS);
+                },
+                (err) => {
+                    err.response.status === statusCodes.BAD_REQUEST
+                        ? errorMessage(
+                            authenticationMessages.USER_NOT_FOUND,
+                            ""
+                        )
+                        : errorMessage(
+                            authenticationMessages.SEND_REQUES_FAILED,
+                            generalMessages.SOMETHING_WENT_WRONG
+                        );
+                }
+            )
+            .catch(() => {
+                errorMessage(
+                    generalMessages.SOMETHING_WENT_WRONG,
+                    ""
+                );
+            });
+}
+
+export async function resetPassword(model, history) {
+
+    return await
+        authenticationService.resetPassword(model)
+            .then(
+                () => {
+                    successMessage(authenticationMessages.RESET_PASSWORD_SUCCESS);
+                    history.push(pageUrls.LOGIN);
+                },
+                (err) => {
+                    err.response.status === statusCodes.BAD_REQUEST
+                        ? errorMessage(
+                            authenticationMessages.NEW_PASSWORD_SAME_PREVIOUS,
+                            ""
+                        )
+                        : errorMessage(
+                            authenticationMessages.RESET_PASSWORD_FAILED,
                             generalMessages.SOMETHING_WENT_WRONG
                         );
                 }

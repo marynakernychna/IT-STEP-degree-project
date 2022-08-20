@@ -231,19 +231,14 @@ const ViewProfileInfoPage = () => {
                         </div>
                     </div>
 
-                    <div className="blockButton">
-                        <div className="profileButtons">
-                            <Button
-                                className="submitButton"
-                                htmlType="submit"
-                                type="primary"
-                            >
-                                Save
-                            </Button>
+                    <div className="info">
+                        <div className="infoName">
+                            <p>Change password</p>
+                        </div>
 
-                            <Tooltip
+                        <Tooltip
                                 color="#224957"
-                                title="Edit"
+                                title="Change password"
                                 placement="bottomRight"
                                 mouseEnterDelay={DEFAULT_MOUSE_ENTER_DELAY}
                             >
@@ -253,6 +248,17 @@ const ViewProfileInfoPage = () => {
                                     onClick={() => setIsModalOpen(true)}
                                 />
                             </Tooltip>
+                    </div>
+
+                    <div className="blockButton">
+                        <div className="profileButtons">
+                            <Button
+                                className="submitButton"
+                                htmlType="submit"
+                                type="primary"
+                            >
+                                Save
+                            </Button>
                         </div>
                     </div>
                 </Form>
