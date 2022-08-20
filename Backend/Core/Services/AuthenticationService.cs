@@ -118,6 +118,40 @@ namespace Core.Services
             await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
         }
 
+
+        public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
+        {
+            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
+            {
+                throw new HttpException(
+                        ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (!await _userManager.CheckPasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidPassword,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword,
+                changePasswordDTO.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpException(
+                        ErrorMessages.ChangePasswordFailed,
+                        HttpStatusCode.InternalServerError);
+            }
+        }
+
         public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
         {
             var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);

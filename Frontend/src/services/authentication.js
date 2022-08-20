@@ -119,3 +119,32 @@ export function logoutUser() {
             );
         });
 }
+
+export async function changePassword(model) {
+
+    return await
+        authenticationService.changePassword(model)
+            .then(
+                () => {
+                    successMessage(authenticationMessages.CHANGE_PASSWORD_SUCCESS);
+                },
+                (err) => {
+                    console.log(err.response.status)
+                    err.response.status === statusCodes.BAD_REQUEST
+                        ? errorMessage(
+                            authenticationMessages.WRONG_CURRENT_PASSWORD,
+                            ""
+                        )
+                        : errorMessage(
+                            authenticationMessages.CHANGE_PASSWORD_FAILED,
+                            generalMessages.SOMETHING_WENT_WRONG
+                        );
+                }
+            )
+            .catch(() => {
+                errorMessage(
+                    generalMessages.SOMETHING_WENT_WRONG,
+                    ""
+                );
+            });
+}

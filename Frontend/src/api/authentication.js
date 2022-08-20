@@ -13,4 +13,8 @@ export default class authenticationService {
     static logout(model) {
         return instance.post(AUTHENTICATION_URLS.LOGOUT, model);
     }
+
+    static changePassword(model) {
+        return instance.put(AUTHENTICATION_URLS.CHANGE_PASSWORD, model);
+    }
 }

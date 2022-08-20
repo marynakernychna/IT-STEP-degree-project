@@ -65,14 +65,5 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPut("change-password")]
-        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
-        {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _userService.ChangePasswordAsync(changePasswordDTO, userId);
-
-            return Ok();
-        }
     }
 }

@@ -7,7 +7,8 @@ const GOODS_URL = "/Wares";
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
     LOGIN: AUTHENTICATION_URL + "/login",
-    LOGOUT: AUTHENTICATION_URL + "/logout"
+    LOGOUT: AUTHENTICATION_URL + "/logout",
+    CHANGE_PASSWORD: AUTHENTICATION_URL + "/change-password"
 };
 
 export const USERS_URLS = {

@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { getUserProfileInfo, editUserInfo } from '../../../services/users';
-import { Form, Layout, Input, Button } from 'antd';
+import { changePassword } from '../../../services/authentication';
+import { Form, Layout, Input, Button, Tooltip } from 'antd';
 import InputRules from "../../../constants/inputRules";
 import { confirmMessage, errorMessage } from "../../../services/alerts";
 import { generalMessages } from "../../../constants/messages/general";
 import { inputValidationErrorMessages } from "../../../constants/messages/inputValidationErrors";
+import ChangePasswordModal from './../../../components/modals/changePassword/index';
+import { AiOutlineEdit } from "react-icons/ai";
+import { DEFAULT_ACTION_ICON_SIZE } from "../../../constants/others";
+import { DEFAULT_MOUSE_ENTER_DELAY } from '../../../constants/others';
 
 const ViewProfileInfoPage = () => {
 
     const [user, setUsers] = useState();
     const [temporaryFullName, setTemporaryFullName] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(async () => {
         let result = await getUserProfileInfo();
@@ -234,10 +240,31 @@ const ViewProfileInfoPage = () => {
                             >
                                 Save
                             </Button>
+
+                            <Tooltip
+                                color="#224957"
+                                title="Edit"
+                                placement="bottomRight"
+                                mouseEnterDelay={DEFAULT_MOUSE_ENTER_DELAY}
+                            >
+                                <AiOutlineEdit
+                                    className="editIcon"
+                                    size={DEFAULT_ACTION_ICON_SIZE}
+                                    onClick={() => setIsModalOpen(true)}
+                                />
+                            </Tooltip>
                         </div>
                     </div>
                 </Form>
             </Layout>
+
+            {
+                isModalOpen &&
+                <ChangePasswordModal
+                    myClose={() => setIsModalOpen(false)}
+                    changePassword={() => changePassword()}
+                />
+            }
         </Layout>
     );
 };
