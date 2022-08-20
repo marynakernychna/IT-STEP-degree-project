@@ -52,6 +52,7 @@ function ChangePasswordModal(props) {
             cancelButtonProps={{ style: { display: 'none' } }}
             okButtonProps={{ style: { display: 'none' } }}
             footer={null}
+            width={750}
         >
             <Form
                 labelCol={{ span: 5 }}

@@ -10,6 +10,7 @@ using Core.Interfaces.CustomService;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
+using RTools_NTS.Util;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -159,6 +160,17 @@ namespace Core.Services
             {
                 throw new HttpException(
                         ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+            if (!await this._userManager.VerifyUserTokenAsync(
+                user, 
+                _userManager.Options.Tokens.PasswordResetTokenProvider, 
+                "ResetPassword", 
+                resetPasswordDTO.Token))
+            {
+
+                throw new HttpException(
+                        "Token Invalid",
                         HttpStatusCode.BadRequest);
             }
 

@@ -65,7 +65,7 @@ function ResetPassword() {
                         >
                             <Input.Password
                                 className="passwordInput"
-                                placeholder="Password"
+                                placeholder="New password"
                             />
                         </Form.Item>
 
