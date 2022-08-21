@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Pagination, Result, Select } from 'antd';
+import { Pagination, Result, Select } from 'antd';
 import { customPageSizeOptions, paginationDefaultFilter } from '../../../../constants/pagination';
 import { getAllGoods } from '../../../../services/goods';
 import { getCategories } from '../../../../services/categories';

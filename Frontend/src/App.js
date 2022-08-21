@@ -15,7 +15,7 @@ import PageLayoutRoute from './layouts/index';
 import ViewAndManageCategoriesPage from './pages/admin/categories/viewAndManage/index';
 import { pageUrls } from './constants/pageUrls';
 import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
-import CreateGoodPage from './pages/client/goods/createGood/index';
+import CreateGoodPage from './pages/client/goods/create/index';
 import ViewGoods from './pages/client/goods/view/index';
 import ResetPasswordPage from "./pages/authentication/resetPassword/index";
 

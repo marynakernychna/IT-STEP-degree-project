@@ -45,6 +45,23 @@
                     font-weight: 600;
                 }
 
+                .more {
+                    text-align: start;
+                    margin-top: 12px;
+
+                    svg {
+                        margin-right: 5px;
+                    }
+
+                    p {
+                        display: inline;
+
+                        &:hover {
+                            border-bottom: 1px solid;
+                        }
+                    }
+                }
+
                 #titles {
                     margin-bottom: 12px;
                 }
