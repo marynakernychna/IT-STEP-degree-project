@@ -97,16 +97,15 @@ function ShowFullGoodInfoModal(props) {
                                 data.characteristics.map((characteristic) =>
                                     <>
                                         <Descriptions.Item
-                                            label="Name"
-                                            span={2}
-                                            style={{ 'paddingBottom': '0px' }}
-                                        >
-                                            {characteristic.name}
-                                        </Descriptions.Item>
-
-                                        <Descriptions.Item
-                                            label="Value"
-                                            style={{ 'paddingBottom': '0px' }}
+                                            label={characteristic.name}
+                                            span={3}
+                                            labelStyle={{
+                                                'width': '110px',
+                                                'wordWrap': 'break-word'
+                                            }}
+                                            style={{
+                                                'paddingBottom': '0px'
+                                            }}
                                         >
                                             {characteristic.value}
                                         </Descriptions.Item>
