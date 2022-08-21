@@ -87,3 +87,26 @@ export function getGoodsByCategory(paginationFilterModel) {
             );
         });
 }
+
+export function getFullGoodInfo(id) {
+
+    return goodsService
+        .getById(id)
+        .then(
+            (response) => {
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
