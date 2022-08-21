@@ -37,7 +37,7 @@ function SendRequestModal(props) {
 
     return (
         <Modal
-            title="Send request pessword reset to email"
+            title="Send request password reset to email"
             visible={true}
             onCancel={() => close()}
             cancelButtonProps={{ style: { display: 'none' } }}

@@ -131,8 +131,8 @@ export async function changePassword(model) {
                 (err) => {
                     err.response.status === statusCodes.BAD_REQUEST
                         ? errorMessage(
-                            authenticationMessages.CHANGE_PASSWORD_FAILED,
-                            authenticationMessages.WRONG_CURRENT_PASSWORD
+                            err.response.data,
+                            authenticationMessages.CHANGE_PASSWORD_FAILED
                         )
                         : errorMessage(
                             authenticationMessages.CHANGE_PASSWORD_FAILED,

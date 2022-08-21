@@ -10,7 +10,6 @@ using Core.Interfaces.CustomService;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
-using RTools_NTS.Util;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -115,7 +114,7 @@ namespace Core.Services
             if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
             {
                 throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
+                        ErrorMessages.NewPasswordSameCurrentPassword,
                         HttpStatusCode.BadRequest);
             }
 
@@ -159,18 +158,18 @@ namespace Core.Services
             if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
             {
                 throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
+                        ErrorMessages.NewPasswordSameCurrentPassword,
                         HttpStatusCode.BadRequest);
             }
-            if (!await this._userManager.VerifyUserTokenAsync(
+
+            if (!await _userManager.VerifyUserTokenAsync(
                 user, 
                 _userManager.Options.Tokens.PasswordResetTokenProvider, 
                 "ResetPassword", 
                 resetPasswordDTO.Token))
             {
-
                 throw new HttpException(
-                        "Token Invalid",
+                        ErrorMessages.InvalidToken,
                         HttpStatusCode.BadRequest);
             }
 

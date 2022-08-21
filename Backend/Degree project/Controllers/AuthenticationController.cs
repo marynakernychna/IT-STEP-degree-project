@@ -3,7 +3,6 @@ using Core.DTO.Authentication;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
-using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -54,7 +53,8 @@ namespace API.Controllers
 
         [HttpPut("change-password")]
         [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
+        public async Task<IActionResult> ChangePasswordAsync(
+            [FromBody] ChangePasswordDTO changePasswordDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 

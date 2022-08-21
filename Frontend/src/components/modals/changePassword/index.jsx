@@ -16,23 +16,15 @@ function ChangePasswordModal(props) {
         confirmMessage()
             .then((result) => {
                 if (result) {
-                    if (values.currentPassword !== values.newPassword) {
+                    const model = {
+                        currentPassword: values.currentPassword,
+                        newPassword: values.newPassword
+                    };
 
-                        const model = {
-                            currentPassword: values.currentPassword,
-                            newPassword: values.newPassword
-                        };
-
-                        changePassword(model)
-                            .then(() => {
-                                close();
-                            });
-                    } else {
-                        errorMessage(
-                            generalMessages.CHANGE_SOMETHING_TO_SAVE,
-                            ""
-                        );
-                    }
+                    changePassword(model)
+                        .then(() => {
+                            close();
+                        });
                 }
             });
     };
