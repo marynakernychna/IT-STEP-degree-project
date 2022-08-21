@@ -116,6 +116,22 @@ $medium_border_radius_size: 8px;
         }
     }
 
+    .linksRight {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 28px;
+
+        a {
+            text-decoration: none;
+            color: $green_color;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
     .helperForm {
         display: flex;
         flex-direction: row;

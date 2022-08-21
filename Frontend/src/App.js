@@ -17,6 +17,7 @@ import { pageUrls } from './constants/pageUrls';
 import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
 import CreateGoodPage from './pages/client/goods/createGood/index';
 import ViewGoods from './pages/client/goods/view/index';
+import ResetPasswordPage from "./pages/authentication/resetPassword/index";
 
 const history = createBrowserHistory();
 
@@ -58,6 +59,12 @@ export default function App() {
                     allowedRoles={[userRoles.ADMIN]}
                     component={ViewAndManageCategoriesPage}
                 />
+                
+                <Route
+                    path={pageUrls.RESET_PASSWORD}
+                >
+                    <ResetPasswordPage />
+                </Route>
 
                 <Route
                     exact

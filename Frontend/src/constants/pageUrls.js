@@ -5,5 +5,6 @@ export const pageUrls = {
     CATEGORIES_VIEW_AND_MANAGE: "/categories/view-and-manage",
     VIEW_PROFILE_INFO: "/profile-info",
     CREATE_GOOD: "/goods/create",
-    VIEW_GOODS: "/goods"
+    VIEW_GOODS: "/goods",
+    RESET_PASSWORD: "/reset-password"
 };

@@ -7,7 +7,10 @@ const GOODS_URL = "/Wares";
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
     LOGIN: AUTHENTICATION_URL + "/login",
-    LOGOUT: AUTHENTICATION_URL + "/logout"
+    LOGOUT: AUTHENTICATION_URL + "/logout",
+    CHANGE_PASSWORD: AUTHENTICATION_URL + "/change-password",
+    REQUES_PASSWORD_RESET: AUTHENTICATION_URL + "/request-password-reset",
+    RESET_PASSWORD: AUTHENTICATION_URL + "/reset-password"
 };
 
 export const USERS_URLS = {

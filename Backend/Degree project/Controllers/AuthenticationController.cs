@@ -14,12 +14,15 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IUserService _userService;
 
         public AuthenticationController(
-                IAuthenticationService authenticationService
+                IAuthenticationService authenticationService,
+                IUserService userService
             )
         {
             _authenticationService = authenticationService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -44,6 +47,18 @@ namespace API.Controllers
         public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);
+
+            return Ok();
+        }
+
+        [HttpPut("change-password")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> ChangePasswordAsync(
+            [FromBody] ChangePasswordDTO changePasswordDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
 
             return Ok();
         }

@@ -109,6 +109,39 @@ namespace Core.Services
             await _refreshTokenRepository.DeleteAsync(refreshToken);
         }
 
+        public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
+        {
+            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
+            {
+                throw new HttpException(
+                        ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (!await _userManager.CheckPasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidPassword,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePasswordDTO.CurrentPassword,
+                changePasswordDTO.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new HttpException(
+                        ErrorMessages.ChangePasswordFailed,
+                        HttpStatusCode.InternalServerError);
+            }
+        }
+
         public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -126,6 +159,17 @@ namespace Core.Services
             {
                 throw new HttpException(
                         ErrorMessages.NewInfoSamePrevious,
+                        HttpStatusCode.BadRequest);
+            }
+
+            if (!await _userManager.VerifyUserTokenAsync(
+                user, 
+                _userManager.Options.Tokens.PasswordResetTokenProvider, 
+                "ResetPassword", 
+                resetPasswordDTO.Token))
+            {
+                throw new HttpException(
+                        ErrorMessages.InvalidToken,
                         HttpStatusCode.BadRequest);
             }
 

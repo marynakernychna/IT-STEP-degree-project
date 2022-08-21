@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}  from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import InputRules from '../../../constants/inputRules';
 import { generalMessages } from '../../../constants/messages/general';
@@ -8,9 +8,15 @@ import { errorMessage } from '../../../services/alerts';
 import { authenticationMessages } from './../../../constants/messages/authentication';
 import { loginUser } from '../../../services/authentication';
 import { pageUrls } from './../../../constants/pageUrls';
+import SendRequestModal from './../../../components/modals/sendRequestPasswordReset/index';
+import { requestPasswordReset } from '../../../services/authentication';
 
 function LoginPage() {
     let history = useHistory();
+    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
 
     const onFinish = (values) => {
         loginUser(values, history);
@@ -70,6 +76,10 @@ function LoginPage() {
                             />
                         </Form.Item>
 
+                    <div className="linksRight">
+                        <Link onClick={openModal}>Forgot Password?</Link>
+                    </div>
+
                         <Form.Item className="submitItem">
                             <Button
                                 type="primary"
@@ -85,8 +95,16 @@ function LoginPage() {
                         <Link>Home</Link>
                         <Link to={pageUrls.REGISTRATION}>Registration</Link>
                     </div>
+
                 </div>
             </div>
+            {
+                isModalOpen &&
+                <SendRequestModal
+                    myClose={() => setIsModalOpen(false)}
+                    requestPasswordReset={() => requestPasswordReset()}
+                />
+            }
         </div>
     );
 }
