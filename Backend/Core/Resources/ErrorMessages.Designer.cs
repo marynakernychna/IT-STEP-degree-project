@@ -169,15 +169,6 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New password same as current password!.
-        /// </summary>
-        internal static string NewPasswordSameCurrentPassword {
-            get {
-                return ResourceManager.GetString("NewPasswordSameCurrentPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Passwords don&apos;t match!.
         /// </summary>
         internal static string PasswordsDontMatch {

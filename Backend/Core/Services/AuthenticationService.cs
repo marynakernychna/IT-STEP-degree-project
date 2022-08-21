@@ -114,7 +114,7 @@ namespace Core.Services
             if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
             {
                 throw new HttpException(
-                        ErrorMessages.NewPasswordSameCurrentPassword,
+                        ErrorMessages.NewInfoSamePrevious,
                         HttpStatusCode.BadRequest);
             }
 
@@ -158,7 +158,7 @@ namespace Core.Services
             if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
             {
                 throw new HttpException(
-                        ErrorMessages.NewPasswordSameCurrentPassword,
+                        ErrorMessages.NewInfoSamePrevious,
                         HttpStatusCode.BadRequest);
             }
 

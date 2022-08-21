@@ -153,9 +153,6 @@
   <data name="NewInfoSamePrevious" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
   </data>
-  <data name="NewPasswordSameCurrentPassword" xml:space="preserve">
-    <value>New password same as current password!</value>
-  </data>
   <data name="PasswordsDontMatch" xml:space="preserve">
     <value>Passwords don't match!</value>
   </data>
