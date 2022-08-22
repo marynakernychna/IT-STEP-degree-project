@@ -168,6 +168,7 @@ namespace Core.Services
         {
             var userId = await _userService.GetUserIdByEmailAsync(
                 paginationFilterCartDTO.UserEmail);
+
             var paginationFilterDTO = new PaginationFilterDTO()
             {
                 PageSize = paginationFilterCartDTO.PageSize,
