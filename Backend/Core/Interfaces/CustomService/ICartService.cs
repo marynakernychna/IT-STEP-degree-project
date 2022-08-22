@@ -1,4 +1,5 @@
 ﻿using Core.DTO;
+using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
 using Core.Entities;
 using Core.Helpers;
@@ -13,5 +14,7 @@ namespace Core.Interfaces.CustomService
         Task DeleteWareAsync(string userId, int wareId);
         Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
+        Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
+            string userId, PaginationFilterCartDTO paginationFilterCartDTO);
     }
 }

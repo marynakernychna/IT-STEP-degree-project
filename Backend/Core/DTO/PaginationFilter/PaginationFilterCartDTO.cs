@@ -10,6 +10,6 @@ namespace Core.DTO.PaginationFilter
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public string UserId { get; set; }
+        public string UserEmail { get; set; }
     }
 }

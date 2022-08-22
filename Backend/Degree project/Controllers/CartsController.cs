@@ -66,13 +66,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetCartByUserAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var paginationFilterDTO = new PaginationFilterDTO()
-            {
-                PageSize = paginationFilterCartDTO.PageSize,
-                PageNumber = paginationFilterCartDTO.PageNumber
-            };
-
-            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO.UserId, paginationFilterDTO);
+            var userId = await _userService.GetUserIdByEmailAsync(paginationFilterCartDTO.UserEmail);
+            var wares = await _cartService.GetByUserIdAsync(userId, paginationFilterCartDTO);
 
             return Ok(wares);
         }
