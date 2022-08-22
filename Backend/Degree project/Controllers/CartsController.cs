@@ -1,5 +1,6 @@
 ﻿using Core.Constants;
 using Core.DTO;
+using Core.DTO.PaginationFilter;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
 using Microsoft.AspNetCore.Authorization;
@@ -58,6 +59,16 @@ namespace API.Controllers
             await _cartService.DeleteWareAsync(userId, entityIdDTO.Id);
 
             return Ok();
+        }
+
+        [HttpGet("admin/by-user")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetCartByUserAsync(
+            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
+        {
+            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
+
+            return Ok(wares);
         }
     }
 }

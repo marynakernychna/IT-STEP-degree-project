@@ -10,6 +10,7 @@ using System.Net;
 using System.Collections.Generic;
 using Core.DTO.Ware;
 using Core.DTO;
+using Core.DTO.PaginationFilter;
 
 namespace Core.Services
 {
@@ -20,19 +21,22 @@ namespace Core.Services
         private readonly IRepository<WareCart> _wareCartRepository;
         private readonly IRepository<Ware> _wareRepository;
         private readonly IFileService _fileService;
+        private readonly IUserService _userService;
 
         public CartService(
             IRepository<User> userRepository,
             IRepository<Cart> cartRepository,
             IRepository<WareCart> wareCartRepository,
             IRepository<Ware> wareRepository,
-            IFileService fileService)
+            IFileService fileService,
+            IUserService userService)
         {
             _userRepository = userRepository;
             _cartRepository = cartRepository;
             _wareCartRepository = wareCartRepository;
             _wareRepository = wareRepository;
             _fileService = fileService;
+            _userService = userService;
         }
 
         public async Task AddWareAsync(string userId, int wareId)
@@ -157,6 +161,21 @@ namespace Core.Services
                 paginationFilterDTO.PageNumber,
                 waresCount,
                 totalPages);
+        }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
+            PaginationFilterCartDTO paginationFilterCartDTO)
+        {
+            var userId = await _userService.GetUserIdByEmailAsync(
+                paginationFilterCartDTO.UserEmail);
+
+            var paginationFilterDTO = new PaginationFilterDTO()
+            {
+                PageSize = paginationFilterCartDTO.PageSize,
+                PageNumber = paginationFilterCartDTO.PageNumber
+            };
+
+            return await GetByUserIdAsync(userId, paginationFilterDTO);
         }
     }
 }
