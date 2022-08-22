@@ -62,7 +62,7 @@ namespace API.Controllers
         }
 
         [HttpGet("get-cart-by-user")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetCartByUserAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
