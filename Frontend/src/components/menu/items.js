@@ -5,6 +5,7 @@ import {
     LogoutOutlined,
     AppstoreOutlined
 } from '@ant-design/icons';
+import { BsBasket } from 'react-icons/bs';
 import { pageUrls } from './../../constants/pageUrls';
 
 function getItem(label, key, icon, children, type) {
@@ -34,5 +35,6 @@ export const userItems = [
         getItem("View", pageUrls.VIEW_GOODS),
         getItem("Create", pageUrls.CREATE_GOOD)
     ]),
+    getItem("Cart", pageUrls.CART, <BsBasket />),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];

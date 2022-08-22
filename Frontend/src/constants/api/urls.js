@@ -3,6 +3,7 @@ const AUTHENTICATION_URL = "/Authentication";
 const USERS_URL = "/Users";
 const CATEGORIES_URL = "/Categories";
 const GOODS_URL = "/Wares";
+const CARTS_URL = "/Carts";
 
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
@@ -33,4 +34,8 @@ export const GOODS_URLS = {
     GET_PAGINATED_ALL: GOODS_URL,
     GET_PAGINATED_BY_CATEGORY: GOODS_URL + "/by-category",
     GET_BY_ID: GOODS_URL + "/by-id"
+};
+
+export const CARTS_URLS = {
+    GET_BY_USER: CARTS_URL + "/by-user"
 };
