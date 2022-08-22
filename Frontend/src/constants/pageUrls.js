@@ -6,5 +6,6 @@ export const pageUrls = {
     VIEW_PROFILE_INFO: "/profile-info",
     CREATE_GOOD: "/goods/create",
     VIEW_GOODS: "/goods",
-    RESET_PASSWORD: "/reset-password"
+    RESET_PASSWORD: "/reset-password",
+    CART: "/cart"
 };

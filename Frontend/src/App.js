@@ -18,6 +18,7 @@ import ViewProfileInfoPage from './pages/client/viewProfileInfo/index';
 import CreateGoodPage from './pages/client/goods/create/index';
 import ViewGoods from './pages/client/goods/view/index';
 import ResetPasswordPage from "./pages/authentication/resetPassword/index";
+import Cart from './pages/client/cart/index';
 
 const history = createBrowserHistory();
 
@@ -27,6 +28,13 @@ export default function App() {
             <Switch>
                 <PageLayoutRoute
                     exact
+                    path={pageUrls.VIEW_GOODS}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewGoods}
+                />
+
+                <PageLayoutRoute
+                    exact
                     path={pageUrls.CREATE_GOOD}
                     allowedRoles={[userRoles.USER]}
                     component={CreateGoodPage}
@@ -34,9 +42,9 @@ export default function App() {
 
                 <PageLayoutRoute
                     exact
-                    path={pageUrls.VIEW_GOODS}
+                    path={pageUrls.CART}
                     allowedRoles={[userRoles.USER]}
-                    component={ViewGoods}
+                    component={Cart}
                 />
 
                 <PageLayoutRoute
@@ -59,7 +67,7 @@ export default function App() {
                     allowedRoles={[userRoles.ADMIN]}
                     component={ViewAndManageCategoriesPage}
                 />
-                
+
                 <Route
                     path={pageUrls.RESET_PASSWORD}
                 >
