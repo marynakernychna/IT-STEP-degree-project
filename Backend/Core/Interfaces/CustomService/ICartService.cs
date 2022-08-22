@@ -15,6 +15,6 @@ namespace Core.Interfaces.CustomService
         Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
         Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
-            string userId, PaginationFilterCartDTO paginationFilterCartDTO);
+            PaginationFilterCartDTO paginationFilterCartDTO);
     }
 }

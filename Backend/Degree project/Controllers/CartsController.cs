@@ -61,13 +61,12 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("get-cart-by-user")]
+        [HttpGet("admin/by-user")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetCartByUserAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var userId = await _userService.GetUserIdByEmailAsync(paginationFilterCartDTO.UserEmail);
-            var wares = await _cartService.GetByUserIdAsync(userId, paginationFilterCartDTO);
+            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
 
             return Ok(wares);
         }
