@@ -8,4 +8,13 @@ export default class cartsService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+
+    static deleteWareByUser(goodId) {
+        return instance.delete(CARTS_URLS.DELETE_WARE_BY_USER +
+            `?Id=${goodId}`);
+    }
+
+    static addWareByUser(model) {
+        return instance.post(CARTS_URLS.ADD_WARE_BY_USER, model);
+    }
 }

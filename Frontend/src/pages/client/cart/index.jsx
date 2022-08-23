@@ -24,6 +24,10 @@ const Cart = () => {
         setGoods(await getCartByUser(paginationFilterModel));
     };
 
+    const reloadCart = async () => {
+        setGoods(await getCartByUser(paginationFilterModel));
+    };
+
     return (
         <div id="cartPage">
             <p id="pageTitle">Basket</p>
@@ -31,7 +35,10 @@ const Cart = () => {
             {goods != null ?
                 <div id='container'>
                     {goods.items.map((good) =>
-                        <Good info={good} />
+                        <Good
+                            info={good}
+                            updateCart={() => reloadCart()}
+                        />
                     )}
 
                     <Pagination

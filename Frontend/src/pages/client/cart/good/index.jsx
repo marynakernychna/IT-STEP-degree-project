@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Card } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import { MoreOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getFullGoodInfo } from '../../../../services/goods';
 import ShowFullGoodInfoModal from './../../../../components/modals/good/showInfo/index';
+import { confirmMessage } from './../../../../services/alerts';
+import { deleteWareFromCartByUser } from "../../../../services/carts";
 
 function Good(props) {
 
@@ -12,7 +14,15 @@ function Good(props) {
     const showMoreInfo = async () => {
         setFullInfo(await getFullGoodInfo(props.info.id));
         setIsModalOpen(true);
-    }
+    };
+
+    const onDelete = async () => {
+        var result = await confirmMessage();
+
+        if (result && await deleteWareFromCartByUser(props.info.id)) {
+            props.updateCart();
+        }
+    };
 
     return (
         <Card id="goodCard">
@@ -29,6 +39,11 @@ function Good(props) {
                     <div className="more">
                         <MoreOutlined />
                         <p onClick={() => showMoreInfo()}>More</p>
+
+                        <DeleteOutlined
+                            className="icon"
+                            onClick={() => onDelete()}
+                        />
                     </div>
                 </div>
             </div>
