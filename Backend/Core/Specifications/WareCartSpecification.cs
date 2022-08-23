@@ -18,6 +18,12 @@ namespace Core.Specifications
                      .Take(paginationFilterDTO.PageSize)
                      .AsNoTracking();
             }
+
+            public GetCartWares(int cartId)
+            {
+                Query.Where(wc => wc.CartId == cartId)
+                     .AsNoTracking();
+            }
         }
 
         internal class GetByIds : Specification<WareCart>,
