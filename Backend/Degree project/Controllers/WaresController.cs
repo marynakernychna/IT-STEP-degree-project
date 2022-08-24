@@ -66,5 +66,17 @@ namespace API.Controllers
 
             return Ok(ware);
         }
+
+        [HttpGet("by-user")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetByUserAsync(
+           [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var ware = await _wareService.GetByUserAsync(userId, paginationFilter);
+
+            return Ok(ware);
+        }
     }
 }

@@ -199,5 +199,29 @@ namespace Core.Services
                 waresCount,
                 totalPages);
         }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserAsync(
+            string userId, PaginationFilterDTO paginationFilter)
+        {
+            var wares = await _wareRepository.ListAsync(
+                new WareSpecification.GetByCreatorId(userId));
+
+            var waresCount = await _wareRepository.CountAsync(
+                new WareSpecification.GetByCreatorId(userId));
+
+            if (waresCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<WareInfoDTO>
+                .GetTotalPages(paginationFilter, waresCount);
+
+            return FormPaginatedList(
+                wares,
+                waresCount,
+                paginationFilter.PageNumber,
+                totalPages);
+        }
     }
 }

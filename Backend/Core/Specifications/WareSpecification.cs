@@ -56,5 +56,18 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetByCreatorId : Specification<Ware>,
+                                                ISingleResultSpecification<Ware>
+        {
+            public GetByCreatorId(string creatorId)
+            {
+                Query.Where(w => w.CreatorId == creatorId)
+                     .Include(w => w.Creator)
+                     .Include(w => w.Category)
+                     .Include(w => w.Characteristics)
+                     .AsNoTracking();
+            }
+        }
     }
 }
