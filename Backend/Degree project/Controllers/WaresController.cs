@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         [HttpGet("by-id")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetByIdAsync(
            [FromQuery] EntityIdDTO entityIdDTO)
         {

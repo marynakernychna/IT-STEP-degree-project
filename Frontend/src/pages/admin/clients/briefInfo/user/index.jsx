@@ -8,10 +8,19 @@ import EditClientInfoModal from './../../../../../components/modals/editClientIn
 import { AiOutlineEdit } from "react-icons/ai";
 import { DEFAULT_ACTION_ICON_SIZE } from "../../../../../constants/others";
 import { DEFAULT_MOUSE_ENTER_DELAY } from './../../../../../constants/others';
+import { useHistory } from 'react-router-dom';
+import { ShoppingOutlined } from '@ant-design/icons';
+import { pageUrls } from '../../../../../constants/pageUrls';
 
 function User(props) {
+    let history = useHistory();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const onClick = () => {
+        localStorage.setItem("email", props.info.email)
+        history.push(pageUrls.VIEW_USER_CART);
+    };
 
     return (
         <Card className="userCard">
@@ -54,6 +63,20 @@ function User(props) {
                         className="editIcon"
                         size={DEFAULT_ACTION_ICON_SIZE}
                         onClick={() => setIsModalOpen(true)}
+                    />
+                </Tooltip>
+
+                <Tooltip
+                    color="#224957"
+                    title="Basket"
+                    placement="bottomRight"
+                    mouseEnterDelay={DEFAULT_MOUSE_ENTER_DELAY}
+                >
+                    <ShoppingOutlined
+                        className="editIcon"
+                        size={DEFAULT_ACTION_ICON_SIZE}
+                        onClick={(onClick)}
+                        info={props.info}
                     />
                 </Tooltip>
             </div>

@@ -7,5 +7,6 @@ export const pageUrls = {
     CREATE_GOOD: "/goods/create",
     VIEW_GOODS: "/goods",
     RESET_PASSWORD: "/reset-password",
-    CART: "/cart"
+    CART: "/cart",
+    VIEW_USER_CART: "/user-cart"
 };
