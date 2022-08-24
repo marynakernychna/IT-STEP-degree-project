@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Card } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
-import { getFullGoodInfo } from '../../../../../../services/goods';
-import ShowFullGoodInfoModal from '../../../../../../components/modals/good/showInfo/index';
+import { getFullGoodInfo } from '../../../../../services/goods';
+import ShowFullGoodInfoModal from '../../../../../components/modals/good/showInfo/index';
 
 function Good(props) {
 

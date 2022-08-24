@@ -1,67 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { customPageSizeOptions, paginationDefaultFilter } from './../../../../constants/pagination';
-import { getBriefUsersInfo } from './../../../../services/users';
-import { Pagination, Result, Collapse } from 'antd';
-import Cart from './carts/index';
-
-const { Panel } = Collapse;
+import { paginationDefaultFilter, customPageSizeOptions } from '../../../../constants/pagination';
+import { Pagination, Result } from 'antd';
+import Good from './good/index';
+import { getCartByUserAdmin } from '../../../../services/carts';
 
 let paginationFilterModel = {
+    userEmail: "",
     pageNumber: paginationDefaultFilter.DEFAULT_PAGE_NUMBER,
-    pageSize: paginationDefaultFilter.DEFAULT_LARGE_PAGE_SIZE
+    pageSize: paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE
 };
 
-const UserCart = () => {
+function Cart() {
 
-    const [users, setUsers] = useState();
+    const [goods, setGoods] = useState();
+
+    paginationFilterModel.userEmail = localStorage.getItem("email");
 
     useEffect(async () => {
-        setUsers(await getBriefUsersInfo(paginationFilterModel));
+        setGoods(await getCartByUserAdmin(paginationFilterModel));
     }, []);
 
     const onPaginationChange = async (page, pageSize) => {
         paginationFilterModel.pageNumber = page;
         paginationFilterModel.pageSize = pageSize;
 
-        setUsers(await getBriefUsersInfo(paginationFilterModel));
+        setGoods(await getCartByUserAdmin(paginationFilterModel));
     };
 
-    const onChange = (key) => {
-        console.log(key);
+    const reloadCart = async () => {
+        setGoods(await getCartByUserAdmin(paginationFilterModel));
     };
 
     return (
-        <div id="userCart">
-            {users != null ?
+        <div id="cartPage">
+            <p id="pageTitle">Basket</p>
+
+            {goods != null ?
                 <div id='container'>
-                    <p id="pageTitle">Users cart</p>
-                    <Collapse accordion onChange={onChange}>
-                        {users.items.map((user) =>
-                            <Panel header={user.name + " " + user.surname + " " + user.email} key={user.email}>
-                                <Cart
-                                    info={user}
-                                />
-                            </Panel>
-                        )}
-                    </Collapse>
+                    {goods.items.map((good) =>
+                        <Good
+                            info={good}
+                            updateCart={() => reloadCart()}
+                        />
+                    )}
 
                     <Pagination
                         onChange={onPaginationChange}
-                        total={users.totalItems}
+                        total={goods.totalItems}
                         showSizeChanger
                         showTotal={(total) => `Total ${total} items`}
                         pageSizeOptions={customPageSizeOptions}
-                        defaultPageSize={paginationDefaultFilter.DEFAULT_LARGE_PAGE_SIZE}
+                        defaultPageSize={paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE}
                     />
                 </div>
                 :
                 <Result
                     status="404"
-                    title="There are no registered users yet!"
+                    title="There are no goods yet!"
                 />
             }
         </div>
     );
 };
 
-export default UserCart;
+export default Cart;
