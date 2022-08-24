@@ -39,5 +39,6 @@ export const GOODS_URLS = {
 export const CARTS_URLS = {
     GET_BY_USER: CARTS_URL + "/by-user",
     DELETE_WARE_BY_USER: CARTS_URL + "/delete-ware",
-    ADD_WARE_BY_USER: CARTS_URL + "/add-ware"
+    ADD_WARE_BY_USER: CARTS_URL + "/add-ware",
+    GET_BY_USER_ADMIN: CARTS_URL + "/admin/by-user"
 };

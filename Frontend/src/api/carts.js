@@ -17,4 +17,11 @@ export default class cartsService {
     static addWareByUser(model) {
         return instance.post(CARTS_URLS.ADD_WARE_BY_USER, model);
     }
+
+    static getByUserAdmin(paginationFilterModel) {
+        return instance.get(CARTS_URLS.GET_BY_USER_ADMIN +
+            `?PageNumber=${paginationFilterModel.pageNumber}
+             &PageSize=${paginationFilterModel.pageSize}
+             &UserEmail=${paginationFilterModel.userEmail}`);
+    }
 }

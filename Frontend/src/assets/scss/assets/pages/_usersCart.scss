@@ -1,0 +1,86 @@
+#userCart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    #pageTitle {
+        font-size: 20pt;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+
+    #container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+
+        #goodCard {
+            margin: 10px 12px;
+            box-shadow: rgba(14, 30, 37, 0.12) 0 2px 4px 0, rgba(14, 30, 37, 0.32) 0 2px 16px 0;
+            border-radius: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            vertical-align: baseline;
+
+            #goodInformation {
+                display: inline;
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                height: 100%;
+
+                #image {
+                    height: 100%;
+                    margin-right: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        border: 2px solid rgba(14, 30, 37, 0.32);
+                        width: 100px;
+                        height: 100px;
+                    }
+                }
+
+                #infoBlock {
+                    display: inline;
+
+                    #titles,
+                    #cost {
+                        font-size: 11.5pt;
+                        font-weight: 600;
+                    }
+
+                    .more {
+                        display: inline;
+
+                        svg {
+                            margin-right: 5px;
+                        }
+
+                        p {
+                            display: inline;
+
+                            &:hover {
+                                border-bottom: 1px solid;
+                            }
+                        }
+
+                        .icon {
+                            margin-left: 15px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .ant-pagination {
+            margin: 20px 0;
+        }
+    }
+}

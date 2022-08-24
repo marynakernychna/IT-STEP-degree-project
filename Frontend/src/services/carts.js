@@ -90,3 +90,30 @@ export function addWareToCartByUser(goodId) {
             );
         });
 }
+
+export function getCartByUserAdmin(paginationFilterModel) {
+
+    return cartsService
+        .getByUserAdmin(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            (err) => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
