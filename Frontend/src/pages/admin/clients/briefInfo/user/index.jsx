@@ -22,7 +22,6 @@ function User(props) {
         history.push(pageUrls.VIEW_USER_CART);
     };
 
-
     return (
         <Card className="userCard">
             <div className="userInformation">
@@ -80,7 +79,6 @@ function User(props) {
                         info={props.info}
                     />
                 </Tooltip>
-
             </div>
 
             {
