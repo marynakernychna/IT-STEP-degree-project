@@ -67,14 +67,14 @@ namespace API.Controllers
             return Ok(ware);
         }
 
-        [HttpGet("by-user")]
+        [HttpGet("created-by-user")]
         [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetByUserAsync(
+        public async Task<IActionResult> GetCreatedByUserAsync(
            [FromQuery] PaginationFilterDTO paginationFilter)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
-            var ware = await _wareService.GetByUserAsync(userId, paginationFilter);
+            var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
 
             return Ok(ware);
         }

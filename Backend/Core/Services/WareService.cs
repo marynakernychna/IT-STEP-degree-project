@@ -200,14 +200,14 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserAsync(
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
             string userId, PaginationFilterDTO paginationFilter)
         {
             var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetByCreatorId(userId));
+                new WareSpecification.GetByCreatorId(paginationFilter, userId));
 
             var waresCount = await _wareRepository.CountAsync(
-                new WareSpecification.GetByCreatorId(userId));
+                new WareSpecification.GetByCreatorId(paginationFilter, userId));
 
             if (waresCount == 0)
             {
