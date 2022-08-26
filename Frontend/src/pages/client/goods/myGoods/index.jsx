@@ -9,7 +9,7 @@ let paginationFilterModel = {
     pageSize: paginationDefaultFilter.DEFAULT_LARGE_PAGE_SIZE
 };
 
-const ViewGoods = () => {
+const ViewMyGoods = () => {
 
     const [goods, setGoods] = useState();
 
@@ -53,4 +53,4 @@ const ViewGoods = () => {
     );
 };
 
-export default ViewGoods;
+export default ViewMyGoods;
