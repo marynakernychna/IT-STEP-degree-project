@@ -13,8 +13,6 @@ function ShowFullGoodInfoModal(props) {
     };
 
     useEffect(async () => {
-        console.log(data.creationDate);
-
         const inputTz = "Europe/Kiev";
         const originTime = data.creationDate;
         const time = moment.tz(originTime, inputTz);

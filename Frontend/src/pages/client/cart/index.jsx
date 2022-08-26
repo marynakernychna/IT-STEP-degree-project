@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { paginationDefaultFilter, customPageSizeOptions } from '../../../constants/pagination';
-import { Pagination, Result } from 'antd';
+import { Pagination, Result, Button } from 'antd';
 import { getCartByUser } from '../../../services/carts';
 import Good from './../cart/good/index';
+import { PlusOutlined } from '@ant-design/icons';
+import MakeAnOderModal from './../../../components/modals/makeAnOrder/index';
 
 let paginationFilterModel = {
     pageNumber: paginationDefaultFilter.DEFAULT_PAGE_NUMBER,
@@ -12,6 +14,7 @@ let paginationFilterModel = {
 const Cart = () => {
 
     const [goods, setGoods] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(async () => {
         setGoods(await getCartByUser(paginationFilterModel));
@@ -34,6 +37,14 @@ const Cart = () => {
 
             {goods != null ?
                 <div id='container'>
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        Order all
+                    </Button>
+
                     {goods.items.map((good) =>
                         <Good
                             info={good}
@@ -49,6 +60,14 @@ const Cart = () => {
                         pageSizeOptions={customPageSizeOptions}
                         defaultPageSize={paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE}
                     />
+
+                    {
+                        isModalOpen &&
+                        <MakeAnOderModal
+                            myClose={() => setIsModalOpen(false)}
+                            updateCartInfo={() => reloadCart()}
+                        />
+                    }
                 </div>
                 :
                 <Result

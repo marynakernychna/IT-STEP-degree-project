@@ -4,6 +4,7 @@ const USERS_URL = "/Users";
 const CATEGORIES_URL = "/Categories";
 const GOODS_URL = "/Wares";
 const CARTS_URL = "/Carts";
+const ORDERS_URL = "/Orders";
 
 export const AUTHENTICATION_URLS = {
     REGISTER_USER: AUTHENTICATION_URL + "/register",
@@ -41,4 +42,8 @@ export const CARTS_URLS = {
     DELETE_WARE_BY_USER: CARTS_URL + "/delete-ware",
     ADD_WARE_BY_USER: CARTS_URL + "/add-ware",
     GET_BY_USER_ADMIN: CARTS_URL + "/admin/by-user"
+};
+
+export const ORDERS_URLS = {
+    CREATE: ORDERS_URL + "/create"
 };
