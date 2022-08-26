@@ -20,6 +20,7 @@ import ViewGoods from './pages/client/goods/view/index';
 import ResetPasswordPage from "./pages/authentication/resetPassword/index";
 import Cart from './pages/client/cart/index';
 import ViewUserCartPage from './pages/admin/clients/cart/index';
+import ViewMyGoodsPage from './pages/client/goods/myGoods/index'
 
 const history = createBrowserHistory();
 
@@ -74,6 +75,13 @@ export default function App() {
                     path={pageUrls.VIEW_USER_CART}
                     allowedRoles={[userRoles.ADMIN]}
                     component={ViewUserCartPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_MY_GOODS}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewMyGoodsPage}
                 />
 
                 <Route

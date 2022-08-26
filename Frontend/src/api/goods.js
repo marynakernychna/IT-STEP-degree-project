@@ -24,4 +24,10 @@ export default class goodsService {
         return instance.get(GOODS_URLS.GET_BY_ID +
             `?Id=${model}`);
     }
+
+    static getCreatedByUser(paginationFilterModel) {
+        return instance.get(GOODS_URLS.GET_CREATED_BY_USER +
+            `?PageNumber=${paginationFilterModel.pageNumber}
+             &PageSize=${paginationFilterModel.pageSize}`);
+    }
 }
