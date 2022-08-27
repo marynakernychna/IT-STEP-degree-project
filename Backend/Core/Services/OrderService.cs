@@ -8,6 +8,8 @@ using Core.Specifications;
 using Core.Exceptions;
 using Core.Resources;
 using System.Net;
+using Core.DTO;
+using System.Collections.Generic;
 
 namespace Core.Services
 {
@@ -73,6 +75,47 @@ namespace Core.Services
             await _cartRepository.UpdateAsync(cart);
 
             await _cartService.CreateAsync(user);
+        }
+
+        public async Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
+            PaginationFilterDTO paginationFilterDTO)
+        {
+            var ordersCount = await _orderRepository.CountAsync(
+                new OrderSpecification.GetAvailable(paginationFilterDTO));
+
+            if (ordersCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<OrderInfoDTO>
+                .GetTotalPages(paginationFilterDTO, ordersCount);
+
+            var ordersList = await _orderRepository.ListAsync(
+                new OrderSpecification.GetAvailable(paginationFilterDTO));
+
+            var orders = new List<OrderInfoDTO>();
+
+            foreach (var order in ordersList)
+            {
+                var user = order.Cart.Creator;
+
+                orders.Add(new OrderInfoDTO
+                {
+                    Address = order.Address,
+                    City = order.City,
+                    Country = order.Country,
+                    ClientFullName = user.Name + ' ' + user.Surname,
+                    ClientPhoneNumber = user.PhoneNumber,
+                    WaresCount = order.Cart.WareCarts.Count
+                });
+            }
+
+            return PaginatedList<OrderInfoDTO>.Evaluate(
+                orders,
+                paginationFilterDTO.PageNumber,
+                ordersCount,
+                totalPages);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.DTO;
 using Core.DTO.Order;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
@@ -34,6 +35,16 @@ namespace API.Controllers
             await _orderService.CreateAsync(userId, createOrderDTO);
 
             return Ok();
+        }
+
+        [HttpGet("available")]
+        [AuthorizeByRole(IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetAvailvableAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var orders = await _orderService.GetAvailableAsync(paginationFilterDTO);
+
+            return Ok(orders);
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220819153350_AddSeed")]
+    [Migration("20220827171151_AddSeed")]
     partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatorId = "3cb616b5-deff-4176-b794-88d6fda8e5de"
+                            CreatorId = "2d07b264-11fa-4ea3-a56b-670b79da948c"
                         });
                 });
 
@@ -361,17 +361,24 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358",
-                            ConcurrencyStamp = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358",
+                            Id = "b16b5844-4884-4af6-bbac-704265aaf6bf",
+                            ConcurrencyStamp = "b16b5844-4884-4af6-bbac-704265aaf6bf",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a81cba07-81a2-4df3-b17c-ebe3d27758ff",
-                            ConcurrencyStamp = "a81cba07-81a2-4df3-b17c-ebe3d27758ff",
+                            Id = "1b5522fe-fc20-4a66-b4ff-ef8c926bf77a",
+                            ConcurrencyStamp = "1b5522fe-fc20-4a66-b4ff-ef8c926bf77a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "a61d36b0-03c3-4e83-8d8e-c29fab3e7ac0",
+                            ConcurrencyStamp = "a61d36b0-03c3-4e83-8d8e-c29fab3e7ac0",
+                            Name = "Courier",
+                            NormalizedName = "COURIER"
                         });
                 });
 
@@ -538,13 +545,18 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "5d52f215-96eb-495d-97ca-a7ba810a4a9a",
-                            RoleId = "a81cba07-81a2-4df3-b17c-ebe3d27758ff"
+                            UserId = "2587ca65-b446-4e30-8079-4c5ee9a85529",
+                            RoleId = "1b5522fe-fc20-4a66-b4ff-ef8c926bf77a"
                         },
                         new
                         {
-                            UserId = "3cb616b5-deff-4176-b794-88d6fda8e5de",
-                            RoleId = "46eb935e-0dd8-406c-bf6c-bd0c6c2d5358"
+                            UserId = "2d07b264-11fa-4ea3-a56b-670b79da948c",
+                            RoleId = "b16b5844-4884-4af6-bbac-704265aaf6bf"
+                        },
+                        new
+                        {
+                            UserId = "ac552d0f-2345-465c-a4f3-5b3c84724243",
+                            RoleId = "a61d36b0-03c3-4e83-8d8e-c29fab3e7ac0"
                         });
                 });
 
@@ -593,43 +605,63 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5d52f215-96eb-495d-97ca-a7ba810a4a9a",
+                            Id = "2587ca65-b446-4e30-8079-4c5ee9a85529",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3280676b-3789-4bdb-991e-b139b501c727",
+                            ConcurrencyStamp = "c119e170-83de-4dbb-9e53-97a8d637779a",
                             Email = "marylou@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARYLOU@GMAIL.COM",
                             NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ7S42vVrxTDVSqB9kvwjE/Z+adXvbDJ3a4R8x1NjWNRL+PhcdtLqR9deL6D7BJ7ZQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGRNnWLsM/woLaxfB1kBVYkaSUUgwa/GAMqF7V9sG71RCijsn1xW18xV/mNq8v6wCQ==",
                             PhoneNumber = "+380986734245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "80f1e68f-1138-4357-aaf5-3bff768be85d",
+                            SecurityStamp = "dfbe5c2b-4638-4612-93ab-59941a5c2a12",
                             TwoFactorEnabled = false,
                             UserName = "marylou@gmail.com",
                             Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 19, 15, 33, 49, 158, DateTimeKind.Unspecified).AddTicks(3991), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 27, 17, 11, 50, 40, DateTimeKind.Unspecified).AddTicks(6429), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Lou"
                         },
                         new
                         {
-                            Id = "3cb616b5-deff-4176-b794-88d6fda8e5de",
+                            Id = "2d07b264-11fa-4ea3-a56b-670b79da948c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "93cd0e0e-d025-4cf5-9bd7-d4ca030811ef",
+                            ConcurrencyStamp = "47e5e251-8dfd-41cb-a2ef-a3a8b7889e02",
                             Email = "etsukomami@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
                             NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMIgFO2TZLPpkQjlYASmPNZSE8N6CymHOsCgAhN9V4Th28AzlGENc6uODOKI0Ih6HA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEpGIexngVAZdikJEdWZi5gJg1IG4a3nTyCQ+JMNw4CeZ/QHyVA5PPoGvVC/ZLNcWg==",
                             PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "65ef944c-5452-4320-bd75-7bedbd4ceaf8",
+                            SecurityStamp = "23299472-faa4-480b-9a26-dc7b905e4119",
                             TwoFactorEnabled = false,
                             UserName = "etsukomami@gmail.com",
                             Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 19, 15, 33, 49, 160, DateTimeKind.Unspecified).AddTicks(7903), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 27, 17, 11, 50, 61, DateTimeKind.Unspecified).AddTicks(3511), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Mami"
+                        },
+                        new
+                        {
+                            Id = "ac552d0f-2345-465c-a4f3-5b3c84724243",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a7c32514-a535-4025-98a7-0101b8e56105",
+                            Email = "yuurimorishita@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "YUURIMORISHITA@GMAIL.COM",
+                            NormalizedUserName = "YUURIMORISHITA@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEjh9acmLhVEsV0bv28tmhok1PnkXH6jIbfc7jl2I/zkrhITqo9bhMx3IjpIRgVsqg==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "dad2384f-ca24-4b66-bec7-26cd9700e9f5",
+                            TwoFactorEnabled = false,
+                            UserName = "yuurimorishita@gmail.com",
+                            Name = "Yuuri",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 8, 27, 17, 11, 50, 61, DateTimeKind.Unspecified).AddTicks(3829), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Morishita"
                         });
                 });
 
