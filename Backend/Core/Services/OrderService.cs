@@ -133,5 +133,17 @@ namespace Core.Services
 
             await _orderRepository.UpdateAsync(order);
         }
+
+        public async Task RejectSelectedOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            order.Courier = null;
+            order.CourierId = null;
+
+            await _orderRepository.UpdateAsync(order);
+        }
     }
 }
