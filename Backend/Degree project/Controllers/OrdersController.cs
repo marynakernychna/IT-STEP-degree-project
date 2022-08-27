@@ -58,7 +58,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("reject-selected-order")]
+        [HttpPut("reject-selected-order")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
         public async Task<IActionResult> RejectSelectedOrdedr([FromQuery] int orderId)
         {
