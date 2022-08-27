@@ -75,5 +75,15 @@ namespace Core.Helpers
                     HttpStatusCode.NotFound);
             }
         }
+
+        public static void OrderNullCheck(Order order)
+        {
+            if (order == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.WareNotFound,
+                    HttpStatusCode.NotFound);
+            }
+        }
     }
 }

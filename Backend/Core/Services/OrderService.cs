@@ -117,5 +117,25 @@ namespace Core.Services
                 ordersCount,
                 totalPages);
         }
+
+        public async Task AsignToOrderAsync(string courierId, int orderId)
+        {
+            var courier = await _userRepository.GetByIdAsync(courierId);
+
+            ExtensionMethods.UserNullCheck(courier);
+
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.OrderNotFound,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            order.Courier = courier;
+
+            await _orderRepository.UpdateAsync(order);
+        }
     }
 }
