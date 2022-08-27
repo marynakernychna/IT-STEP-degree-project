@@ -102,6 +102,7 @@ namespace Core.Services
 
                 orders.Add(new OrderInfoDTO
                 {
+                    Id = order.Id,
                     Address = order.Address,
                     City = order.City,
                     Country = order.Country,
@@ -116,6 +117,21 @@ namespace Core.Services
                 paginationFilterDTO.PageNumber,
                 ordersCount,
                 totalPages);
+        }
+
+        public async Task AssignToOrderAsync(string courierId, int orderId)
+        {
+            var courier = await _userRepository.GetByIdAsync(courierId);
+
+            ExtensionMethods.UserNullCheck(courier);
+
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            order.Courier = courier;
+
+            await _orderRepository.UpdateAsync(order);
         }
     }
 }
