@@ -3,6 +3,7 @@
     public enum IdentityRoleNames
     {
         User,
+        Courier,
         Admin
     }
 }

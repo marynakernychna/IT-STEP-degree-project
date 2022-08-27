@@ -11,6 +11,7 @@ namespace Infrastructure.Data.SeedData
         #region Identity roles ids
 
         private static readonly string ROLE_USER_ID = Guid.NewGuid().ToString();
+        private static readonly string ROLE_COURIER_ID = Guid.NewGuid().ToString();
         private static readonly string ROLE_ADMIN_ID = Guid.NewGuid().ToString();
 
         #endregion
@@ -19,6 +20,7 @@ namespace Infrastructure.Data.SeedData
 
         private static readonly string ADMIN_ID = Guid.NewGuid().ToString();
         private static readonly string USER_ID = Guid.NewGuid().ToString();
+        private static readonly string COURIER_ID = Guid.NewGuid().ToString();
 
         #endregion
 
@@ -62,15 +64,31 @@ namespace Infrastructure.Data.SeedData
                 Email = "etsukomami@gmail.com"
             };
 
+            var defaultCourier = new User()
+            {
+                Id = COURIER_ID,
+                Name = "Yuuri",
+                Surname = "Morishita",
+                PhoneNumber = "+380988931245",
+                UserName = "yuurimorishita@gmail.com",
+                NormalizedEmail = "yuurimorishita@gmail.com".ToUpper(),
+                EmailConfirmed = true,
+                NormalizedUserName = "yuurimorishita@gmail.com".ToUpper(),
+                Email = "yuurimorishita@gmail.com"
+            };
+
             defaultAdmin.PasswordHash = passwordHasher
                 .HashPassword(defaultAdmin, "Password_1");
             defaultUser.PasswordHash = passwordHasher
                 .HashPassword(defaultUser, "Password_1");
+            defaultCourier.PasswordHash = passwordHasher
+                .HashPassword(defaultCourier, "Password_1");
 
             builder.Entity<User>()
                    .HasData(
                        defaultAdmin,
-                       defaultUser);
+                       defaultUser,
+                       defaultCourier);
         }
 
         #endregion
@@ -93,6 +111,13 @@ namespace Infrastructure.Data.SeedData
                             Name = IdentityRoleNames.Admin.ToString(),
                             NormalizedName = IdentityRoleNames.Admin.ToString().ToUpper(),
                             ConcurrencyStamp = ROLE_ADMIN_ID
+                        },
+                        new IdentityRole()
+                        {
+                            Id = ROLE_COURIER_ID,
+                            Name = IdentityRoleNames.Courier.ToString(),
+                            NormalizedName = IdentityRoleNames.Courier.ToString().ToUpper(),
+                            ConcurrencyStamp = ROLE_COURIER_ID
                         });
 
         #endregion
@@ -111,6 +136,11 @@ namespace Infrastructure.Data.SeedData
                        {
                            RoleId = ROLE_USER_ID,
                            UserId = USER_ID
+                       },
+                       new IdentityUserRole<string>()
+                       {
+                           RoleId = ROLE_COURIER_ID,
+                           UserId = COURIER_ID
                        });
 
         #endregion
