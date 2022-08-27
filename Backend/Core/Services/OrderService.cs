@@ -102,6 +102,7 @@ namespace Core.Services
 
                 orders.Add(new OrderInfoDTO
                 {
+                    Id = order.Id,
                     Address = order.Address,
                     City = order.City,
                     Country = order.Country,
@@ -118,7 +119,7 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task AsignToOrderAsync(string courierId, int orderId)
+        public async Task AssignToOrderAsync(string courierId, int orderId)
         {
             var courier = await _userRepository.GetByIdAsync(courierId);
 
@@ -126,12 +127,7 @@ namespace Core.Services
 
             var order = await _orderRepository.GetByIdAsync(orderId);
 
-            if (order == null)
-            {
-                throw new HttpException(
-                    ErrorMessages.OrderNotFound,
-                    HttpStatusCode.InternalServerError);
-            }
+            ExtensionMethods.OrderNullCheck(order);
 
             order.Courier = courier;
 

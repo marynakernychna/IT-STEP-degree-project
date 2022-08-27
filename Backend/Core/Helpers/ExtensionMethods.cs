@@ -81,7 +81,7 @@ namespace Core.Helpers
             if (order == null)
             {
                 throw new HttpException(
-                    ErrorMessages.WareNotFound,
+                    ErrorMessages.OrderNotFound,
                     HttpStatusCode.NotFound);
             }
         }

@@ -47,13 +47,13 @@ namespace API.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("asign-to-order")]
+        [HttpGet("assign-to-order")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> AsignToOrderAsync([FromQuery] int orderId)
+        public async Task<IActionResult> AssignToOrderAsync([FromQuery] int orderId)
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
-            await _orderService.AsignToOrderAsync(courierId, orderId);
+            await _orderService.AssignToOrderAsync(courierId, orderId);
 
             return Ok();
         }
