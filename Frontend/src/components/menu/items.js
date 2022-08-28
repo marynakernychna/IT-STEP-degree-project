@@ -39,3 +39,11 @@ export const userItems = [
     getItem("Cart", pageUrls.CART, <BsBasket />),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];
+
+export const courierItems = [
+    getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
+    getItem("Orders", 'sub1', <AppstoreOutlined />, [
+        getItem("Available", pageUrls.AVAILABLE_ORDERS)
+    ]),
+    getItem("Logout", "Logout", <LogoutOutlined />)
+];

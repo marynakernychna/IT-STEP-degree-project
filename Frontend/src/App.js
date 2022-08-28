@@ -21,6 +21,7 @@ import ResetPasswordPage from "./pages/authentication/resetPassword/index";
 import Cart from './pages/client/cart/index';
 import ViewUserCartPage from './pages/admin/clients/cart/index';
 import ViewMyGoodsPage from './pages/client/goods/myGoods/index'
+import ViewAvailableOrders from './pages/courier/orders/available/index';
 
 const history = createBrowserHistory();
 
@@ -52,8 +53,15 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_PROFILE_INFO}
-                    allowedRoles={[userRoles.USER, userRoles.ADMIN]}
+                    allowedRoles={[userRoles.USER, userRoles.COURIER, userRoles.ADMIN]}
                     component={ViewProfileInfoPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.AVAILABLE_ORDERS}
+                    allowedRoles={[userRoles.COURIER]}
+                    component={ViewAvailableOrders}
                 />
 
                 <PageLayoutRoute

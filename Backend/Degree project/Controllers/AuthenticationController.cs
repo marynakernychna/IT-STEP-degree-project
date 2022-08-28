@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpPost("logout")]
-        [AuthorizeByRole(IdentityRoleNames.Admin, IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Admin, IdentityRoleNames.User, IdentityRoleNames.Courier)]
         public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);

@@ -2,6 +2,7 @@ import { errorMessage, successMessage } from './alerts';
 import { generalMessages } from '../constants/messages/general';
 import ordersService from './../api/orders';
 import { ordersMessages } from './../constants/messages/orders';
+import { statusCodes } from './../constants/statusCodes';
 
 export function orderAll(model) {
 
@@ -25,6 +26,33 @@ export function orderAll(model) {
         .catch(() => {
             errorMessage(
                 ordersMessages.FAILED_TO_ORDER,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function getAvailableOrders(paginationFilterModel) {
+
+    return ordersService
+        .getAvailable(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });
