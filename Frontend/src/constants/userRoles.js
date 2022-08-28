@@ -1,5 +1,6 @@
 export const userRoles = {
     GUEST: 'Guest',
     USER: 'User',
-    ADMIN: 'Admin'
+    ADMIN: 'Admin',
+    COURIER: 'Courier'
 };

@@ -9,5 +9,6 @@ export const pageUrls = {
     RESET_PASSWORD: "/reset-password",
     CART: "/cart",
     VIEW_USER_CART: "/user-cart",
-    VIEW_MY_GOODS: "/goods/my"
+    VIEW_MY_GOODS: "/goods/my",
+    AVAILABLE_ORDERS: "/orders/available"
 };

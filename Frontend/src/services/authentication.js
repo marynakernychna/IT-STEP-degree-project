@@ -66,10 +66,13 @@ export function loginUser(userData, history) {
 
                 switch (role) {
                     case userRoles.USER:
-                        history.push(pageUrls.VIEW_PROFILE_INFO);
+                        history.push(pageUrls.VIEW_GOODS);
                         break;
                     case userRoles.ADMIN:
                         history.push(pageUrls.CLIENTS_BRIEF_INFO);
+                        break;
+                    case userRoles.COURIER:
+                        history.push(pageUrls.AVAILABLE_ORDERS);
                         break;
                     default:
                         errorMessage(
