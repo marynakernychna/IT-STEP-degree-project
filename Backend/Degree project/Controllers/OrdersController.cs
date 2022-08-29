@@ -62,7 +62,9 @@ namespace API.Controllers
         [AuthorizeByRole(IdentityRoleNames.Courier)]
         public async Task<IActionResult> RejectSelectedOrdedr([FromQuery] int orderId)
         {
-            await _orderService.RejectSelectedOrderAsync(orderId);
+            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.RejectSelectedOrderAsync(orderId, courierId);
 
             return Ok();
         }

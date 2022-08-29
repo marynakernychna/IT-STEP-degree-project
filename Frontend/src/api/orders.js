@@ -12,4 +12,9 @@ export default class ordersService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+    
+    static assignToOrder(orderId) {
+        return instance.get(ORDERS_URLS.ASSIGN_TO_ORDER +
+            `?OrderId=${orderId}`);
+    }
 }

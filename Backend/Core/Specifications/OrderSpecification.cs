@@ -21,5 +21,14 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+        internal class GetByCourier : Specification<Order>
+        {
+            public GetByCourier(int orderId, string courierId)
+            {
+                Query.Where(o => o.Id == orderId &&
+                            o.CourierId == courierId)
+                     .AsNoTracking();
+            }
+        }
     }
 }

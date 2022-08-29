@@ -156,6 +156,9 @@
   <data name="NewInfoSamePrevious" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
   </data>
+  <data name="OrderAlreadySelected" xml:space="preserve">
+    <value>Еhe order is already selected!</value>
+  </data>
   <data name="OrderNotFound" xml:space="preserve">
     <value>Order not found!</value>
   </data>

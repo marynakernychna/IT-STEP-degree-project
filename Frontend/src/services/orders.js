@@ -57,3 +57,29 @@ export function getAvailableOrders(paginationFilterModel) {
             );
         });
 }
+
+export function pickOrder(orderId) {
+
+    return ordersService
+        .assignToOrder(orderId)
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.SUCCESSFULLY_PICK_ORDER
+                );
+                return true;
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                )
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
