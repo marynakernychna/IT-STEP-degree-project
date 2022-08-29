@@ -134,9 +134,10 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task RejectSelectedOrderAsync(int orderId)
+        public async Task RejectSelectedOrderAsync(int orderId, string courierId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId);
+            var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCourier(orderId, courierId));
 
             ExtensionMethods.OrderNullCheck(order);
 

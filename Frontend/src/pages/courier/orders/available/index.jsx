@@ -37,6 +37,7 @@ const ViewAvailableOrders = () => {
                     {orders.items.map((order) =>
                         <Order
                             info={order}
+                            updateOrder={() => updateAvailableOrders()}
                         />
                     )}
 
