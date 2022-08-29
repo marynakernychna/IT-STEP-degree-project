@@ -22,13 +22,28 @@ namespace Core.Specifications
             }
         }
 
-        internal class GetByCourier : Specification<Order>, 
+        internal class GetByCourier : Specification<Order>,
                                       ISingleResultSpecification<Order>
         {
             public GetByCourier(int orderId, string courierId)
             {
-                Query.Where(o => o.Id == orderId &&
-                            o.CourierId == courierId)
+                Query.Where(o => o.Id == orderId && o.CourierId == courierId)
+                     .AsNoTracking();
+            }
+        }
+
+        internal class GetListByCourier : Specification<Order>
+        {
+            public GetListByCourier(
+                string courierId, PaginationFilterDTO paginationFilterDTO)
+            {
+                Query.Where(o => o.CourierId == courierId)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.Creator)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.WareCarts)
+                     .Skip((paginationFilterDTO.PageNumber - 1) * paginationFilterDTO.PageSize)
+                     .Take(paginationFilterDTO.PageSize)
                      .AsNoTracking();
             }
         }
