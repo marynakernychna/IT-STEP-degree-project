@@ -58,15 +58,16 @@ export function getAvailableOrders(paginationFilterModel) {
         });
 }
 
-export function pickOrder(orderId) {
+export function assignToOrder(orderId) {
 
     return ordersService
-        .assignToOrder(orderId)
+        .assign(orderId)
         .then(
             () => {
                 successMessage(
-                    ordersMessages.SUCCESSFULLY_PICK_ORDER
+                    ordersMessages.ORDER_SUCCESSFULLY_PICKED
                 );
+
                 return true;
             },
             (err) => {
@@ -78,7 +79,7 @@ export function pickOrder(orderId) {
         )
         .catch(() => {
             errorMessage(
-                generalMessages.GET_DATA_FAILED,
+                ordersMessages.FAILED_PICKED_ORDER,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });

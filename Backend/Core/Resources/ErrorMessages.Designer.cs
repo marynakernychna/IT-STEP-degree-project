@@ -178,11 +178,11 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Еhe order is already selected!.
+        ///   Looks up a localized string similar to The order is already picked!.
         /// </summary>
-        internal static string OrderAlreadySelected {
+        internal static string OrderAlreadyPicked {
             get {
-                return ResourceManager.GetString("OrderAlreadySelected", resourceCulture);
+                return ResourceManager.GetString("OrderAlreadyPicked", resourceCulture);
             }
         }
         

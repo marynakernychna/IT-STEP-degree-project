@@ -48,5 +48,5 @@ export const CARTS_URLS = {
 export const ORDERS_URLS = {
     CREATE: ORDERS_URL + "/create",
     GET_AVAILABLE: ORDERS_URL + "/available",
-    ASSIGN_TO_ORDER: ORDERS_URL + "/assign-to-order"
+    ASSIGN: ORDERS_URL + "/assign-to-order"
 };

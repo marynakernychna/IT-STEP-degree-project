@@ -13,8 +13,8 @@ export default class ordersService {
              &PageSize=${paginationFilterModel.pageSize}`);
     }
     
-    static assignToOrder(orderId) {
-        return instance.get(ORDERS_URLS.ASSIGN_TO_ORDER +
+    static assign(orderId) {
+        return instance.get(ORDERS_URLS.ASSIGN +
             `?OrderId=${orderId}`);
     }
 }

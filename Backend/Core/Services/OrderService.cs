@@ -136,9 +136,8 @@ namespace Core.Services
 
         public async Task RejectSelectedOrderAsync(int orderId, string courierId)
         {
-            var order = await _orderRepository.FirstOrDefaultAsync(
+            var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCourier(orderId, courierId));
-            //var order = await _orderRepository.GetByIdAsync(orderId);
 
             ExtensionMethods.OrderNullCheck(order);
 

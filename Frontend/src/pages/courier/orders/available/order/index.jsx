@@ -1,13 +1,17 @@
 import React from "react";
 import { Card, Button } from 'antd';
-import { pickOrder } from "../../../../../services/orders"
+import { assignToOrder } from "../../../../../services/orders"
+import { getAvailableOrders } from '../../../../../services/orders';
+import {ViewAvailableOrders} from "../index"
 
 function Order(props) {
+
 
     const data = props.info;
 
     const onClick = async () => {
-        await pickOrder(data.id);
+        await assignToOrder(data.id);
+        props.updateOrder();
     };
 
     return (
@@ -42,7 +46,7 @@ function Order(props) {
                     type="primary"
                     onClick={() => onClick()}
                 >
-                    Pick an order
+                    Pick the order
                 </Button>
             </Card.Grid>
 

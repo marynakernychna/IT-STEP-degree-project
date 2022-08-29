@@ -21,7 +21,9 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
-        internal class GetByCourier : Specification<Order>
+
+        internal class GetByCourier : Specification<Order>, 
+                                      ISingleResultSpecification<Order>
         {
             public GetByCourier(int orderId, string courierId)
             {
