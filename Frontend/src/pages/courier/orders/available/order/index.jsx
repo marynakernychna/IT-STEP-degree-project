@@ -1,17 +1,15 @@
 import React from "react";
 import { Card, Button } from 'antd';
 import { assignToOrder } from "../../../../../services/orders"
-import { getAvailableOrders } from '../../../../../services/orders';
-import {ViewAvailableOrders} from "../index"
 
 function Order(props) {
-
 
     const data = props.info;
 
     const onClick = async () => {
-        await assignToOrder(data.id);
-        props.updateOrder();
+        if (await assignToOrder(data.id) == true) {
+            props.updateOrder();
+        }
     };
 
     return (
