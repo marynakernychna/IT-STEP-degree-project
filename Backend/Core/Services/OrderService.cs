@@ -94,23 +94,7 @@ namespace Core.Services
             var ordersList = await _orderRepository.ListAsync(
                 new OrderSpecification.GetAvailable(paginationFilterDTO));
 
-            var orders = new List<OrderInfoDTO>();
-
-            foreach (var order in ordersList)
-            {
-                var user = order.Cart.Creator;
-
-                orders.Add(new OrderInfoDTO
-                {
-                    Id = order.Id,
-                    Address = order.Address,
-                    City = order.City,
-                    Country = order.Country,
-                    ClientFullName = user.Name + ' ' + user.Surname,
-                    ClientPhoneNumber = user.PhoneNumber,
-                    WaresCount = order.Cart.WareCarts.Count
-                });
-            }
+            var orders = FormOrderInfoDTOList(ordersList);
 
             return PaginatedList<OrderInfoDTO>.Evaluate(
                 orders,
@@ -121,9 +105,7 @@ namespace Core.Services
 
         public async Task AssignToOrderAsync(string courierId, int orderId)
         {
-            var courier = await _userRepository.GetByIdAsync(courierId);
-
-            ExtensionMethods.UserNullCheck(courier);
+            var courier = await CheckCourierIdAsync(courierId);
 
             var order = await _orderRepository.GetByIdAsync(orderId);
 
@@ -145,6 +127,66 @@ namespace Core.Services
             order.CourierId = null;
 
             await _orderRepository.UpdateAsync(order);
+        }
+
+        public async Task<PaginatedList<OrderInfoDTO>> GetByCourierAsync(
+            string courierId, PaginationFilterDTO paginationFilterDTO)
+        {
+            var courier = await CheckCourierIdAsync(courierId);
+
+            var ordersCount = await _orderRepository.CountAsync(
+                new OrderSpecification.GetListByCourier(courierId, paginationFilterDTO));
+
+            if (ordersCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<OrderInfoDTO>
+                .GetTotalPages(paginationFilterDTO, ordersCount);
+
+            var ordersList = await _orderRepository.ListAsync(
+                new OrderSpecification.GetListByCourier(courierId, paginationFilterDTO));
+
+            var orders = FormOrderInfoDTOList(ordersList);
+
+            return PaginatedList<OrderInfoDTO>.Evaluate(
+                orders,
+                paginationFilterDTO.PageNumber,
+                ordersCount,
+                totalPages);
+        }
+
+        private async Task<User> CheckCourierIdAsync(string courierId)
+        {
+            var courier = await _userRepository.GetByIdAsync(courierId);
+
+            ExtensionMethods.UserNullCheck(courier);
+
+            return courier;
+        }
+
+        private static List<OrderInfoDTO> FormOrderInfoDTOList(List<Order> ordersList)
+        {
+            var orders = new List<OrderInfoDTO>();
+
+            foreach (var order in ordersList)
+            {
+                var user = order.Cart.Creator;
+
+                orders.Add(new OrderInfoDTO
+                {
+                    Id = order.Id,
+                    Address = order.Address,
+                    City = order.City,
+                    Country = order.Country,
+                    ClientFullName = user.Name + ' ' + user.Surname,
+                    ClientPhoneNumber = user.PhoneNumber,
+                    WaresCount = order.Cart.WareCarts.Count
+                });
+            }
+
+            return orders;
         }
     }
 }

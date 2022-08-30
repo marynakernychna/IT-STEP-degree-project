@@ -68,5 +68,17 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("by-courier")]
+        [AuthorizeByRole(IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetByCourierAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var orders = await _orderService.GetByCourierAsync(courierId, paginationFilterDTO);
+
+            return Ok(orders);
+        }
     }
 }
