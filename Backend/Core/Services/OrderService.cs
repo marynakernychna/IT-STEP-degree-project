@@ -77,6 +77,32 @@ namespace Core.Services
             await _cartService.CreateAsync(user);
         }
 
+        public async Task<PaginatedList<OrderInfoDTO>> GetByUserAsync(
+            string userId, PaginationFilterDTO paginationFilterDTO)
+        {
+            var ordersCount = await _orderRepository.CountAsync(
+                new OrderSpecification.GetByUser(userId, paginationFilterDTO));
+
+            if (ordersCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<OrderInfoDTO>
+                .GetTotalPages(paginationFilterDTO, ordersCount);
+
+            var ordersList = await _orderRepository.ListAsync(
+                new OrderSpecification.GetByUser(userId, paginationFilterDTO));
+
+            var orders = FormOrderInfoDTOList(ordersList);
+
+            return PaginatedList<OrderInfoDTO>.Evaluate(
+                orders,
+                paginationFilterDTO.PageNumber,
+                ordersCount,
+                totalPages);
+        }
+
         public async Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
             PaginationFilterDTO paginationFilterDTO)
         {
