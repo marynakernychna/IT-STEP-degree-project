@@ -77,7 +77,7 @@ namespace Core.Services
             await _cartService.CreateAsync(user);
         }
 
-        public async Task<PaginatedList<OrderInfoDTO>> GetByUserAsync(
+        public async Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
             var ordersCount = await _orderRepository.CountAsync(
@@ -94,9 +94,32 @@ namespace Core.Services
             var ordersList = await _orderRepository.ListAsync(
                 new OrderSpecification.GetByUser(userId, paginationFilterDTO));
 
-            var orders = FormOrderInfoDTOList(ordersList);
+            var orders = new List<UserOrderInfoDTO>();
 
-            return PaginatedList<OrderInfoDTO>.Evaluate(
+            foreach (var order in ordersList)
+            {
+                var isPicked = false;
+
+                if (order.CourierId != null)
+                {
+                    isPicked = true;
+                }
+
+                var user = order.Cart.Creator;
+
+                orders.Add(new UserOrderInfoDTO
+                {
+                    Id = order.Id,
+                    Address = order.Address,
+                    City = order.City,
+                    Country = order.Country,
+                    PhoneNumber = user.PhoneNumber,
+                    WaresCount = order.Cart.WareCarts.Count,
+                    IsPicked = isPicked
+                });
+            }
+
+            return PaginatedList<UserOrderInfoDTO>.Evaluate(
                 orders,
                 paginationFilterDTO.PageNumber,
                 ordersCount,

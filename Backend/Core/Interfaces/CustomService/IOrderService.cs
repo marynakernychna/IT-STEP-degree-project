@@ -10,7 +10,7 @@ namespace Core.Interfaces.CustomService
         Task CreateAsync(string userId, CreateOrderDTO createOrderDTO);
         Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
             PaginationFilterDTO paginationFilterDTO);
-        Task<PaginatedList<OrderInfoDTO>> GetByUserAsync(
+        Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
         Task AssignToOrderAsync(string courierId, int orderId);
         Task RejectSelectedOrderAsync(int orderId, string courierId);
