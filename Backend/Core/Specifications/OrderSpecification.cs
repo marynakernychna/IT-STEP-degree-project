@@ -22,6 +22,21 @@ namespace Core.Specifications
             }
         }
 
+        internal class GetByUser : Specification<Order>
+        {
+            public GetByUser(string userId, PaginationFilterDTO paginationFilterDTO)
+            {
+                Query.Where(o => o.Cart.CreatorId == userId)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.Creator)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.WareCarts)
+                     .Skip((paginationFilterDTO.PageNumber - 1) * paginationFilterDTO.PageSize)
+                     .Take(paginationFilterDTO.PageSize)
+                     .AsNoTracking();
+            }
+        }
+
         internal class GetByCourier : Specification<Order>,
                                       ISingleResultSpecification<Order>
         {

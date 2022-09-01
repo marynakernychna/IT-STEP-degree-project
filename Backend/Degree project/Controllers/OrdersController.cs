@@ -35,6 +35,19 @@ namespace API.Controllers
             await _orderService.CreateAsync(userId, createOrderDTO);
 
             return Ok();
+
+        }
+
+        [HttpGet("by-user")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetByUserAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var orders = await _orderService.GetByUserAsync(userId, paginationFilterDTO);
+
+            return Ok(orders);
         }
 
         [HttpGet("available")]
