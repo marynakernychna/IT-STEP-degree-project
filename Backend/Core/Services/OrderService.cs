@@ -98,13 +98,6 @@ namespace Core.Services
 
             foreach (var order in ordersList)
             {
-                var isPicked = false;
-
-                if (order.CourierId != null)
-                {
-                    isPicked = true;
-                }
-
                 var user = order.Cart.Creator;
 
                 orders.Add(new UserOrderInfoDTO
@@ -115,7 +108,7 @@ namespace Core.Services
                     Country = order.Country,
                     PhoneNumber = user.PhoneNumber,
                     WaresCount = order.Cart.WareCarts.Count,
-                    IsPicked = isPicked
+                    IsPicked = order.CourierId != null  
                 });
             }
 
