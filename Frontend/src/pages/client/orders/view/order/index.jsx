@@ -44,7 +44,6 @@ function Order(props) {
                     }
                 </div>
             </Card.Grid>
-
         </Card>
     )
 }

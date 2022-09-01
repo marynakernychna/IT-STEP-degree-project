@@ -29,7 +29,7 @@ const ViewOrders = () => {
     };
 
     return (
-        <div id="availableOrdersPage">
+        <div id="ordersPage">
             <p id="pageTitle">Orders</p>
 
             {orders != null ?
@@ -52,7 +52,7 @@ const ViewOrders = () => {
                 :
                 <Result
                     status="404"
-                    title="There are no available orders yet!"
+                    title="There are no orders yet!"
                 />
             }
         </div>
