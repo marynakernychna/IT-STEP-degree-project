@@ -22,6 +22,7 @@ import Cart from './pages/client/cart/index';
 import ViewUserCartPage from './pages/admin/clients/cart/index';
 import ViewMyGoodsPage from './pages/client/goods/myGoods/index'
 import ViewAvailableOrders from './pages/courier/orders/available/index';
+import ViewOrders from './pages/client/orders/view/index';
 
 const history = createBrowserHistory();
 
@@ -90,6 +91,13 @@ export default function App() {
                     path={pageUrls.VIEW_MY_GOODS}
                     allowedRoles={[userRoles.USER]}
                     component={ViewMyGoodsPage}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.VIEW_MY_ORDERS}
+                    allowedRoles={[userRoles.USER]}
+                    component={ViewOrders}
                 />
 
                 <Route
