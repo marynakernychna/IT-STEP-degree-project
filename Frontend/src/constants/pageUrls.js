@@ -10,5 +10,6 @@ export const pageUrls = {
     CART: "/cart",
     VIEW_USER_CART: "/user-cart",
     VIEW_MY_GOODS: "/goods/my",
-    AVAILABLE_ORDERS: "/orders/available"
+    AVAILABLE_ORDERS: "/orders/available",
+    VIEW_MY_ORDERS: "/orders"
 };
