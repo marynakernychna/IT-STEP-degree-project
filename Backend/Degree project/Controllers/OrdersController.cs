@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] CreateOrderDTO createOrderDTO)
+            [FromBody] OrderDTO createOrderDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
@@ -92,6 +92,18 @@ namespace API.Controllers
             var orders = await _orderService.GetByCourierAsync(courierId, paginationFilterDTO);
 
             return Ok(orders);
+        }
+
+        [HttpPut("change-by-id")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> ChangeByIdAsync(
+            [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.ChangeInfoAsync(changeOrderInfoDTO, userId);
+
+            return Ok();
         }
     }
 }
