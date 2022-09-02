@@ -35,7 +35,7 @@ namespace Core.Services
             _cartService = cartService;
         }
 
-        public async Task CreateAsync(string userId, CreateOrderDTO createOrderDTO)
+        public async Task CreateAsync(string userId, OrderDTO createOrderDTO)
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -108,7 +108,7 @@ namespace Core.Services
                     Country = order.Country,
                     PhoneNumber = user.PhoneNumber,
                     WaresCount = order.Cart.WareCarts.Count,
-                    IsPicked = order.CourierId != null  
+                    IsPicked = order.CourierId != null
                 });
             }
 
@@ -229,6 +229,34 @@ namespace Core.Services
             }
 
             return orders;
+        }
+
+        public async Task ChangeInfoAsync(
+            ChangeOrderInfoDTO changeOrderInfoDTO, string userId)
+        {
+            var newInfo = changeOrderInfoDTO.OrderInfo;
+
+            var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCreatorIdAndId(userId, changeOrderInfoDTO.OrderId));
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            if (newInfo.Address == order.Address &&
+                newInfo.City == order.City &&
+                newInfo.Country == order.Country)
+            {
+                throw new HttpException(
+                    ErrorMessages.PreviousInfoIsTheSame,
+                    HttpStatusCode.BadRequest);
+            }
+
+            order.Address = newInfo.Address;
+            order.City = newInfo.City;
+            order.Country = newInfo.Country;
+
+            order.CourierId = null;
+
+            await _orderRepository.UpdateAsync(order);
         }
     }
 }

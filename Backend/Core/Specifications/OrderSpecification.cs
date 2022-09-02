@@ -62,5 +62,15 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetByCreatorIdAndId : Specification<Order>,
+                                             ISingleResultSpecification<Order>
+        {
+            public GetByCreatorIdAndId(string creatorId, int orderId)
+            {
+                Query.Where(o => o.Id == orderId && o.Cart.CreatorId == creatorId)
+                     .AsNoTracking();
+            }
+        }
     }
 }

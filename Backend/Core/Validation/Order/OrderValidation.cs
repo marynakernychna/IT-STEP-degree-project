@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Core.Validation.Order
 {
-    public class CreateOrderValidation : AbstractValidator<CreateOrderDTO>
+    public class OrderValidation : AbstractValidator<OrderDTO>
     {
-        public CreateOrderValidation()
+        public OrderValidation()
         {
             RuleFor(o => o.Address)
                 .NotEmpty()
