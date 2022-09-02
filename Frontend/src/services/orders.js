@@ -138,3 +138,30 @@ export function getOrdersByCourier(paginationFilterModel) {
             );
         });
 }
+
+export function rejectSelectedOrder(orderId) {
+
+    return ordersService
+        .reject(orderId)
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.ORDER_SUCCESSFULLY_REJECT
+                );
+
+                return true;
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                )
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                ordersMessages.FAILED_REJECT_ORDER,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}

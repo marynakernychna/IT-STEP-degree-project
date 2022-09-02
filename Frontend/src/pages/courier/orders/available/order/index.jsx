@@ -7,7 +7,7 @@ function Order(props) {
     const data = props.info;
 
     const onClick = async () => {
-        if (await assignToOrder(data.id)) {
+        if (await assignToOrder({ id: data.id })) {
             props.updateOrder();
         }
     };
@@ -36,6 +36,14 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
                 {data.clientPhoneNumber}
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Quantity of goods:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                {data.waresCount}
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>

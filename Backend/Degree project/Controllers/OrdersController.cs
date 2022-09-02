@@ -60,24 +60,24 @@ namespace API.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("assign-to-order")]
+        [HttpPut("assign-to-order")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> AssignToOrderAsync([FromQuery] int orderId)
+        public async Task<IActionResult> AssignToOrderAsync([FromBody] EntityIdDTO idDTO)
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
-            await _orderService.AssignToOrderAsync(courierId, orderId);
+            await _orderService.AssignToOrderAsync(courierId, idDTO);
 
             return Ok();
         }
 
         [HttpPut("reject-selected-order")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> RejectSelectedOrdedr([FromQuery] int orderId)
+        public async Task<IActionResult> RejectSelectedOrderAsync([FromBody] EntityIdDTO idDTO)
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
-            await _orderService.RejectSelectedOrderAsync(orderId, courierId);
+            await _orderService.RejectSelectedOrderAsync(idDTO, courierId);
 
             return Ok();
         }
