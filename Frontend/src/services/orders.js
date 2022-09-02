@@ -111,3 +111,30 @@ export function assignToOrder(orderId) {
             );
         });
 }
+
+export function getOrdersByCourier(paginationFilterModel) {
+
+    return ordersService
+        .getByCourier(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
