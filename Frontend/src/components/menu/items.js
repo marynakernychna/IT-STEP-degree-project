@@ -44,7 +44,8 @@ export const userItems = [
 export const courierItems = [
     getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
     getItem("Orders", 'sub1', <AppstoreOutlined />, [
-        getItem("Available", pageUrls.AVAILABLE_ORDERS)
+        getItem("Available", pageUrls.AVAILABLE_ORDERS),
+        getItem("Picked", pageUrls.PICKED_ORDERS)
     ]),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];

@@ -19,6 +19,12 @@ export default class ordersService {
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
+    static getByCourier(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_BY_COURIER +
+            `?PageNumber=${paginationFilterModel.pageNumber}
+             &PageSize=${paginationFilterModel.pageSize}`);
+    }
+
     static assign(orderId) {
         return instance.get(ORDERS_URLS.ASSIGN +
             `?OrderId=${orderId}`);

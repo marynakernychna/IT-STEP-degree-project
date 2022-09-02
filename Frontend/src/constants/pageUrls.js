@@ -11,5 +11,6 @@ export const pageUrls = {
     VIEW_USER_CART: "/user-cart",
     VIEW_MY_GOODS: "/goods/my",
     AVAILABLE_ORDERS: "/orders/available",
-    VIEW_MY_ORDERS: "/orders"
+    VIEW_MY_ORDERS: "/orders",
+    PICKED_ORDERS: "/orders/picked"
 };
