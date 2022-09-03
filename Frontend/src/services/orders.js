@@ -85,10 +85,10 @@ export function getAvailableOrders(paginationFilterModel) {
         });
 }
 
-export function assignToOrder(orderId) {
+export function assignToOrder(id) {
 
     return ordersService
-        .assign(orderId)
+        .assign({ id })
         .then(
             () => {
                 successMessage(
@@ -139,10 +139,10 @@ export function getOrdersByCourier(paginationFilterModel) {
         });
 }
 
-export function rejectSelectedOrder(orderId) {
+export function rejectSelectedOrder(id) {
 
     return ordersService
-        .reject(orderId)
+        .reject({ id })
         .then(
             () => {
                 successMessage(

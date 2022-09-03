@@ -12,8 +12,8 @@ namespace Core.Interfaces.CustomService
             PaginationFilterDTO paginationFilterDTO);
         Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
-        Task AssignToOrderAsync(string courierId, EntityIdDTO idDTO);
-        Task RejectSelectedOrderAsync(EntityIdDTO idDTO, string courierId);
+        Task AssignToOrderAsync(string courierId, int orderId);
+        Task RejectSelectedOrderAsync(int orderId, string courierId);
         Task<PaginatedList<OrderInfoDTO>> GetByCourierAsync(
             string courierId, PaginationFilterDTO paginationFilterDTO);
         Task ChangeInfoAsync(

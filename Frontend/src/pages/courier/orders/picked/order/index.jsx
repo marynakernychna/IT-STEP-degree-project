@@ -7,7 +7,7 @@ function Order(props) {
     const data = props.info;
 
     const onClick = async () => {
-        if (await rejectSelectedOrder({ id: data.id })) {
+        if (await rejectSelectedOrder(data.id)) {
             props.updateOrder();
         }
     };

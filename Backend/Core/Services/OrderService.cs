@@ -145,11 +145,11 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task AssignToOrderAsync(string courierId, EntityIdDTO idDTO)
+        public async Task AssignToOrderAsync(string courierId, int orderId)
         {
             var courier = await CheckCourierIdAsync(courierId);
 
-            var order = await _orderRepository.GetByIdAsync(idDTO.Id);
+            var order = await _orderRepository.GetByIdAsync(orderId);
 
             ExtensionMethods.OrderNullCheck(order);
 
@@ -158,10 +158,10 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task RejectSelectedOrderAsync(EntityIdDTO idDTO, string courierId)
+        public async Task RejectSelectedOrderAsync(int orderId, string courierId)
         {
             var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCourier(idDTO.Id, courierId));
+                new OrderSpecification.GetByCourier(orderId, courierId));
 
             ExtensionMethods.OrderNullCheck(order);
 

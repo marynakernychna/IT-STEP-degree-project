@@ -66,7 +66,7 @@ namespace API.Controllers
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
-            await _orderService.AssignToOrderAsync(courierId, idDTO);
+            await _orderService.AssignToOrderAsync(courierId, idDTO.Id);
 
             return Ok();
         }
@@ -77,7 +77,7 @@ namespace API.Controllers
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
-            await _orderService.RejectSelectedOrderAsync(idDTO, courierId);
+            await _orderService.RejectSelectedOrderAsync(idDTO.Id, courierId);
 
             return Ok();
         }
