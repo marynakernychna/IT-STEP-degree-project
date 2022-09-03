@@ -50,5 +50,6 @@ export const ORDERS_URLS = {
     GET_BY_USER: ORDERS_URL + "/by-user",
     GET_BY_COURIER: ORDERS_URL + "/by-courier",
     GET_AVAILABLE: ORDERS_URL + "/available",
-    ASSIGN: ORDERS_URL + "/assign-to-order"
+    ASSIGN: ORDERS_URL + "/assign-to-order",
+    REJECT: ORDERS_URL + "/reject-selected-order"
 };

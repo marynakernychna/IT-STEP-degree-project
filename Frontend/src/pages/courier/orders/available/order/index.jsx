@@ -39,6 +39,14 @@ function Order(props) {
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Quantity of goods:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                {data.waresCount}
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
                     className="submitButton"
                     type="primary"

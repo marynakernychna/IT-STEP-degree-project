@@ -25,7 +25,7 @@ function Order(props) {
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                The number of goods in the order:
+                Quantity of goods:
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>

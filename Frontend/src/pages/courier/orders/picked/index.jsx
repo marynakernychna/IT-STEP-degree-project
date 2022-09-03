@@ -20,7 +20,7 @@ const ViewPickedOrders = () => {
     const onPaginationChange = async (page, pageSize) => {
         paginationFilterModel.pageNumber = page;
         paginationFilterModel.pageSize = pageSize;
-        
+
         updatePickedOrders(paginationFilterModel);
     };
 
@@ -37,6 +37,7 @@ const ViewPickedOrders = () => {
                     {orders.items.map((order) =>
                         <Order
                             info={order}
+                            updateOrder={() => updatePickedOrders()}
                         />
                     )}
 

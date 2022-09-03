@@ -85,10 +85,10 @@ export function getAvailableOrders(paginationFilterModel) {
         });
 }
 
-export function assignToOrder(orderId) {
+export function assignToOrder(id) {
 
     return ordersService
-        .assign(orderId)
+        .assign({ id })
         .then(
             () => {
                 successMessage(
@@ -134,6 +134,33 @@ export function getOrdersByCourier(paginationFilterModel) {
         .catch(() => {
             errorMessage(
                 generalMessages.GET_DATA_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function rejectSelectedOrder(id) {
+
+    return ordersService
+        .reject({ id })
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.ORDER_SUCCESSFULLY_REJECT
+                );
+
+                return true;
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                )
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                ordersMessages.FAILED_REJECT_ORDER,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });

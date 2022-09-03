@@ -26,7 +26,10 @@ export default class ordersService {
     }
 
     static assign(orderId) {
-        return instance.get(ORDERS_URLS.ASSIGN +
-            `?OrderId=${orderId}`);
+        return instance.put(ORDERS_URLS.ASSIGN, orderId);
+    }
+
+    static reject(orderId) {
+        return instance.put(ORDERS_URLS.REJECT, orderId);
     }
 }

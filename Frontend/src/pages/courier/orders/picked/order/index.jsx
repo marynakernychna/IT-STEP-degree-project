@@ -1,9 +1,16 @@
 import React from "react";
-import { Card } from 'antd';
+import { Card, Button } from 'antd';
+import { rejectSelectedOrder } from "../../../../../services/orders"
 
 function Order(props) {
 
     const data = props.info;
+
+    const onClick = async () => {
+        if (await rejectSelectedOrder(data.id)) {
+            props.updateOrder();
+        }
+    };
 
     return (
         <Card id="orderCard">
@@ -37,6 +44,16 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
                 {data.waresCount}
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                <Button
+                    className="submitButton"
+                    type="primary"
+                    onClick={() => onClick()}
+                >
+                    Reject the order
+                </Button>
             </Card.Grid>
         </Card>
     )
