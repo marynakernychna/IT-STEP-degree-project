@@ -18,15 +18,14 @@ namespace API.Controllers
 
         public AuthenticationController(
                 IAuthenticationService authenticationService,
-                IUserService userService
-            )
+                IUserService userService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(
+        [HttpPost("clients/register")]
+        public async Task<IActionResult> RegisterClientAsync(
             [FromBody] UserRegistrationDTO userRegistrationDTO)
         {
             await _authenticationService.RegisterAsync(userRegistrationDTO);
@@ -35,16 +34,33 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO data)
+        public async Task<IActionResult> LoginAsync(
+            [FromBody] UserLoginDTO data)
         {
             var tokens = await _authenticationService.LoginAsync(data);
 
             return Ok(tokens);
         }
 
+        [HttpPost("reset-password-request")]
+        public async Task<IActionResult> SendResetPasswordRequestAsync(
+            [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
+        {
+            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+
+            await _authenticationService.SendConfirmResetPasswordEmailAsync(
+                confirmationResetPasswordDTO.Email, callbackUrl);
+
+            return Ok();
+        }
+
         [HttpPost("logout")]
-        [AuthorizeByRole(IdentityRoleNames.Admin, IdentityRoleNames.User, IdentityRoleNames.Courier)]
-        public async Task<IActionResult> LogoutAsync([FromBody] UserLogoutDTO userLogoutDTO)
+        [AuthorizeByRole(
+            IdentityRoleNames.Admin,
+            IdentityRoleNames.User,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> LogoutAsync(
+            [FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);
 
@@ -52,25 +68,16 @@ namespace API.Controllers
         }
 
         [HttpPut("change-password")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(
+            IdentityRoleNames.User,
+            IdentityRoleNames.Courier,
+            IdentityRoleNames.Admin)]
         public async Task<IActionResult> ChangePasswordAsync(
             [FromBody] ChangePasswordDTO changePasswordDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
             await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
-
-            return Ok();
-        }
-
-        [HttpPost("request-password-reset")]
-        public async Task<IActionResult> SendConfirmResetPasswordEmailAsync(
-            [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
-        {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
-            await _authenticationService.SendConfirmResetPasswordEmailAsync(
-                confirmationResetPasswordDTO.Email, callbackUrl);
 
             return Ok();
         }

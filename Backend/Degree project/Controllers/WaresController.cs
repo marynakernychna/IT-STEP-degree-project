@@ -26,18 +26,19 @@ namespace API.Controllers
             _wareService = wareService;
         }
 
-        [HttpPost("create")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> CreateAsync(
-            [FromBody] CreateWareDTO createWareDTO)
+        [HttpGet("by-id")]
+        [AuthorizeByRole(
+            IdentityRoleNames.User,
+            IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetByIdAsync(
+            [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            await _wareService.CreateAsync(createWareDTO, userId);
+            var ware = await _wareService.GetByIdAsync(entityIdDTO.Id);
 
-            return Ok();
+            return Ok(ware);
         }
 
-        [HttpGet]
+        [HttpGet("page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetAllAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
@@ -47,36 +48,37 @@ namespace API.Controllers
             return Ok(wares);
         }
 
-        [HttpGet("by-category")]
+        [HttpGet("by-category/page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetByCategoryAsync(
-           [FromQuery] PaginationFilterWareDTO paginationFilter)
+            [FromQuery] PaginationFilterWareDTO paginationFilter)
         {
             var wares = await _wareService.GetByCategoryAsync(paginationFilter);
 
             return Ok(wares);
         }
 
-        [HttpGet("by-id")]
-        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetByIdAsync(
-           [FromQuery] EntityIdDTO entityIdDTO)
-        {
-            var ware = await _wareService.GetByIdAsync(entityIdDTO.Id);
-
-            return Ok(ware);
-        }
-
-        [HttpGet("created-by-user")]
+        [HttpGet("clients/by-client/page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetCreatedByUserAsync(
-           [FromQuery] PaginationFilterDTO paginationFilter)
+        public async Task<IActionResult> GetCreatedByClientAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
             var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
 
             return Ok(ware);
+        }
+
+        [HttpPost("create")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] CreateWareDTO createWareDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            await _wareService.CreateAsync(createWareDTO, userId);
+
+            return Ok();
         }
     }
 }

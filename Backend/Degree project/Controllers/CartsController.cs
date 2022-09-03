@@ -25,9 +25,9 @@ namespace API.Controllers
             _cartService = cartService;
         }
 
-        [HttpGet("by-user")]
+        [HttpGet("by-client/page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetByUserAsync(
+        public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
@@ -37,7 +37,17 @@ namespace API.Controllers
             return Ok(wares);
         }
 
-        [HttpPost("add-ware")]
+        [HttpGet("admins/by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageByClientAsync(
+            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
+        {
+            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
+
+            return Ok(wares);
+        }
+
+        [HttpPut("by-client/add-ware")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> AddWareAsync(
             [FromBody] EntityIdDTO entityIdDTO)
@@ -49,7 +59,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete-ware")]
+        [HttpDelete("by-client/delete-ware")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> DeleteWareAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
@@ -59,16 +69,6 @@ namespace API.Controllers
             await _cartService.DeleteWareAsync(userId, entityIdDTO.Id);
 
             return Ok();
-        }
-
-        [HttpGet("admin/by-user")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetCartByUserAsync(
-            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
-        {
-            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
-
-            return Ok(wares);
         }
     }
 }

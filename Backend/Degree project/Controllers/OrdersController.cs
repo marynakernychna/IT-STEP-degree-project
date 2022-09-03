@@ -25,6 +25,40 @@ namespace API.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet("clients/by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetPageByClientAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var orders = await _orderService.GetByUserAsync(userId, paginationFilterDTO);
+
+            return Ok(orders);
+        }
+
+        [HttpGet("couriers/available/page")]
+        [AuthorizeByRole(IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetPageOfAvailvableAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var orders = await _orderService.GetAvailableAsync(paginationFilterDTO);
+
+            return Ok(orders);
+        }
+
+        [HttpGet("couriers/by-courier/assigned/page")]
+        [AuthorizeByRole(IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetPageOfAssignedByCourierAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var orders = await _orderService.GetByCourierAsync(courierId, paginationFilterDTO);
+
+            return Ok(orders);
+        }
+
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> CreateAsync(
@@ -38,31 +72,22 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("by-user")]
+        [HttpPut("update")]
         [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetByUserAsync(
-            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        public async Task<IActionResult> UpdateAsync(
+            [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
-            var orders = await _orderService.GetByUserAsync(userId, paginationFilterDTO);
+            await _orderService.ChangeInfoAsync(changeOrderInfoDTO, userId);
 
-            return Ok(orders);
+            return Ok();
         }
 
-        [HttpGet("available")]
+        [HttpPut("couriers/assign")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> GetAvailvableAsync(
-            [FromQuery] PaginationFilterDTO paginationFilterDTO)
-        {
-            var orders = await _orderService.GetAvailableAsync(paginationFilterDTO);
-
-            return Ok(orders);
-        }
-
-        [HttpPut("assign-to-order")]
-        [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> AssignToOrderAsync([FromBody] EntityIdDTO idDTO)
+        public async Task<IActionResult> AssignAsync(
+            [FromBody] EntityIdDTO idDTO)
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
@@ -71,37 +96,14 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPut("reject-selected-order")]
+        [HttpPut("couriers/reject")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> RejectSelectedOrderAsync([FromBody] EntityIdDTO idDTO)
+        public async Task<IActionResult> RejectAsync(
+            [FromBody] EntityIdDTO idDTO)
         {
             var courierId = _userService.GetCurrentUserNameIdentifier(User);
 
             await _orderService.RejectSelectedOrderAsync(idDTO.Id, courierId);
-
-            return Ok();
-        }
-
-        [HttpGet("by-courier")]
-        [AuthorizeByRole(IdentityRoleNames.Courier)]
-        public async Task<IActionResult> GetByCourierAsync(
-            [FromQuery] PaginationFilterDTO paginationFilterDTO)
-        {
-            var courierId = _userService.GetCurrentUserNameIdentifier(User);
-
-            var orders = await _orderService.GetByCourierAsync(courierId, paginationFilterDTO);
-
-            return Ok(orders);
-        }
-
-        [HttpPut("change-by-id")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> ChangeByIdAsync(
-            [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
-        {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _orderService.ChangeInfoAsync(changeOrderInfoDTO, userId);
 
             return Ok();
         }
