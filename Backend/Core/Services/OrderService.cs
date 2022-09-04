@@ -259,7 +259,7 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task DeleteOrderAsync(string userId, int orderId)
+        public async Task DeleteAsync(string userId, int orderId)
         {
             var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
@@ -267,8 +267,8 @@ namespace Core.Services
             if (order == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
-                    HttpStatusCode.InternalServerError);
+                    ErrorMessages.OrderNotFound,
+                    HttpStatusCode.BadRequest);
             }
 
             await _orderRepository.DeleteAsync(order);
