@@ -42,18 +42,6 @@ namespace API.Controllers
             return Ok(tokens);
         }
 
-        [HttpPost("reset-password-request")]
-        public async Task<IActionResult> SendResetPasswordRequestAsync(
-            [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
-        {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
-            await _authenticationService.SendResetResetPasswordRequestAsync(
-                confirmationResetPasswordDTO.Email, callbackUrl);
-
-            return Ok();
-        }
-
         [HttpPost("logout")]
         [AuthorizeByRole(
             IdentityRoleNames.Admin,
@@ -63,6 +51,18 @@ namespace API.Controllers
             [FromBody] UserLogoutDTO userLogoutDTO)
         {
             await _authenticationService.LogoutAsync(userLogoutDTO);
+
+            return Ok();
+        }
+
+        [HttpPost("reset-password-request")]
+        public async Task<IActionResult> SendResetPasswordRequestAsync(
+            [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
+        {
+            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+
+            await _authenticationService.SendResetResetPasswordRequestAsync(
+                confirmationResetPasswordDTO.Email, callbackUrl);
 
             return Ok();
         }

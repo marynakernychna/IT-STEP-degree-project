@@ -72,18 +72,6 @@ namespace API.Controllers
 
         }
 
-        [HttpPut("update")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> UpdateAsync(
-            [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
-        {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.UpdateAsync(changeOrderInfoDTO, userId);
-
-            return Ok();
-        }
-
         [HttpPut("couriers/assign")]
         [AuthorizeByRole(IdentityRoleNames.Courier)]
         public async Task<IActionResult> AssignAsync(
@@ -104,6 +92,18 @@ namespace API.Controllers
             var courierId = _userService.GetCurrentUserIdentifier(User);
 
             await _orderService.RejectAsync(idDTO.Id, courierId);
+
+            return Ok();
+        }
+
+        [HttpPut("update")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> UpdateAsync(
+            [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
+        {
+            var userId = _userService.GetCurrentUserIdentifier(User);
+
+            await _orderService.UpdateAsync(changeOrderInfoDTO, userId);
 
             return Ok();
         }

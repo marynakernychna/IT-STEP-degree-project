@@ -26,6 +26,16 @@ namespace API.Controllers
             _wareService = wareService;
         }
 
+        [HttpGet("by-category/page")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetByCategoryAsync(
+            [FromQuery] PaginationFilterWareDTO paginationFilter)
+        {
+            var wares = await _wareService.GetByCategoryAsync(paginationFilter);
+
+            return Ok(wares);
+        }
+
         [HttpGet("by-id")]
         [AuthorizeByRole(
             IdentityRoleNames.User,
@@ -38,26 +48,6 @@ namespace API.Controllers
             return Ok(ware);
         }
 
-        [HttpGet("page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetAllAsync(
-            [FromQuery] PaginationFilterDTO paginationFilter)
-        {
-            var wares = await _wareService.GetAllAsync(paginationFilter);
-
-            return Ok(wares);
-        }
-
-        [HttpGet("by-category/page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetByCategoryAsync(
-            [FromQuery] PaginationFilterWareDTO paginationFilter)
-        {
-            var wares = await _wareService.GetByCategoryAsync(paginationFilter);
-
-            return Ok(wares);
-        }
-
         [HttpGet("clients/by-client/page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetCreatedByClientAsync(
@@ -68,6 +58,16 @@ namespace API.Controllers
             var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
 
             return Ok(ware);
+        }
+
+        [HttpGet("page")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetAllAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var wares = await _wareService.GetAllAsync(paginationFilter);
+
+            return Ok(wares);
         }
 
         [HttpPost("create")]

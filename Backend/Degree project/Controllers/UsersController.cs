@@ -23,16 +23,6 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("profile")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetClientProfileAsync()
-        {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-            var userInfo = await _userService.GetProfileAsync(userId);
-
-            return Ok(userInfo);
-        }
-
         [HttpGet("admins/page")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetPageOfClientsAsync(
@@ -41,6 +31,16 @@ namespace API.Controllers
             var usersInfo = await _userService.GetPageOfClientsAsync(paginationFilter);
 
             return Ok(usersInfo);
+        }
+
+        [HttpGet("profile")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> GetClientProfileAsync()
+        {
+            var userId = _userService.GetCurrentUserIdentifier(User);
+            var userInfo = await _userService.GetProfileAsync(userId);
+
+            return Ok(userInfo);
         }
 
         [HttpPost("admin/clients/by-client/profile/update")]

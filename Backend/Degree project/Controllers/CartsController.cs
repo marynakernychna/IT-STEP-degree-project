@@ -25,6 +25,16 @@ namespace API.Controllers
             _cartService = cartService;
         }
 
+        [HttpGet("admins/by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageByClientAsync(
+            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
+        {
+            var wares = await _cartService.GetPageByClientAsync(paginationFilterCartDTO);
+
+            return Ok(wares);
+        }
+
         [HttpGet("by-client/page")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetPageByClientAsync(
@@ -33,16 +43,6 @@ namespace API.Controllers
             var userId = _userService.GetCurrentUserIdentifier(User);
 
             var wares = await _cartService.GetPageByClientAsync(userId, paginationFilterDTO);
-
-            return Ok(wares);
-        }
-
-        [HttpGet("admins/by-client/page")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetPageByClientAsync(
-            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
-        {
-            var wares = await _cartService.GetPageByClientAsync(paginationFilterCartDTO);
 
             return Ok(wares);
         }
