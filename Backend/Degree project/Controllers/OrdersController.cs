@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.DTO.Order;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -102,6 +103,18 @@ namespace API.Controllers
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
             await _orderService.ChangeInfoAsync(changeOrderInfoDTO, userId);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete-order")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> DeleteOrderAsync(
+            [FromQuery] EntityIdDTO entityIdDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.DeleteOrderAsync(userId, entityIdDTO.Id);
 
             return Ok();
         }

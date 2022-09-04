@@ -1,5 +1,6 @@
 ﻿using Core.DTO;
 using Core.DTO.Order;
+using Core.Entities;
 using Core.Helpers;
 using System.Threading.Tasks;
 
@@ -18,5 +19,6 @@ namespace Core.Interfaces.CustomService
             string courierId, PaginationFilterDTO paginationFilterDTO);
         Task ChangeInfoAsync(
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
+        Task DeleteOrderAsync(string userId, int orderId);
     }
 }
