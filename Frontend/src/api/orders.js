@@ -32,4 +32,9 @@ export default class ordersService {
     static reject(orderId) {
         return instance.put(ORDERS_URLS.REJECT, orderId);
     }
+
+    static delete(goodId) {
+        return instance.delete(ORDERS_URLS.DELETE +
+            `?Id=${goodId}`);
+    }
 }
