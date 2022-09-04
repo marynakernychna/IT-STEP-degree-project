@@ -18,5 +18,6 @@ namespace Core.Interfaces.CustomService
             string courierId, PaginationFilterDTO paginationFilterDTO);
         Task ChangeInfoAsync(
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
+        Task DeleteAsync(string userId, int orderId);
     }
 }

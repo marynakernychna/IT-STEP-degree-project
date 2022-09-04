@@ -105,5 +105,17 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("delete")]
+        [AuthorizeByRole(IdentityRoleNames.User)]
+        public async Task<IActionResult> DeleteAsync(
+            [FromQuery] EntityIdDTO entityIdDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.DeleteAsync(userId, entityIdDTO.Id);
+
+            return Ok();
+        }
     }
 }

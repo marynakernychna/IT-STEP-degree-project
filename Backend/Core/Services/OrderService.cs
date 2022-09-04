@@ -258,5 +258,20 @@ namespace Core.Services
 
             await _orderRepository.UpdateAsync(order);
         }
+
+        public async Task DeleteAsync(string userId, int orderId)
+        {
+            var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+
+            if (order == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.OrderNotFound,
+                    HttpStatusCode.BadRequest);
+            }
+
+            await _orderRepository.DeleteAsync(order);
+        }
     }
 }
