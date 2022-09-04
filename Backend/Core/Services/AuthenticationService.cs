@@ -63,9 +63,9 @@ namespace Core.Services
                     );
             }
 
-            var userRole = await _identityRoleService.GetUserRoleAsync(user);
+            var userRole = await _identityRoleService.GetByUserAsync(user);
 
-            return await _tokenService.GenerateUserTokens(user, userRole);
+            return await _tokenService.GenerateForUserAsync(user, userRole);
         }
 
         public async Task RegisterAsync(UserRegistrationDTO userRegistrationDTO)
@@ -142,13 +142,13 @@ namespace Core.Services
             }
         }
 
-        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
+        public async Task SendResetResetPasswordRequestAsync(string email, string callbackUrl)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             ExtensionMethods.UserNullCheck(user);
 
-            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
+            await _emailService.SendResetPasswordRequestAsync(user, callbackUrl);
         }
 
         public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)

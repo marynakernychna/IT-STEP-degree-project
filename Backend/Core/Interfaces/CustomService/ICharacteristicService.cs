@@ -5,7 +5,7 @@ namespace Core.Interfaces.CustomService
 {
     public interface ICharacteristicService
     {
-        void CheckCharacteristicNames(
+        void CheckNamesForDuplicates(
             List<CharacteristicWithoutWareIdDTO> сharacteristics);
     }
 }

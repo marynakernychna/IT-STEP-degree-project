@@ -36,7 +36,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var categories = await _categoryService.GetAllAsync(paginationFilter);
+            var categories = await _categoryService.GetPageAsync(paginationFilter);
 
             return Ok(categories);
         }

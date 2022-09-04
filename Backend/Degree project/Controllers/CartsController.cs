@@ -30,9 +30,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
-            var wares = await _cartService.GetByUserIdAsync(userId, paginationFilterDTO);
+            var wares = await _cartService.GetPageByClientAsync(userId, paginationFilterDTO);
 
             return Ok(wares);
         }
@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
+            var wares = await _cartService.GetPageByClientAsync(paginationFilterCartDTO);
 
             return Ok(wares);
         }
@@ -52,7 +52,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddWareAsync(
             [FromBody] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             await _cartService.AddWareAsync(userId, entityIdDTO.Id);
 
@@ -64,7 +64,7 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteWareAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             await _cartService.DeleteWareAsync(userId, entityIdDTO.Id);
 

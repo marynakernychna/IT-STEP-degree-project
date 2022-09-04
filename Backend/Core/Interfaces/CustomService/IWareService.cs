@@ -8,12 +8,14 @@ namespace Core.Interfaces.CustomService
 {
     public interface IWareService
     {
-        Task CreateAsync(CreateWareDTO createWareDTO, string userId);
+        Task CreateAsync(
+            CreateWareDTO createWareDTO, string userId);
         Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter);
         Task<PaginatedList<WareBriefInfoDTO>> GetByCategoryAsync(
             PaginationFilterWareDTO paginationFilter);
-        Task<WareInfoDTO> GetByIdAsync(int id);
+        Task<WareInfoDTO> GetByIdAsync(
+            int id);
         Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
             string userId, PaginationFilterDTO paginationFilter);
     }

@@ -43,7 +43,7 @@ namespace Core.Services
 
         public async Task CreateAsync(CreateWareDTO createWareDTO, string userId)
         {
-            _characteristicService.CheckCharacteristicNames(createWareDTO.Characteristics);
+            _characteristicService.CheckNamesForDuplicates(createWareDTO.Characteristics);
 
             var category = await _categoryRepository.SingleOrDefaultAsync(
             new CategorySpecification.GetByTitle(createWareDTO.CategoryTitle));

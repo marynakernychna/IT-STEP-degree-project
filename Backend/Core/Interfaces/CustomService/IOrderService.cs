@@ -7,17 +7,21 @@ namespace Core.Interfaces.CustomService
 {
     public interface IOrderService
     {
-        Task CreateAsync(string userId, OrderDTO createOrderDTO);
-        Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
-            PaginationFilterDTO paginationFilterDTO);
-        Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
+        Task AssignAsync(
+            string courierId, int orderId);
+        Task CreateAsync(
+            string userId, OrderDTO createOrderDTO);
+        Task DeleteAsync(
+            string userId, int orderId);
+        Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
-        Task AssignToOrderAsync(string courierId, int orderId);
-        Task RejectSelectedOrderAsync(int orderId, string courierId);
-        Task<PaginatedList<OrderInfoDTO>> GetByCourierAsync(
+        Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
             string courierId, PaginationFilterDTO paginationFilterDTO);
-        Task ChangeInfoAsync(
+        Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
+            PaginationFilterDTO paginationFilterDTO);
+        Task RejectAsync(
+            int orderId, string courierId);
+        Task UpdateAsync(
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
-        Task DeleteAsync(string userId, int orderId);
     }
 }

@@ -69,7 +69,7 @@ namespace Core.Services
             }
         }
 
-        public async Task SendConfirmationResetPasswordEmailAsync(User user, string callbackUrl)
+        public async Task SendResetPasswordRequestAsync(User user, string callbackUrl)
         {
             var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 

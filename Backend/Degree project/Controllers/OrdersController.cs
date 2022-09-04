@@ -30,9 +30,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
-            var orders = await _orderService.GetByUserAsync(userId, paginationFilterDTO);
+            var orders = await _orderService.GetPageByClientAsync(userId, paginationFilterDTO);
 
             return Ok(orders);
         }
@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfAvailvableAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var orders = await _orderService.GetAvailableAsync(paginationFilterDTO);
+            var orders = await _orderService.GetPageOfAvailvableAsync(paginationFilterDTO);
 
             return Ok(orders);
         }
@@ -52,9 +52,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfAssignedByCourierAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+            var courierId = _userService.GetCurrentUserIdentifier(User);
 
-            var orders = await _orderService.GetByCourierAsync(courierId, paginationFilterDTO);
+            var orders = await _orderService.GetPageOfAssignedByCourierAsync(courierId, paginationFilterDTO);
 
             return Ok(orders);
         }
@@ -64,7 +64,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] OrderDTO createOrderDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             await _orderService.CreateAsync(userId, createOrderDTO);
 
@@ -77,9 +77,9 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateAsync(
             [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
-            await _orderService.ChangeInfoAsync(changeOrderInfoDTO, userId);
+            await _orderService.UpdateAsync(changeOrderInfoDTO, userId);
 
             return Ok();
         }
@@ -89,9 +89,9 @@ namespace API.Controllers
         public async Task<IActionResult> AssignAsync(
             [FromBody] EntityIdDTO idDTO)
         {
-            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+            var courierId = _userService.GetCurrentUserIdentifier(User);
 
-            await _orderService.AssignToOrderAsync(courierId, idDTO.Id);
+            await _orderService.AssignAsync(courierId, idDTO.Id);
 
             return Ok();
         }
@@ -101,9 +101,9 @@ namespace API.Controllers
         public async Task<IActionResult> RejectAsync(
             [FromBody] EntityIdDTO idDTO)
         {
-            var courierId = _userService.GetCurrentUserNameIdentifier(User);
+            var courierId = _userService.GetCurrentUserIdentifier(User);
 
-            await _orderService.RejectSelectedOrderAsync(idDTO.Id, courierId);
+            await _orderService.RejectAsync(idDTO.Id, courierId);
 
             return Ok();
         }
@@ -113,7 +113,7 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             await _orderService.DeleteAsync(userId, entityIdDTO.Id);
 

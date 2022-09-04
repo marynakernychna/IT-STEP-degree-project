@@ -5,7 +5,9 @@ namespace Core.Interfaces.CustomService
 {
     public interface IEmailService
     {
-        Task SendConfirmationEmailAsync(User user, string callbackUrl);
-        Task SendConfirmationResetPasswordEmailAsync(User user, string callbackUrl);
+        Task SendConfirmationEmailAsync(
+            User user, string callbackUrl);
+        Task SendResetPasswordRequestAsync(
+            User user, string callbackUrl);
     }
 }

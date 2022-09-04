@@ -109,7 +109,7 @@ namespace Core.Services
             await _wareCartRepository.DeleteAsync(wareCart);
         }
 
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -163,10 +163,10 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var userId = await _userService.GetUserIdByEmailAsync(
+            var userId = await _userService.GetIdByEmailAsync(
                 paginationFilterCartDTO.UserEmail);
 
             var paginationFilterDTO = new PaginationFilterDTO()
@@ -175,7 +175,7 @@ namespace Core.Services
                 PageNumber = paginationFilterCartDTO.PageNumber
             };
 
-            return await GetByUserIdAsync(userId, paginationFilterDTO);
+            return await GetPageByClientAsync(userId, paginationFilterDTO);
         }
     }
 }

@@ -27,8 +27,8 @@ namespace API.Controllers
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetClientProfileAsync()
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            var userInfo = await _userService.GetUserProfileInfoAsync(userId);
+            var userId = _userService.GetCurrentUserIdentifier(User);
+            var userInfo = await _userService.GetProfileAsync(userId);
 
             return Ok(userInfo);
         }
@@ -38,7 +38,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfClientsAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var usersInfo = await _userService.GetUsersProfileInfoAsync(paginationFilter);
+            var usersInfo = await _userService.GetPageOfClientsAsync(paginationFilter);
 
             return Ok(usersInfo);
         }
@@ -48,9 +48,9 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateClientProfileAsync(
             [FromBody] UserEditProfileInfoDTO newUserInfo, string email)
         {
-            var userId = await _userService.GetUserIdByEmailAsync(email);
+            var userId = await _userService.GetIdByEmailAsync(email);
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+            await _userService.UpdateProfileAsync(newUserInfo, userId, callbackUrl);
 
             return Ok();
         }
@@ -61,8 +61,8 @@ namespace API.Controllers
             [FromBody] UserEditProfileInfoDTO newUserInfo)
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+            var userId = _userService.GetCurrentUserIdentifier(User);
+            await _userService.UpdateProfileAsync(newUserInfo, userId, callbackUrl);
 
             return Ok();
         }

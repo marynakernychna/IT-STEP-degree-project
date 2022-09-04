@@ -29,7 +29,7 @@ namespace Core.Services
             _refreshTokenRepository = refreshTokenRepository;
         }
 
-        public async Task<UserAutorizationDTO> GenerateUserTokens(User user, string userRole)
+        public async Task<UserAutorizationDTO> GenerateForUserAsync(User user, string userRole)
         {
             var claims = SetClaims(user, userRole);
             var accessToken = CreateToken(claims);

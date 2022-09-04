@@ -77,7 +77,7 @@ namespace Core.Services
             await _cartService.CreateAsync(user);
         }
 
-        public async Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
+        public async Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
             var ordersCount = await _orderRepository.CountAsync(
@@ -119,7 +119,7 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
+        public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
             PaginationFilterDTO paginationFilterDTO)
         {
             var ordersCount = await _orderRepository.CountAsync(
@@ -145,7 +145,7 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task AssignToOrderAsync(string courierId, int orderId)
+        public async Task AssignAsync(string courierId, int orderId)
         {
             var courier = await CheckCourierIdAsync(courierId);
 
@@ -158,7 +158,7 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task RejectSelectedOrderAsync(int orderId, string courierId)
+        public async Task RejectAsync(int orderId, string courierId)
         {
             var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCourier(orderId, courierId));
@@ -171,7 +171,7 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task<PaginatedList<OrderInfoDTO>> GetByCourierAsync(
+        public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
             string courierId, PaginationFilterDTO paginationFilterDTO)
         {
             var courier = await CheckCourierIdAsync(courierId);
@@ -231,7 +231,7 @@ namespace Core.Services
             return orders;
         }
 
-        public async Task ChangeInfoAsync(
+        public async Task UpdateAsync(
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId)
         {
             var newInfo = changeOrderInfoDTO.OrderInfo;

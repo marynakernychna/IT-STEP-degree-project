@@ -63,7 +63,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetCreatedByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
 
@@ -75,7 +75,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] CreateWareDTO createWareDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
             await _wareService.CreateAsync(createWareDTO, userId);
 
             return Ok();

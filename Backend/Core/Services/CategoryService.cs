@@ -56,7 +56,7 @@ namespace Core.Services
             await _categoryRepository.DeleteAsync(category);
         }
 
-        public async Task<PaginatedList<CategoryInfoDTO>> GetAllAsync(
+        public async Task<PaginatedList<CategoryInfoDTO>> GetPageAsync(
             PaginationFilterDTO paginationFilter)
         {
             var categoriesCount = await _categoryRepository.CountAsync(

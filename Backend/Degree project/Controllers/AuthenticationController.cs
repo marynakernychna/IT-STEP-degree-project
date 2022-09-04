@@ -48,7 +48,7 @@ namespace API.Controllers
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
 
-            await _authenticationService.SendConfirmResetPasswordEmailAsync(
+            await _authenticationService.SendResetResetPasswordRequestAsync(
                 confirmationResetPasswordDTO.Email, callbackUrl);
 
             return Ok();
@@ -75,7 +75,7 @@ namespace API.Controllers
         public async Task<IActionResult> ChangePasswordAsync(
             [FromBody] ChangePasswordDTO changePasswordDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            var userId = _userService.GetCurrentUserIdentifier(User);
 
             await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
 

@@ -20,7 +20,7 @@ namespace Core.Services
             _userManager = userManager;
         }
 
-        public async Task<string> GetUserRoleAsync(User user)
+        public async Task<string> GetByUserAsync(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 

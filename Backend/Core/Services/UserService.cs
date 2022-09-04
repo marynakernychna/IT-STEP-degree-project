@@ -42,12 +42,12 @@ namespace Core.Services
             _userManager = userManager;
         }
 
-        public string GetCurrentUserNameIdentifier(ClaimsPrincipal currentUser)
+        public string GetCurrentUserIdentifier(ClaimsPrincipal currentUser)
         {
             return currentUser.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public async Task<UserProfileInfoDTO> GetUserProfileInfoAsync(string userId)
+        public async Task<UserProfileInfoDTO> GetProfileAsync(string userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -56,7 +56,7 @@ namespace Core.Services
             return _mapper.Map<UserProfileInfoDTO>(user);
         }
 
-        public async Task UserEditProfileInfoAsync(
+        public async Task UpdateProfileAsync(
             UserEditProfileInfoDTO newUserInfo, string userId, string callbackUrl)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -98,7 +98,7 @@ namespace Core.Services
             await _userRepository.UpdateAsync(user);
         }
 
-        public async Task<PaginatedList<UserProfileInfoDTO>> GetUsersProfileInfoAsync(
+        public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
             PaginationFilterDTO paginationFilter)
         {
             var role = await _roleManager.FindByNameAsync(IdentityRoleNames.User.ToString());
@@ -136,7 +136,7 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<string> GetUserIdByEmailAsync(string email)
+        public async Task<string> GetIdByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 

@@ -8,12 +8,16 @@ namespace Core.Interfaces.CustomService
 {
     public interface IUserService
     {
-        string GetCurrentUserNameIdentifier(ClaimsPrincipal currentUser);
-        Task UserEditProfileInfoAsync(
-            UserEditProfileInfoDTO userEditProfileInfo, string userId, string callbackUrl);
-        Task<UserProfileInfoDTO> GetUserProfileInfoAsync(string userId);
-        Task<PaginatedList<UserProfileInfoDTO>> GetUsersProfileInfoAsync(
+        string GetCurrentUserIdentifier(
+            ClaimsPrincipal currentUser);
+        Task<string> GetIdByEmailAsync(
+            string email);
+        Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
             PaginationFilterDTO paginationFilter);
-        Task<string> GetUserIdByEmailAsync(string email);
+        Task<UserProfileInfoDTO> GetProfileAsync(
+            string userId);
+        Task UpdateProfileAsync(
+            UserEditProfileInfoDTO userEditProfileInfo,
+            string userId, string callbackUrl);
     }
 }

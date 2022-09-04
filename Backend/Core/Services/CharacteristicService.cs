@@ -12,7 +12,7 @@ namespace Core.Services
         public CharacteristicService()
         { }
 
-        public void CheckCharacteristicNames(
+        public void CheckNamesForDuplicates(
             List<CharacteristicWithoutWareIdDTO> сharacteristics)
         {
             for (int i = 0; i < сharacteristics.Count - 1; i++)
