@@ -58,7 +58,7 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
-                    className="deleteButton"
+                    danger
                     type="primary"
                     onClick={() => onDelete()}
                 >
