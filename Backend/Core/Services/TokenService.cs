@@ -18,18 +18,19 @@ namespace Core.Services
     public class TokenService : ITokenService
     {
         private readonly IOptions<JwtOptions> _jwtOptions;
+
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
 
         public TokenService(
                 IOptions<JwtOptions> jwtOptions,
-                IRepository<RefreshToken> refreshTokenRepository
-            )
+                IRepository<RefreshToken> refreshTokenRepository)
         {
             _jwtOptions = jwtOptions;
             _refreshTokenRepository = refreshTokenRepository;
         }
 
-        public async Task<UserAutorizationDTO> GenerateForUserAsync(User user, string userRole)
+        public async Task<UserAutorizationDTO> GenerateForUserAsync(
+            User user, string userRole)
         {
             var claims = SetClaims(user, userRole);
             var accessToken = CreateToken(claims);
@@ -45,34 +46,8 @@ namespace Core.Services
             return tokens;
         }
 
-        private IEnumerable<Claim> SetClaims(User user, string userRole)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("role", userRole) // for further work on the frontend
-            };
-
-            return claims;
-        }
-
-        private string CreateToken(IEnumerable<Claim> claims)
-        {
-            var securityKey = new SymmetricSecurityKey(
-                                    Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtOptions.Value.Issuer,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(_jwtOptions.Value.LifeTime),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private async Task<RefreshToken> CreateRefreshToken(string userId)
+        private async Task<RefreshToken> CreateRefreshToken(
+            string userId)
         {
             var randomBytes = new byte[32];
             using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
@@ -90,6 +65,35 @@ namespace Core.Services
             await _refreshTokenRepository.AddAsync(refreshTokenEntity);
 
             return refreshTokenEntity;
+        }
+
+        private string CreateToken(
+            IEnumerable<Claim> claims)
+        {
+            var securityKey = new SymmetricSecurityKey(
+                                    Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtOptions.Value.Issuer,
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(_jwtOptions.Value.LifeTime),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private IEnumerable<Claim> SetClaims(
+            User user, string userRole)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("role", userRole) // for further work on the frontend
+            };
+
+            return claims;
         }
     }
 }

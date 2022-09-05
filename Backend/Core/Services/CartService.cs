@@ -16,30 +16,32 @@ namespace Core.Services
 {
     public class CartService : ICartService
     {
-        private readonly IRepository<User> _userRepository;
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<WareCart> _wareCartRepository;
+        private readonly IRepository<User> _userRepository;
         private readonly IRepository<Ware> _wareRepository;
+        private readonly IRepository<WareCart> _wareCartRepository;
+
         private readonly IFileService _fileService;
         private readonly IUserService _userService;
 
         public CartService(
-            IRepository<User> userRepository,
             IRepository<Cart> cartRepository,
-            IRepository<WareCart> wareCartRepository,
+            IRepository<User> userRepository,
             IRepository<Ware> wareRepository,
+            IRepository<WareCart> wareCartRepository,
             IFileService fileService,
             IUserService userService)
         {
-            _userRepository = userRepository;
             _cartRepository = cartRepository;
-            _wareCartRepository = wareCartRepository;
+            _userRepository = userRepository;
             _wareRepository = wareRepository;
+            _wareCartRepository = wareCartRepository;
             _fileService = fileService;
             _userService = userService;
         }
 
-        public async Task AddWareAsync(string userId, int wareId)
+        public async Task AddWareAsync(
+            string userId, int wareId)
         {
             var ware = await _wareRepository.GetByIdAsync(wareId);
 
@@ -73,7 +75,8 @@ namespace Core.Services
                 });
         }
 
-        public async Task CreateAsync(User user)
+        public async Task CreateAsync(
+            User user)
         {
             ExtensionMethods.UserNullCheck(user);
 
@@ -84,7 +87,8 @@ namespace Core.Services
                 });
         }
 
-        public async Task DeleteWareAsync(string userId, int wareId)
+        public async Task DeleteWareAsync(
+            string userId, int wareId)
         {
             var cart = await _cartRepository.SingleOrDefaultAsync(
                 new CartSpecification.GetByCreatorId(userId));
@@ -107,6 +111,21 @@ namespace Core.Services
             }
 
             await _wareCartRepository.DeleteAsync(wareCart);
+        }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
+            PaginationFilterCartDTO paginationFilterCartDTO)
+        {
+            var userId = await _userService.GetIdByEmailAsync(
+                paginationFilterCartDTO.UserEmail);
+
+            var paginationFilterDTO = new PaginationFilterDTO()
+            {
+                PageSize = paginationFilterCartDTO.PageSize,
+                PageNumber = paginationFilterCartDTO.PageNumber
+            };
+
+            return await GetPageByClientAsync(userId, paginationFilterDTO);
         }
 
         public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
@@ -161,21 +180,6 @@ namespace Core.Services
                 paginationFilterDTO.PageNumber,
                 waresCount,
                 totalPages);
-        }
-
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
-            PaginationFilterCartDTO paginationFilterCartDTO)
-        {
-            var userId = await _userService.GetIdByEmailAsync(
-                paginationFilterCartDTO.UserEmail);
-
-            var paginationFilterDTO = new PaginationFilterDTO()
-            {
-                PageSize = paginationFilterCartDTO.PageSize,
-                PageNumber = paginationFilterCartDTO.PageNumber
-            };
-
-            return await GetPageByClientAsync(userId, paginationFilterDTO);
         }
     }
 }

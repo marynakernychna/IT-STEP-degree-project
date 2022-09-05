@@ -15,27 +15,43 @@ namespace Core.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Cart> _cartRepository;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<User> _userRepository;
         private readonly IRepository<WareCart> _wareCartRepository;
+
         private readonly ICartService _cartService;
 
         public OrderService(
-            IRepository<User> userRepository,
-            IRepository<Order> orderRepository,
             IRepository<Cart> cartRepository,
+            IRepository<Order> orderRepository,
+            IRepository<User> userRepository,
             IRepository<WareCart> wareCartRepository,
             ICartService cartService)
         {
+            _cartRepository = cartRepository;
             _userRepository = userRepository;
             _orderRepository = orderRepository;
-            _cartRepository = cartRepository;
             _wareCartRepository = wareCartRepository;
             _cartService = cartService;
         }
 
-        public async Task CreateAsync(string userId, OrderDTO createOrderDTO)
+        public async Task AssignAsync(
+            string courierId, int orderId)
+        {
+            var courier = await CheckCourierIdAsync(courierId);
+
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            order.Courier = courier;
+
+            await _orderRepository.UpdateAsync(order);
+        }
+
+        public async Task CreateAsync(
+            string userId, OrderDTO createOrderDTO)
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -75,6 +91,22 @@ namespace Core.Services
             await _cartRepository.UpdateAsync(cart);
 
             await _cartService.CreateAsync(user);
+        }
+
+        public async Task DeleteAsync(
+            string userId, int orderId)
+        {
+            var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+
+            if (order == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.OrderNotFound,
+                    HttpStatusCode.BadRequest);
+            }
+
+            await _orderRepository.DeleteAsync(order);
         }
 
         public async Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(
@@ -119,58 +151,6 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
-            PaginationFilterDTO paginationFilterDTO)
-        {
-            var ordersCount = await _orderRepository.CountAsync(
-                new OrderSpecification.GetAvailable(paginationFilterDTO));
-
-            if (ordersCount == 0)
-            {
-                return null;
-            }
-
-            var totalPages = PaginatedList<OrderInfoDTO>
-                .GetTotalPages(paginationFilterDTO, ordersCount);
-
-            var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetAvailable(paginationFilterDTO));
-
-            var orders = FormOrderInfoDTOList(ordersList);
-
-            return PaginatedList<OrderInfoDTO>.Evaluate(
-                orders,
-                paginationFilterDTO.PageNumber,
-                ordersCount,
-                totalPages);
-        }
-
-        public async Task AssignAsync(string courierId, int orderId)
-        {
-            var courier = await CheckCourierIdAsync(courierId);
-
-            var order = await _orderRepository.GetByIdAsync(orderId);
-
-            ExtensionMethods.OrderNullCheck(order);
-
-            order.Courier = courier;
-
-            await _orderRepository.UpdateAsync(order);
-        }
-
-        public async Task RejectAsync(int orderId, string courierId)
-        {
-            var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCourier(orderId, courierId));
-
-            ExtensionMethods.OrderNullCheck(order);
-
-            order.Courier = null;
-            order.CourierId = null;
-
-            await _orderRepository.UpdateAsync(order);
-        }
-
         public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
             string courierId, PaginationFilterDTO paginationFilterDTO)
         {
@@ -199,36 +179,44 @@ namespace Core.Services
                 totalPages);
         }
 
-        private async Task<User> CheckCourierIdAsync(string courierId)
+        public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
+            PaginationFilterDTO paginationFilterDTO)
         {
-            var courier = await _userRepository.GetByIdAsync(courierId);
+            var ordersCount = await _orderRepository.CountAsync(
+                new OrderSpecification.GetAvailable(paginationFilterDTO));
 
-            ExtensionMethods.UserNullCheck(courier);
-
-            return courier;
-        }
-
-        private static List<OrderInfoDTO> FormOrderInfoDTOList(List<Order> ordersList)
-        {
-            var orders = new List<OrderInfoDTO>();
-
-            foreach (var order in ordersList)
+            if (ordersCount == 0)
             {
-                var user = order.Cart.Creator;
-
-                orders.Add(new OrderInfoDTO
-                {
-                    Id = order.Id,
-                    Address = order.Address,
-                    City = order.City,
-                    Country = order.Country,
-                    ClientFullName = user.Name + ' ' + user.Surname,
-                    ClientPhoneNumber = user.PhoneNumber,
-                    WaresCount = order.Cart.WareCarts.Count
-                });
+                return null;
             }
 
-            return orders;
+            var totalPages = PaginatedList<OrderInfoDTO>
+                .GetTotalPages(paginationFilterDTO, ordersCount);
+
+            var ordersList = await _orderRepository.ListAsync(
+                new OrderSpecification.GetAvailable(paginationFilterDTO));
+
+            var orders = FormOrderInfoDTOList(ordersList);
+
+            return PaginatedList<OrderInfoDTO>.Evaluate(
+                orders,
+                paginationFilterDTO.PageNumber,
+                ordersCount,
+                totalPages);
+        }
+
+        public async Task RejectAsync(
+            int orderId, string courierId)
+        {
+            var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCourier(orderId, courierId));
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            order.Courier = null;
+            order.CourierId = null;
+
+            await _orderRepository.UpdateAsync(order);
         }
 
         public async Task UpdateAsync(
@@ -259,19 +247,38 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        public async Task DeleteAsync(string userId, int orderId)
+        private async Task<User> CheckCourierIdAsync(
+            string courierId)
         {
-            var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+            var courier = await _userRepository.GetByIdAsync(courierId);
 
-            if (order == null)
+            ExtensionMethods.UserNullCheck(courier);
+
+            return courier;
+        }
+
+        private static List<OrderInfoDTO> FormOrderInfoDTOList(
+            List<Order> ordersList)
+        {
+            var orders = new List<OrderInfoDTO>();
+
+            foreach (var order in ordersList)
             {
-                throw new HttpException(
-                    ErrorMessages.OrderNotFound,
-                    HttpStatusCode.BadRequest);
+                var user = order.Cart.Creator;
+
+                orders.Add(new OrderInfoDTO
+                {
+                    Id = order.Id,
+                    Address = order.Address,
+                    City = order.City,
+                    Country = order.Country,
+                    ClientFullName = user.Name + ' ' + user.Surname,
+                    ClientPhoneNumber = user.PhoneNumber,
+                    WaresCount = order.Cart.WareCarts.Count
+                });
             }
 
-            await _orderRepository.DeleteAsync(order);
+            return orders;
         }
     }
 }

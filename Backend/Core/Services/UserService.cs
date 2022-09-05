@@ -19,35 +19,88 @@ namespace Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<IdentityUserRole<string>> _identityUserRoleRepository;
-        private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
+        private readonly RoleManager<IdentityRole> _identityRoleManager;
         private readonly UserManager<User> _userManager;
 
+        private readonly IRepository<IdentityUserRole<string>> _identityUserRoleRepository;
+        private readonly IRepository<User> _userRepository;
+
+        private readonly IMapper _mapper;
+
+        private readonly IEmailService _emailService;
+
         public UserService(
-            RoleManager<IdentityRole> roleManager,
-            IRepository<User> userRepository,
-            IEmailService emailService,
+            RoleManager<IdentityRole> identityRoleManager,
+            UserManager<User> userManager,
             IRepository<IdentityUserRole<string>> identityUserRoleRepository,
+            IRepository<User> userRepository,
             IMapper mapper,
-            UserManager<User> userManager)
+            IEmailService emailService)
         {
-            _roleManager = roleManager;
-            _userRepository = userRepository;
+            _identityRoleManager = identityRoleManager;
+            _userManager = userManager;
             _identityUserRoleRepository = identityUserRoleRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
             _emailService = emailService;
-            _userManager = userManager;
         }
 
-        public string GetCurrentUserIdentifier(ClaimsPrincipal currentUser)
+        public string GetCurrentUserIdentifier(
+            ClaimsPrincipal currentUser)
         {
             return currentUser.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public async Task<UserProfileInfoDTO> GetProfileAsync(string userId)
+        public async Task<string> GetIdByEmailAsync(
+            string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            return user.Id;
+        }
+
+        public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
+            PaginationFilterDTO paginationFilter)
+        {
+            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.User.ToString());
+
+            ExtensionMethods.IdentityRoleNullCheck(role);
+
+            var userRoles = await _identityUserRoleRepository.ListAsync(
+                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+
+            var userIds = new List<string>();
+
+            foreach (var userRole in userRoles)
+            {
+                userIds.Add(userRole.UserId);
+            }
+
+            var usersCount = await _identityUserRoleRepository.CountAsync(
+                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+
+            int totalPages = PaginatedList<UserProfileInfoDTO>
+                .GetTotalPages(paginationFilter, usersCount);
+
+            if (totalPages == 0)
+            {
+                return null;
+            }
+
+            var users = await _userRepository.ListAsync(
+                new UserSpecification.GetByUsersIds(userIds));
+
+            return PaginatedList<UserProfileInfoDTO>.Evaluate(
+                _mapper.Map<List<UserProfileInfoDTO>>(users),
+                paginationFilter.PageNumber,
+                usersCount,
+                totalPages);
+        }
+
+        public async Task<UserProfileInfoDTO> GetProfileAsync(
+            string userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -96,53 +149,6 @@ namespace Core.Services
             }
 
             await _userRepository.UpdateAsync(user);
-        }
-
-        public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
-            PaginationFilterDTO paginationFilter)
-        {
-            var role = await _roleManager.FindByNameAsync(IdentityRoleNames.User.ToString());
-
-            ExtensionMethods.IdentityRoleNullCheck(role);
-
-            var userRoles = await _identityUserRoleRepository.ListAsync(
-                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
-
-            var userIds = new List<string>();
-
-            foreach (var userRole in userRoles)
-            {
-                userIds.Add(userRole.UserId);
-            }
-
-            var usersCount = await _identityUserRoleRepository.CountAsync(
-                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
-
-            int totalPages = PaginatedList<UserProfileInfoDTO>
-                .GetTotalPages(paginationFilter, usersCount);
-
-            if (totalPages == 0)
-            {
-                return null;
-            }
-
-            var users = await _userRepository.ListAsync(
-                new UserSpecification.GetByUsersIds(userIds));
-
-            return PaginatedList<UserProfileInfoDTO>.Evaluate(
-                _mapper.Map<List<UserProfileInfoDTO>>(users),
-                paginationFilter.PageNumber,
-                usersCount,
-                totalPages);
-        }
-
-        public async Task<string> GetIdByEmailAsync(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            return user.Id;
         }
     }
 }

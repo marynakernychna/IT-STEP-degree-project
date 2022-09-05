@@ -14,13 +14,13 @@ namespace Core.Services
         private readonly UserManager<User> _userManager;
 
         public IdentityRoleService(
-                UserManager<User> userManager
-            )
+                UserManager<User> userManager)
         {
             _userManager = userManager;
         }
 
-        public async Task<string> GetByUserAsync(User user)
+        public async Task<string> GetByUserAsync(
+            User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 

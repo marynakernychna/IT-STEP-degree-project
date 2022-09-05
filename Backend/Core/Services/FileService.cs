@@ -11,7 +11,8 @@ namespace Core.Services
         public FileService()
         { }
 
-        public string CreateWarePhotoFile(string imageBase64String, string extension)
+        public string CreateWarePhotoFile(
+            string imageBase64String, string extension)
         {
             var fileName = GenerateFileName();
             var filePath = GenerateNewFilePath(fileName, extension);
@@ -22,7 +23,8 @@ namespace Core.Services
             return fileName + extension;
         }
 
-        public string GenereteBase64(string imagePath)
+        public string GenereteBase64(
+            string imagePath)
         {
             var projectDirectoryPath = GetProjectDirectoryPath();
             var filePath = projectDirectoryPath + WARES_IMAGES_PATH + imagePath;
@@ -33,11 +35,6 @@ namespace Core.Services
             return "data:image/" + fileExtension + ";base64," + base64String;
         }
 
-        private static string GenerateFileName()
-        {
-            return Guid.NewGuid().ToString();
-        }
-
         private static string GetProjectDirectoryPath()
         {
             string workingDirectory = Environment.CurrentDirectory;
@@ -46,7 +43,13 @@ namespace Core.Services
             return projectDirectory;
         }
 
-        private static string GenerateNewFilePath(string fileName, string extension)
+        private static string GenerateFileName()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        private static string GenerateNewFilePath(
+            string fileName, string extension)
         {
             var projectDirectoryPath = GetProjectDirectoryPath();
             var folderPath = projectDirectoryPath + WARES_IMAGES_PATH;

@@ -16,21 +16,24 @@ namespace Core.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly UserManager<User> _userManager;
         private readonly AppSettings _appSettings;
+
+        private readonly UserManager<User> _userManager;
+
         private readonly ITemplateHelper _templateHelper;
 
         public EmailService(
-            UserManager<User> userManager,
             IOptions<AppSettings> appSettings,
+            UserManager<User> userManager,
             ITemplateHelper templateHelper)
         {
-            _userManager = userManager;
             _appSettings = appSettings.Value;
+            _userManager = userManager;
             _templateHelper = templateHelper;
         }
 
-        public async Task SendConfirmationEmailAsync(User user, string callbackUrl)
+        public async Task SendConfirmationEmailAsync(
+            User user, string callbackUrl)
         {
             var confirmationToken = await _userManager
                 .GenerateEmailConfirmationTokenAsync(user);
@@ -47,7 +50,25 @@ namespace Core.Services
             await SendEmailAsync(user.Email, "Confirm your account", message);
         }
 
-        private async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendResetPasswordRequestAsync(
+            User user, string callbackUrl)
+        {
+            var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
+            "ConfirmationResetPasswordEmail",
+            new ConfirmationEmailDTO
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Link = callbackUrl + "reset-password/" + resetPasswordToken + "/" + user.Email
+            });
+
+            await SendEmailAsync(user.Email, "Confirm password reset", message);
+        }
+
+        private async Task SendEmailAsync(
+            string email, string subject, string message)
         {
             var client = new SendGridClient(_appSettings.SendGridKey);
             var from = new EmailAddress(
@@ -67,22 +88,6 @@ namespace Core.Services
                     ErrorMessages.FailedSendEmail,
                     HttpStatusCode.InternalServerError);
             }
-        }
-
-        public async Task SendResetPasswordRequestAsync(User user, string callbackUrl)
-        {
-            var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-            "ConfirmationResetPasswordEmail",
-            new ConfirmationEmailDTO
-            {
-                Name = user.Name,
-                Surname = user.Surname,
-                Link = callbackUrl + "reset-password/" + resetPasswordToken + "/" + user.Email
-            });
-
-            await SendEmailAsync(user.Email, "Confirm password reset", message);
         }
     }
 }

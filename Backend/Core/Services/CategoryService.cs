@@ -18,6 +18,7 @@ namespace Core.Services
     internal class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
+
         private readonly IMapper _mapper;
 
         public CategoryService(
@@ -28,7 +29,8 @@ namespace Core.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CategoryDTO categoryDTO)
+        public async Task CreateAsync(
+            CategoryDTO categoryDTO)
         {
             var isCategoryExist = await _categoryRepository.AnyAsync(
                 new CategorySpecification.GetByTitle(categoryDTO.Title));
@@ -46,14 +48,17 @@ namespace Core.Services
             await _categoryRepository.AddAsync(category);
         }
 
-        public async Task DeleteAsync(string categoryTitle)
+        public async Task<List<CategoryDTO>> GetAllAsync()
         {
-            var category = await _categoryRepository.SingleOrDefaultAsync(
-                new CategorySpecification.GetByTitle(categoryTitle));
+            var categories = await _categoryRepository.ListAsync(
+                new CategorySpecification.GetAll());
 
-            ExtensionMethods.CategoryNullCheck(category);
+            if (categories.Count == 0)
+            {
+                return null;
+            }
 
-            await _categoryRepository.DeleteAsync(category);
+            return _mapper.Map<List<CategoryDTO>>(categories);
         }
 
         public async Task<PaginatedList<CategoryInfoDTO>> GetPageAsync(
@@ -99,20 +104,19 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<List<CategoryDTO>> GetAllAsync()
+        public async Task DeleteAsync(
+            string categoryTitle)
         {
-            var categories = await _categoryRepository.ListAsync(
-                new CategorySpecification.GetAll());
+            var category = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(categoryTitle));
 
-            if (categories.Count == 0)
-            {
-                return null;
-            }
+            ExtensionMethods.CategoryNullCheck(category);
 
-            return _mapper.Map<List<CategoryDTO>>(categories);
+            await _categoryRepository.DeleteAsync(category);
         }
 
-        public async Task UpdateAsync(UpdateCategoryDTO updateCategoryDTO)
+        public async Task UpdateAsync(
+            UpdateCategoryDTO updateCategoryDTO)
         {
             if (String.Equals(updateCategoryDTO.CurrentTitle, updateCategoryDTO.NewTitle))
             {

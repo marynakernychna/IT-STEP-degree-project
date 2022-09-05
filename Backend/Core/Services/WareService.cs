@@ -18,30 +18,33 @@ namespace Core.Services
 {
     public class WareService : IWareService
     {
-        private readonly IFileService _fileService;
-        private readonly ICharacteristicService _characteristicService;
-        private readonly IRepository<Ware> _wareRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Characteristic> _characteristicRepository;
+        private readonly IRepository<Ware> _wareRepository;
+
+        private readonly ICharacteristicService _characteristicService;
+        private readonly IFileService _fileService;
+
         private readonly IMapper _mapper;
 
         public WareService(
-            IFileService fileService,
-            ICharacteristicService characteristicService,
-            IRepository<Ware> wareRepository,
             IRepository<Category> categoryRepository,
             IRepository<Characteristic> characteristicRepository,
+            IRepository<Ware> wareRepository,
+            ICharacteristicService characteristicService,
+            IFileService fileService,
             IMapper mapper)
         {
-            _fileService = fileService;
-            _characteristicService = characteristicService;
-            _wareRepository = wareRepository;
             _categoryRepository = categoryRepository;
             _characteristicRepository = characteristicRepository;
+            _wareRepository = wareRepository;
+            _characteristicService = characteristicService;
+            _fileService = fileService;
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CreateWareDTO createWareDTO, string userId)
+        public async Task CreateAsync(
+            CreateWareDTO createWareDTO, string userId)
         {
             _characteristicService.CheckNamesForDuplicates(createWareDTO.Characteristics);
 
@@ -153,7 +156,8 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<WareInfoDTO> GetByIdAsync(int id)
+        public async Task<WareInfoDTO> GetByIdAsync(
+            int id)
         {
             var ware = await _wareRepository.SingleOrDefaultAsync(
                 new WareSpecification.GetById(id));
@@ -173,6 +177,30 @@ namespace Core.Services
                 Characteristics = _mapper
                     .Map<List<CharacteristicWithoutWareIdDTO>>(ware.Characteristics)
             };
+        }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
+            string userId, PaginationFilterDTO paginationFilter)
+        {
+            var wares = await _wareRepository.ListAsync(
+                new WareSpecification.GetByCreatorId(paginationFilter, userId));
+
+            var waresCount = await _wareRepository.CountAsync(
+                new WareSpecification.GetByCreatorId(paginationFilter, userId));
+
+            if (waresCount == 0)
+            {
+                return null;
+            }
+
+            var totalPages = PaginatedList<WareInfoDTO>
+                .GetTotalPages(paginationFilter, waresCount);
+
+            return FormPaginatedList(
+                wares,
+                waresCount,
+                paginationFilter.PageNumber,
+                totalPages);
         }
 
         private PaginatedList<WareBriefInfoDTO> FormPaginatedList(
@@ -197,30 +225,6 @@ namespace Core.Services
                 wareDTOs,
                 pageNumber,
                 waresCount,
-                totalPages);
-        }
-
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
-            string userId, PaginationFilterDTO paginationFilter)
-        {
-            var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetByCreatorId(paginationFilter, userId));
-
-            var waresCount = await _wareRepository.CountAsync(
-                new WareSpecification.GetByCreatorId(paginationFilter, userId));
-
-            if (waresCount == 0)
-            {
-                return null;
-            }
-
-            var totalPages = PaginatedList<WareInfoDTO>
-                .GetTotalPages(paginationFilter, waresCount);
-
-            return FormPaginatedList(
-                wares,
-                waresCount,
-                paginationFilter.PageNumber,
                 totalPages);
         }
     }
