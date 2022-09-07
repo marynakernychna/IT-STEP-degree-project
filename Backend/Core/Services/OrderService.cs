@@ -10,6 +10,7 @@ using Core.Resources;
 using System.Net;
 using Core.DTO;
 using System.Collections.Generic;
+using Core.Constants;
 
 namespace Core.Services
 {
@@ -20,19 +21,22 @@ namespace Core.Services
         private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<WareCart> _wareCartRepository;
         private readonly ICartService _cartService;
+        private readonly IIdentityRoleService _identityRoleService;
 
         public OrderService(
             IRepository<User> userRepository,
             IRepository<Order> orderRepository,
             IRepository<Cart> cartRepository,
             IRepository<WareCart> wareCartRepository,
-            ICartService cartService)
+            ICartService cartService,
+            IIdentityRoleService identityRoleService)
         {
             _userRepository = userRepository;
             _orderRepository = orderRepository;
             _cartRepository = cartRepository;
             _wareCartRepository = wareCartRepository;
             _cartService = cartService;
+            _identityRoleService = identityRoleService;
         }
 
         public async Task CreateAsync(string userId, OrderDTO createOrderDTO)
@@ -272,6 +276,31 @@ namespace Core.Services
             }
 
             await _orderRepository.DeleteAsync(order);
+        }
+
+        public async Task ConfirmDeliveryAsync(string userId, int orderId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            var userRole = await _identityRoleService.GetUserRoleAsync(user);
+
+            if (userRole == IdentityRoleNames.User.ToString())
+            {
+                order.IsAcceptedByClient = true;
+            }
+
+            if (userRole == IdentityRoleNames.Courier.ToString())
+            {
+                order.IsAcceptedByCourier = true;
+            }
+
+            await _orderRepository.UpdateAsync(order);
         }
     }
 }

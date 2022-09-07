@@ -117,5 +117,16 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpPut("confirm-delivery")]
+        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Courier)]
+        public async Task<IActionResult> ConfirmDeliveryAsync([FromBody] EntityIdDTO idDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.ConfirmDeliveryAsync(userId, idDTO.Id);
+
+            return Ok();
+        }
     }
 }
