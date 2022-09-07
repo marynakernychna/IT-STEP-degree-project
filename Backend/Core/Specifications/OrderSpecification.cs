@@ -82,5 +82,29 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetByClientConfirmedDelivery : Specification<Order>,
+                                             ISingleResultSpecification<Order>
+        {
+            public GetByClientConfirmedDelivery(string creatorId, int orderId)
+            {
+                Query.Where(o => o.Id == orderId
+                            && o.Cart.CreatorId == creatorId
+                            && o.IsAcceptedByClient == true)
+                     .AsNoTracking();
+            }
+        }
+
+        internal class GetByCourierConfirmedDelivery : Specification<Order>,
+                                             ISingleResultSpecification<Order>
+        {
+            public GetByCourierConfirmedDelivery(string courierId, int orderId)
+            {
+                Query.Where(o => o.Id == orderId
+                            && o.CourierId == courierId
+                            && o.IsAcceptedByCourier == true)
+                     .AsNoTracking();
+            }
+        }
     }
 }

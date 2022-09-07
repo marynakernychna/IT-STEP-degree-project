@@ -310,5 +310,38 @@ namespace Core.Services
                 await _orderRepository.UpdateAsync(order);
             }
         }
+
+        public async Task RejectDeliveryAsync(string userId, int orderId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            var userRole = await _identityRoleService.GetUserRoleAsync(user);
+
+            if (userRole == IdentityRoleNames.User.ToString())
+            {
+                var order = await _orderRepository.SingleOrDefaultAsync(
+                    new OrderSpecification.GetByClientConfirmedDelivery(userId, orderId));
+
+                ExtensionMethods.OrderNullCheck(order);
+
+                order.IsAcceptedByClient = false;
+
+                await _orderRepository.UpdateAsync(order);
+
+            }
+            else if (userRole == IdentityRoleNames.Courier.ToString())
+            {
+                var order = await _orderRepository.SingleOrDefaultAsync(
+                    new OrderSpecification.GetByCourierConfirmedDelivery(userId, orderId));
+
+                ExtensionMethods.OrderNullCheck(order);
+
+                order.IsAcceptedByCourier = false;
+
+                await _orderRepository.UpdateAsync(order);
+            }
+        }
     }
 }
