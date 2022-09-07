@@ -291,6 +291,8 @@ namespace Core.Services
                 var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
 
+                ExtensionMethods.OrderNullCheck(order);
+
                 order.IsAcceptedByClient = true;
 
                 await _orderRepository.UpdateAsync(order);
@@ -298,7 +300,8 @@ namespace Core.Services
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
-                var order = await _orderRepository.GetByIdAsync(orderId);
+                var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCourierIdAndId(userId, orderId));
 
                 ExtensionMethods.OrderNullCheck(order);
 
