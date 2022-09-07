@@ -280,10 +280,6 @@ namespace Core.Services
 
         public async Task ConfirmDeliveryAsync(string userId, int orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId);
-
-            ExtensionMethods.OrderNullCheck(order);
-
             var user = await _userRepository.GetByIdAsync(userId);
 
             ExtensionMethods.UserNullCheck(user);
@@ -292,15 +288,24 @@ namespace Core.Services
 
             if (userRole == IdentityRoleNames.User.ToString())
             {
+                var order = await _orderRepository.SingleOrDefaultAsync(
+                new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+
                 order.IsAcceptedByClient = true;
-            }
 
-            if (userRole == IdentityRoleNames.Courier.ToString())
+                await _orderRepository.UpdateAsync(order);
+
+            }
+            else if (userRole == IdentityRoleNames.Courier.ToString())
             {
-                order.IsAcceptedByCourier = true;
-            }
+                var order = await _orderRepository.GetByIdAsync(orderId);
 
-            await _orderRepository.UpdateAsync(order);
+                ExtensionMethods.OrderNullCheck(order);
+
+                order.IsAcceptedByCourier = true;
+
+                await _orderRepository.UpdateAsync(order);
+            }
         }
     }
 }
