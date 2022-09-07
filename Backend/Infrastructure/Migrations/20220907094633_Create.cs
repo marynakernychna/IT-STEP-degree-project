@@ -253,7 +253,9 @@ namespace Infrastructure.Migrations
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
-                    CourierId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CourierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsAcceptedByClient = table.Column<bool>(type: "bit", nullable: false),
+                    IsAcceptedByCourier = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
