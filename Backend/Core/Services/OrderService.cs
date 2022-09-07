@@ -289,7 +289,7 @@ namespace Core.Services
             if (userRole == IdentityRoleNames.User.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+                    new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
 
                 ExtensionMethods.OrderNullCheck(order);
 
@@ -301,7 +301,7 @@ namespace Core.Services
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCourierIdAndId(userId, orderId));
+                    new OrderSpecification.GetByCourierIdAndId(userId, orderId));
 
                 ExtensionMethods.OrderNullCheck(order);
 
