@@ -37,4 +37,8 @@ export default class ordersService {
         return instance.delete(ORDERS_URLS.DELETE +
             `?Id=${goodId}`);
     }
+
+    static confirmDelivery(orderId) {
+        return instance.put(ORDERS_URLS.CONFIRM_DELIVERY, orderId);
+    }
 }

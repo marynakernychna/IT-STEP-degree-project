@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from 'antd';
-import { rejectSelectedOrder } from "../../../../../services/orders"
+import { rejectSelectedOrder, confirmOrderDelivery } from "../../../../../services/orders"
 
 function Order(props) {
 
@@ -10,6 +10,10 @@ function Order(props) {
         if (await rejectSelectedOrder(data.id)) {
             props.updateOrder();
         }
+    };
+
+    const confirm = async () => {
+        await confirmOrderDelivery(data.id)
     };
 
     return (
@@ -53,6 +57,16 @@ function Order(props) {
                     onClick={() => onClick()}
                 >
                     Reject the order
+                </Button>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                <Button
+                    className="submitButton"
+                    type="primary"
+                    onClick={() => confirm()}
+                >
+                    Confirm delivery
                 </Button>
             </Card.Grid>
         </Card>
