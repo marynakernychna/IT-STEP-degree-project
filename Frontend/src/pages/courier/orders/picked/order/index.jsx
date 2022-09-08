@@ -13,9 +13,7 @@ function Order(props) {
     };
 
     const confirm = async () => {
-        if (await confirmOrderDelivery(data.id)) {
-            props.updateOrder();
-        }
+        await confirmOrderDelivery(data.id)
     };
 
     return (
