@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button } from 'antd';
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { deleteOrder } from "../../../../../services/orders"
+import { deleteOrder, confirmOrderDelivery } from "../../../../../services/orders"
 import { confirmMessage } from '../../../../../services/alerts';
 import { DeleteOutlined } from '@ant-design/icons';
 
@@ -14,6 +14,12 @@ function Order(props) {
 
         if (result && await deleteOrder(data.id)) {
             props.updateOrders();
+        }
+    };
+
+    const confirm = async () => {
+        if (await confirmOrderDelivery(data.id)) {
+            props.updateOrder();
         }
     };
 
@@ -63,6 +69,16 @@ function Order(props) {
                     onClick={() => onDelete()}
                 >
                     <DeleteOutlined />
+                </Button>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                <Button
+                    className="submitButton"
+                    type="primary"
+                    onClick={() => confirm()}
+                >
+                    Confirm delivery
                 </Button>
             </Card.Grid>
         </Card>
