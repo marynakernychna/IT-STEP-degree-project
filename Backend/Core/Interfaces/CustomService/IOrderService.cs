@@ -9,6 +9,8 @@ namespace Core.Interfaces.CustomService
     {
         Task AssignAsync(
             string courierId, int orderId);
+        Task ConfirmDeliveryAsync(
+            string userId, int orderId);
         Task CreateAsync(
             string userId, OrderDTO createOrderDTO);
         Task DeleteAsync(

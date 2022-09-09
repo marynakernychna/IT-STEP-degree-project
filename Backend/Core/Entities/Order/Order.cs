@@ -13,5 +13,7 @@ namespace Core.Entities
         public Cart Cart { get; set; }
         public string CourierId { get; set; }
         public User Courier { get; set; }
+        public bool IsAcceptedByClient { get; set; }
+        public bool IsAcceptedByCourier { get; set; }
     }
 }

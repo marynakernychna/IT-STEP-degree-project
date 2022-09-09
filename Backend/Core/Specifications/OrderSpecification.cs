@@ -72,5 +72,15 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetByCourierIdAndId : Specification<Order>,
+                                             ISingleResultSpecification<Order>
+        {
+            public GetByCourierIdAndId(string courierId, int orderId)
+            {
+                Query.Where(o => o.Id == orderId && o.CourierId == courierId)
+                     .AsNoTracking();
+            }
+        }
     }
 }

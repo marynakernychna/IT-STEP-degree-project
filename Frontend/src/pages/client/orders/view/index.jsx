@@ -37,6 +37,7 @@ const ViewOrders = () => {
                     {orders.items.map((order) =>
                         <Order
                             info={order}
+                            updateOrders={() => updateOrders()}
                         />
                     )}
 

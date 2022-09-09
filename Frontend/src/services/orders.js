@@ -165,3 +165,57 @@ export function rejectSelectedOrder(id) {
             );
         });
 }
+
+export function deleteOrder(goodId) {
+
+    return ordersService
+        .delete(goodId)
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.ORDER_SUCCESSFULLY_DELETED
+                );
+
+                return true;
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                ordersMessages.DELETE_ORDER_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function confirmOrderDelivery(id) {
+
+    return ordersService
+        .confirmDelivery({ id })
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.SUCCESSFULL_CONFIRM_DELIVERY
+                );
+
+                return true;
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                )
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                ordersMessages.FAILED_CONFIRM_DELIVERY,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}

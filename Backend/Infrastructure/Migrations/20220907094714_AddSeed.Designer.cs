@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220819004534_Create")]
-    partial class Create
+    [Migration("20220907094714_AddSeed")]
+    partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,13 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatorId = "02162c7f-ceaa-405d-b71d-bf397569d5fd"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -116,6 +123,12 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsAcceptedByClient")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsAcceptedByCourier")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -350,6 +363,29 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "391a2601-78a6-4745-bcb8-f363d29b6e82",
+                            ConcurrencyStamp = "391a2601-78a6-4745-bcb8-f363d29b6e82",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "7ca763a9-5c97-4bc9-84d9-74fd52d41dd4",
+                            ConcurrencyStamp = "7ca763a9-5c97-4bc9-84d9-74fd52d41dd4",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "f829a12f-3534-47ac-a5e0-806b9324a585",
+                            ConcurrencyStamp = "f829a12f-3534-47ac-a5e0-806b9324a585",
+                            Name = "Courier",
+                            NormalizedName = "COURIER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -511,6 +547,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "abf9d23b-26d2-4e50-ab04-19e4cfabc736",
+                            RoleId = "7ca763a9-5c97-4bc9-84d9-74fd52d41dd4"
+                        },
+                        new
+                        {
+                            UserId = "02162c7f-ceaa-405d-b71d-bf397569d5fd",
+                            RoleId = "391a2601-78a6-4745-bcb8-f363d29b6e82"
+                        },
+                        new
+                        {
+                            UserId = "8f7b5096-1a69-477e-852d-987bf9bf9fc9",
+                            RoleId = "f829a12f-3534-47ac-a5e0-806b9324a585"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -554,6 +607,68 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "abf9d23b-26d2-4e50-ab04-19e4cfabc736",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "fa5854c6-b085-4e4e-8645-7687033e0a1b",
+                            Email = "marylou@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MARYLOU@GMAIL.COM",
+                            NormalizedUserName = "MARYLOU@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEODuSGSgut58OoovNtnBGaXhVGM8mZgDXCSAxRYh1WWnutExSDZD6gQQy0EHHuZ38w==",
+                            PhoneNumber = "+380986734245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a65e6195-6c82-4f99-a388-1798b29a3622",
+                            TwoFactorEnabled = false,
+                            UserName = "marylou@gmail.com",
+                            Name = "Mary",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 7, 9, 47, 13, 366, DateTimeKind.Unspecified).AddTicks(3953), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Lou"
+                        },
+                        new
+                        {
+                            Id = "02162c7f-ceaa-405d-b71d-bf397569d5fd",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "08ade8d3-ae08-42d0-b96c-8fa6e3b47c44",
+                            Email = "etsukomami@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
+                            NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGh726G1dCHDAQgLPrx8wGW9hrmItYfwQgY4lHiMIGltsn2z7boO916WIl3mxNDEzg==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fbb24125-753c-4f21-9c4b-3108bf9c84a6",
+                            TwoFactorEnabled = false,
+                            UserName = "etsukomami@gmail.com",
+                            Name = "Etsuko",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 7, 9, 47, 13, 368, DateTimeKind.Unspecified).AddTicks(1001), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Mami"
+                        },
+                        new
+                        {
+                            Id = "8f7b5096-1a69-477e-852d-987bf9bf9fc9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bd670b4c-f25f-4656-9dad-129bb5ad6b52",
+                            Email = "yuurimorishita@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "YUURIMORISHITA@GMAIL.COM",
+                            NormalizedUserName = "YUURIMORISHITA@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFhba1A1dl7wTUuf0vna9AeIi+HYe96sRQSpDrlDBvYUitgrbOb/zyZzu9yfW6xuWw==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9dead8a2-ea6c-4f5d-894f-6c3df1fc6934",
+                            TwoFactorEnabled = false,
+                            UserName = "yuurimorishita@gmail.com",
+                            Name = "Yuuri",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 7, 9, 47, 13, 368, DateTimeKind.Unspecified).AddTicks(1086), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Morishita"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
