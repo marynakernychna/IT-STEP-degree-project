@@ -8,8 +8,6 @@ namespace Core.Interfaces.CustomService
 {
     public interface IUserService
     {
-        string GetCurrentUserIdentifier(
-            ClaimsPrincipal currentUser);
         Task<string> GetIdByEmailAsync(
             string email);
         Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(

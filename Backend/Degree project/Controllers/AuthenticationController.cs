@@ -3,6 +3,7 @@ using Core.DTO.Authentication;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -14,14 +15,11 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
 
         public AuthenticationController(
-                IAuthenticationService authenticationService,
-                IUserService userService)
+                IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
-            _userService = userService;
         }
 
         [HttpPost("clients/register")]
@@ -75,9 +73,9 @@ namespace API.Controllers
         public async Task<IActionResult> ChangePasswordAsync(
             [FromBody] ChangePasswordDTO changePasswordDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            await _authenticationService.ChangePasswordAsync(changePasswordDTO, userId);
+            await _authenticationService.ChangePasswordAsync(
+                changePasswordDTO,
+                UserService.GetCurrentUserIdentifier(User));
 
             return Ok();
         }

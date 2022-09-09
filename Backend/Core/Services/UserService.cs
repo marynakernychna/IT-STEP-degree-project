@@ -45,7 +45,7 @@ namespace Core.Services
             _emailService = emailService;
         }
 
-        public string GetCurrentUserIdentifier(
+        public static string GetCurrentUserIdentifier(
             ClaimsPrincipal currentUser)
         {
             return currentUser.FindFirstValue(ClaimTypes.NameIdentifier);

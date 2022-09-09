@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,8 @@ namespace API.Controllers
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> GetClientProfileAsync()
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-            var userInfo = await _userService.GetProfileAsync(userId);
+            var userInfo = await _userService.GetProfileAsync(
+                UserService.GetCurrentUserIdentifier(User));
 
             return Ok(userInfo);
         }
@@ -61,8 +62,11 @@ namespace API.Controllers
             [FromBody] UserEditProfileInfoDTO newUserInfo)
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-            var userId = _userService.GetCurrentUserIdentifier(User);
-            await _userService.UpdateProfileAsync(newUserInfo, userId, callbackUrl);
+
+            await _userService.UpdateProfileAsync(
+                newUserInfo,
+                UserService.GetCurrentUserIdentifier(User),
+                callbackUrl);
 
             return Ok();
         }

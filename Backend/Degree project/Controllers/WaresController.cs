@@ -4,6 +4,7 @@ using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,14 +16,11 @@ namespace API.Controllers
     [ApiController]
     public class WaresController : Controller
     {
-        private readonly IUserService _userService;
         private readonly IWareService _wareService;
 
         public WaresController(
-            IUserService userService,
             IWareService wareService)
         {
-            _userService = userService;
             _wareService = wareService;
         }
 
@@ -53,9 +51,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetCreatedByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
+            var ware = await _wareService.GetCreatedByUserAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                paginationFilter);
 
             return Ok(ware);
         }
@@ -75,8 +73,9 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] CreateWareDTO createWareDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-            await _wareService.CreateAsync(createWareDTO, userId);
+            await _wareService.CreateAsync(
+                createWareDTO,
+                UserService.GetCurrentUserIdentifier(User));
 
             return Ok();
         }

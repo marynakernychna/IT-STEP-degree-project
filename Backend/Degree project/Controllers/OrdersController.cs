@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.DTO.Order;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -14,14 +15,11 @@ namespace API.Controllers
     [ApiController]
     public class OrdersController : Controller
     {
-        private readonly IUserService _userService;
         private readonly IOrderService _orderService;
 
         public OrdersController(
-            IUserService userService,
             IOrderService orderService)
         {
-            _userService = userService;
             _orderService = orderService;
         }
 
@@ -30,9 +28,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            var orders = await _orderService.GetPageByClientAsync(userId, paginationFilterDTO);
+            var orders = await _orderService.GetPageByClientAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                paginationFilterDTO);
 
             return Ok(orders);
         }
@@ -52,9 +50,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfAssignedByCourierAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var courierId = _userService.GetCurrentUserIdentifier(User);
-
-            var orders = await _orderService.GetPageOfAssignedByCourierAsync(courierId, paginationFilterDTO);
+            var orders = await _orderService.GetPageOfAssignedByCourierAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                paginationFilterDTO);
 
             return Ok(orders);
         }
@@ -64,9 +62,9 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAsync(
             [FromBody] OrderDTO createOrderDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.CreateAsync(userId, createOrderDTO);
+            await _orderService.CreateAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                createOrderDTO);
 
             return Ok();
 
@@ -77,9 +75,9 @@ namespace API.Controllers
         public async Task<IActionResult> AssignAsync(
             [FromBody] EntityIdDTO idDTO)
         {
-            var courierId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.AssignAsync(courierId, idDTO.Id);
+            await _orderService.AssignAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                idDTO.Id);
 
             return Ok();
         }
@@ -89,9 +87,9 @@ namespace API.Controllers
         public async Task<IActionResult> RejectAsync(
             [FromBody] EntityIdDTO idDTO)
         {
-            var courierId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.RejectAsync(idDTO.Id, courierId);
+            await _orderService.RejectAsync(
+                idDTO.Id,
+                UserService.GetCurrentUserIdentifier(User));
 
             return Ok();
         }
@@ -103,9 +101,9 @@ namespace API.Controllers
         public async Task<IActionResult> ConfirmDeliveryAsync(
             [FromBody] EntityIdDTO idDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _orderService.ConfirmDeliveryAsync(userId, idDTO.Id);
+            await _orderService.ConfirmDeliveryAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                idDTO.Id);
 
             return Ok();
         }
@@ -115,9 +113,9 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateAsync(
             [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.UpdateAsync(changeOrderInfoDTO, userId);
+            await _orderService.UpdateAsync(
+                changeOrderInfoDTO,
+                UserService.GetCurrentUserIdentifier(User));
 
             return Ok();
         }
@@ -127,9 +125,9 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserIdentifier(User);
-
-            await _orderService.DeleteAsync(userId, entityIdDTO.Id);
+            await _orderService.DeleteAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                entityIdDTO.Id);
 
             return Ok();
         }
