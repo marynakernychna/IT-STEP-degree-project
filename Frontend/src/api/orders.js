@@ -41,4 +41,8 @@ export default class ordersService {
     static confirmDelivery(orderId) {
         return instance.put(ORDERS_URLS.CONFIRM_DELIVERY, orderId);
     }
+
+    static rejectDeliveryConfirmation(orderId) {
+        return instance.put(ORDERS_URLS.REJECT_DELIVERY_CONFIRMATION, orderId);
+    }
 }
