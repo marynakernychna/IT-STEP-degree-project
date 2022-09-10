@@ -8,5 +8,7 @@ export const ordersMessages = Object.freeze({
     DELETE_ORDER_FAILED: "Failed to delete the order!",
     ORDER_SUCCESSFULLY_DELETED: "You have successfully deleted the order!",
     DELIVERY_SUCCESSFULLY_CONFIRMED: "You have successfully confirmed delivery!",
-    FAILED_CONFIRM_DELIVERY: "Failed to confirm delivery!"
+    FAILED_CONFIRM_DELIVERY: "Failed to confirm delivery!",
+    DELIVERY_CONFIRMATION_REJECTED_SUCCESSFULLY: "You have successfully rejected delivery confirmation!",
+    FAILED_REJECT_DELIVERY_CONFIRMATION: "Failed to reject delivery confirmation!"
 });

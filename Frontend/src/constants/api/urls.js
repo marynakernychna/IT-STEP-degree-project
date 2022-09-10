@@ -53,5 +53,6 @@ export const ORDERS_URLS = {
     ASSIGN: ORDERS_URL + "/assign-to-order",
     REJECT: ORDERS_URL + "/reject-selected-order",
     DELETE: ORDERS_URL + "/delete",
-    CONFIRM_DELIVERY: ORDERS_URL + "/confirm-delivery"
+    CONFIRM_DELIVERY: ORDERS_URL + "/confirm-delivery",
+    REJECT_DELIVERY_CONFIRMATION: ORDERS_URL + "/reject-delivery-confirmation"
 };
