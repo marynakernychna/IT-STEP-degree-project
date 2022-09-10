@@ -1,5 +1,5 @@
 using API.Middlewares;
-using API.ServiceExtension;
+using API.ServiceExtensions;
 using Core;
 using Core.Helpers;
 using Infrastructure;
