@@ -278,6 +278,23 @@ namespace Core.Services
             await _orderRepository.DeleteAsync(order);
         }
 
+        private async Task ChangeIsAcceptedAsync(string userRole, Order order, bool isAccepted)
+        {
+            if (userRole == IdentityRoleNames.User.ToString())
+            {
+                order.IsAcceptedByClient = isAccepted;
+
+                await _orderRepository.UpdateAsync(order);
+
+            }
+            else if (userRole == IdentityRoleNames.Courier.ToString())
+            {
+                order.IsAcceptedByCourier = isAccepted;
+
+                await _orderRepository.UpdateAsync(order);
+            }
+        }
+
         public async Task ConfirmDeliveryAsync(string userId, int orderId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -293,10 +310,14 @@ namespace Core.Services
 
                 ExtensionMethods.OrderNullCheck(order);
 
-                order.IsAcceptedByClient = true;
+                if (order.IsAcceptedByClient)
+                {
+                    throw new HttpException(
+                        ErrorMessages.OrderAlreadyConfirmed,
+                        HttpStatusCode.InternalServerError);
+                }
 
-                await _orderRepository.UpdateAsync(order);
-
+                await ChangeIsAcceptedAsync(userRole, order, true);
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
@@ -305,13 +326,18 @@ namespace Core.Services
 
                 ExtensionMethods.OrderNullCheck(order);
 
-                order.IsAcceptedByCourier = true;
+                if (order.IsAcceptedByCourier)
+                {
+                    throw new HttpException(
+                        ErrorMessages.OrderAlreadyConfirmed,
+                        HttpStatusCode.InternalServerError);
+                }
 
-                await _orderRepository.UpdateAsync(order);
+                await ChangeIsAcceptedAsync(userRole, order, true);
             }
         }
 
-        public async Task RejectDeliveryAsync(string userId, int orderId)
+        public async Task RejectDeliveryConfirmationAsync(string userId, int orderId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -324,11 +350,10 @@ namespace Core.Services
                 var order = await _orderRepository.SingleOrDefaultAsync(
                     new OrderSpecification.GetByClientConfirmedDelivery(userId, orderId));
 
+                ExtensionMethods.OrderNotConfirmedClientCheck(order);
                 ExtensionMethods.OrderNullCheck(order);
 
-                order.IsAcceptedByClient = false;
-
-                await _orderRepository.UpdateAsync(order);
+                await ChangeIsAcceptedAsync(userRole, order, false);
 
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
@@ -336,11 +361,10 @@ namespace Core.Services
                 var order = await _orderRepository.SingleOrDefaultAsync(
                     new OrderSpecification.GetByCourierConfirmedDelivery(userId, orderId));
 
+                ExtensionMethods.OrderNotConfirmedCourierCheck(order);
                 ExtensionMethods.OrderNullCheck(order);
 
-                order.IsAcceptedByCourier = false;
-
-                await _orderRepository.UpdateAsync(order);
+                await ChangeIsAcceptedAsync(userRole, order, false);
             }
         }
     }

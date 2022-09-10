@@ -178,11 +178,29 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order has already been confirmed!.
+        /// </summary>
+        internal static string OrderAlreadyConfirmed {
+            get {
+                return ResourceManager.GetString("OrderAlreadyConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The order is already picked!.
         /// </summary>
         internal static string OrderAlreadyPicked {
             get {
                 return ResourceManager.GetString("OrderAlreadyPicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order not confirmed!.
+        /// </summary>
+        internal static string OrderNotConfirmed {
+            get {
+                return ResourceManager.GetString("OrderNotConfirmed", resourceCulture);
             }
         }
         

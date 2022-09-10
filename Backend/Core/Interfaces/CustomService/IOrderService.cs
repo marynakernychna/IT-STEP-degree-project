@@ -20,6 +20,6 @@ namespace Core.Interfaces.CustomService
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
         Task DeleteAsync(string userId, int orderId);
         Task ConfirmDeliveryAsync(string userId, int orderId);
-        Task RejectDeliveryAsync(string userId, int orderId);
+        Task RejectDeliveryConfirmationAsync(string userId, int orderId);
     }
 }

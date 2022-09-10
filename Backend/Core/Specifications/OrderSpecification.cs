@@ -84,7 +84,7 @@ namespace Core.Specifications
         }
 
         internal class GetByClientConfirmedDelivery : Specification<Order>,
-                                             ISingleResultSpecification<Order>
+                                                      ISingleResultSpecification<Order>
         {
             public GetByClientConfirmedDelivery(string creatorId, int orderId)
             {
@@ -96,7 +96,7 @@ namespace Core.Specifications
         }
 
         internal class GetByCourierConfirmedDelivery : Specification<Order>,
-                                             ISingleResultSpecification<Order>
+                                                       ISingleResultSpecification<Order>
         {
             public GetByCourierConfirmedDelivery(string courierId, int orderId)
             {

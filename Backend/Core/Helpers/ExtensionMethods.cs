@@ -85,5 +85,25 @@ namespace Core.Helpers
                     HttpStatusCode.NotFound);
             }
         }
+
+        public static void OrderNotConfirmedClientCheck(Order order)
+        {
+            if (!order.IsAcceptedByClient)
+            {
+                throw new HttpException(
+                    ErrorMessages.OrderNotConfirmed,
+                    HttpStatusCode.BadRequest);
+            }
+        }
+
+        public static void OrderNotConfirmedCourierCheck(Order order)
+        {
+            if (!order.IsAcceptedByCourier)
+            {
+                throw new HttpException(
+                    ErrorMessages.OrderNotConfirmed,
+                    HttpStatusCode.BadRequest);
+            }
+        }
     }
 }
