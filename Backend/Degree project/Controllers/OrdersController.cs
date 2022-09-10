@@ -108,6 +108,20 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPut("delivery/reject")]
+        [AuthorizeByRole(
+            IdentityRoleNames.User,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> RejectDeliveryAsync(
+            [FromBody] EntityIdDTO idDTO)
+        {
+            await _orderService.RejectDeliveryAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                idDTO.Id);
+
+            return Ok();
+        }
+
         [HttpPut("update")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> UpdateAsync(

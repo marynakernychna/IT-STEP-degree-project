@@ -23,6 +23,8 @@ namespace Core.Interfaces.CustomService
             PaginationFilterDTO paginationFilterDTO);
         Task RejectAsync(
             int orderId, string courierId);
+        Task RejectDeliveryAsync(
+            string userId, int orderId);
         Task UpdateAsync(
             ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
     }
