@@ -128,5 +128,16 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpPut("reject-delivery-confirmation")]
+        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Courier)]
+        public async Task<IActionResult> RejectDeliveryConfirmationAsync([FromBody] EntityIdDTO idDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            await _orderService.RejectDeliveryConfirmationAsync(userId, idDTO.Id);
+
+            return Ok();
+        }
     }
 }
