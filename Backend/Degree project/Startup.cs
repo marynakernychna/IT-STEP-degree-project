@@ -13,45 +13,16 @@ namespace API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        public Startup(
+            IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-
-            services.AddRepositories();
-
-            services.AddDbContext(Configuration.GetConnectionString("DefaultConnection"));
-
-            services.AddIdentityDbContext();
-
-            services.AddAuthentication();
-
-            services.AddCustomServices();
-
-            services.Configures(Configuration.GetSection(nameof(AppSettings)));
-
-            services.AddFluentValidation();
-
-            services.AddAutoMapper();
-
-            services.AddResponseCaching();
-
-            services.ConfigJwtOptions(Configuration);
-
-            services.AddJwtAuthentication(Configuration);
-
-            services.AddMvcCore().AddRazorViewEngine();
-
-            services.AddSwagger();
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -64,7 +35,11 @@ namespace API
 
             app.UseRouting();
 
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(builder =>
+                builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin()
+            );
 
             app.UseAuthentication();
 
@@ -76,6 +51,41 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureServices(
+            IServiceCollection services)
+        {
+            services.AddControllers();
+
+            services.AddRepositories();
+
+            services.AddDbContext(
+                Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddIdentityDbContext();
+
+            services.AddAuthentication();
+
+            services.AddCustomServices();
+
+            services.Configures(
+                Configuration.GetSection(nameof(AppSettings)));
+
+            services.AddFluentValidation();
+
+            services.AddAutoMapper();
+
+            services.AddResponseCaching();
+
+            services.ConfigJwtOptions(Configuration);
+
+            services.AddJwtAuthentication(Configuration);
+
+            services.AddMvcCore()
+                    .AddRazorViewEngine();
+
+            services.AddSwagger();
         }
     }
 }
