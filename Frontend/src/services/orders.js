@@ -202,8 +202,6 @@ export function confirmOrderDelivery(id) {
                 successMessage(
                     ordersMessages.DELIVERY_SUCCESSFULLY_CONFIRMED
                 );
-
-                return true;
             },
             (err) => {
                 errorMessage(
@@ -229,8 +227,6 @@ export function rejectDeliveryConfirmation(id) {
                 successMessage(
                     ordersMessages.DELIVERY_CONFIRMATION_REJECTED_SUCCESSFULLY
                 );
-
-                return true;
             },
             (err) => {
                 errorMessage(

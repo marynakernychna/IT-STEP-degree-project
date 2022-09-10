@@ -13,11 +13,11 @@ function Order(props) {
     };
 
     const confirm = async () => {
-        await confirmOrderDelivery(data.id)
+        await confirmOrderDelivery(data.id);
     };
 
     const reject = async () => {
-        await rejectDeliveryConfirmation(data.id)
+        await rejectDeliveryConfirmation(data.id);
     };
 
     return (
@@ -56,6 +56,7 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
+                    danger
                     className="submitButton"
                     type="primary"
                     onClick={() => onClick()}
@@ -76,6 +77,7 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
+                    danger
                     className="submitButton"
                     type="primary"
                     onClick={() => reject()}
