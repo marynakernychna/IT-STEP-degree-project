@@ -278,18 +278,18 @@ namespace Core.Services
             await _orderRepository.DeleteAsync(order);
         }
 
-        private async Task ChangeIsAcceptedAsync(string userRole, Order order, bool isAccepted)
+        private async Task ChangeIsAcceptedAsync(string userRole, Order order)
         {
             if (userRole == IdentityRoleNames.User.ToString())
             {
-                order.IsAcceptedByClient = isAccepted;
+                order.IsAcceptedByClient = !order.IsAcceptedByClient;
 
                 await _orderRepository.UpdateAsync(order);
 
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
-                order.IsAcceptedByCourier = isAccepted;
+                order.IsAcceptedByCourier = !order.IsAcceptedByCourier;
 
                 await _orderRepository.UpdateAsync(order);
             }
@@ -314,10 +314,10 @@ namespace Core.Services
                 {
                     throw new HttpException(
                         ErrorMessages.OrderAlreadyConfirmed,
-                        HttpStatusCode.InternalServerError);
+                        HttpStatusCode.BadRequest);
                 }
 
-                await ChangeIsAcceptedAsync(userRole, order, true);
+                await ChangeIsAcceptedAsync(userRole, order);
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
@@ -330,10 +330,10 @@ namespace Core.Services
                 {
                     throw new HttpException(
                         ErrorMessages.OrderAlreadyConfirmed,
-                        HttpStatusCode.InternalServerError);
+                        HttpStatusCode.BadRequest);
                 }
 
-                await ChangeIsAcceptedAsync(userRole, order, true);
+                await ChangeIsAcceptedAsync(userRole, order);
             }
         }
 
@@ -348,23 +348,23 @@ namespace Core.Services
             if (userRole == IdentityRoleNames.User.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
-                    new OrderSpecification.GetByClientConfirmedDelivery(userId, orderId));
+                    new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
 
-                ExtensionMethods.OrderNotConfirmedClientCheck(order);
                 ExtensionMethods.OrderNullCheck(order);
+                ExtensionMethods.OrderNotConfirmedClientCheck(order);
 
-                await ChangeIsAcceptedAsync(userRole, order, false);
+                await ChangeIsAcceptedAsync(userRole, order);
 
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
-                    new OrderSpecification.GetByCourierConfirmedDelivery(userId, orderId));
+                    new OrderSpecification.GetByCourierIdAndId(userId, orderId));
 
-                ExtensionMethods.OrderNotConfirmedCourierCheck(order);
                 ExtensionMethods.OrderNullCheck(order);
+                ExtensionMethods.OrderNotConfirmedCourierCheck(order);
 
-                await ChangeIsAcceptedAsync(userRole, order, false);
+                await ChangeIsAcceptedAsync(userRole, order);
             }
         }
     }
