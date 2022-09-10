@@ -9,37 +9,45 @@ namespace API.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly RequestDelegate _requestDelegate;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(
+            RequestDelegate requestDelegate)
         {
-            _next = next;
+            _requestDelegate = requestDelegate;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(
+            HttpContext httpContext)
         {
             try
             {
-                await _next(context);
+                await _requestDelegate(httpContext);
             }
-            catch (HttpException exception)
+            catch (HttpException httpException)
             {
-                await HandleGlobalExceptionAsync(context, exception.StatusCode, exception.Message);
+                await HandleGlobalExceptionAsync(
+                    httpContext,
+                    httpException.StatusCode,
+                    httpException.Message);
             }
             catch (Exception exception)
             {
-                await HandleGlobalExceptionAsync(context, errorBody: exception.Message);
+                await HandleGlobalExceptionAsync(
+                    httpContext,
+                    errorMessage: exception.Message);
             }
         }
 
         private static async Task HandleGlobalExceptionAsync(
-            HttpContext context,
-            HttpStatusCode statusCode = HttpStatusCode.InternalServerError,
-            string errorBody = "Unknown error has been occurred")
+            HttpContext httpContext,
+            HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError,
+            string errorMessage = "Unknown error has been occurred!")
         {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)statusCode;
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(errorBody));
+            httpContext.Response.ContentType = "application/json";
+            httpContext.Response.StatusCode = (int)httpStatusCode;
+
+            await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(errorMessage));
         }
     }
 }
