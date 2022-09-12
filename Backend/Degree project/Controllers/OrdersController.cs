@@ -57,6 +57,20 @@ namespace API.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("delivered/by-user/page")]
+        [AuthorizeByRole(
+            IdentityRoleNames.User,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetPageOfDeliveredOrdersAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var orders = await _orderService.GetPageOfDeliveredAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                paginationFilterDTO);
+
+            return Ok(orders);
+        }
+
         [HttpPost("create")]
         [AuthorizeByRole(IdentityRoleNames.User)]
         public async Task<IActionResult> CreateAsync(

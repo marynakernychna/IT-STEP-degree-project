@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from 'antd';
-import { rejectSelectedOrder, confirmOrderDelivery } from "../../../../../services/orders"
+import { rejectSelectedOrder, confirmOrderDelivery, rejectDeliveryConfirmation } from "../../../../../services/orders"
 
 function Order(props) {
 
@@ -13,7 +13,11 @@ function Order(props) {
     };
 
     const confirm = async () => {
-        await confirmOrderDelivery(data.id)
+        await confirmOrderDelivery(data.id);
+    };
+
+    const reject = async () => {
+        await rejectDeliveryConfirmation(data.id);
     };
 
     return (
@@ -52,6 +56,7 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
+                    danger
                     className="submitButton"
                     type="primary"
                     onClick={() => onClick()}
@@ -67,6 +72,17 @@ function Order(props) {
                     onClick={() => confirm()}
                 >
                     Confirm delivery
+                </Button>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                <Button
+                    danger
+                    className="submitButton"
+                    type="primary"
+                    onClick={() => reject()}
+                >
+                    Reject delivery confirmation
                 </Button>
             </Card.Grid>
         </Card>

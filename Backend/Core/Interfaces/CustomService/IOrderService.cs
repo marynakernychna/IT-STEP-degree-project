@@ -21,6 +21,8 @@ namespace Core.Interfaces.CustomService
             string courierId, PaginationFilterDTO paginationFilterDTO);
         Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
             PaginationFilterDTO paginationFilterDTO);
+        Task<PaginatedList<DeliveredOrderDTO>> GetPageOfDeliveredAsync(
+            string userId, PaginationFilterDTO paginationFilterDTO);
         Task RejectAsync(
             int orderId, string courierId);
         Task RejectDeliveryAsync(

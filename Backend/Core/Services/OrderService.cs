@@ -187,7 +187,9 @@ namespace Core.Services
                     Country = order.Country,
                     PhoneNumber = user.PhoneNumber,
                     WaresCount = order.Cart.WareCarts.Count,
-                    IsPicked = order.CourierId != null
+                    IsPicked = order.CourierId != null,
+                    IsAcceptedByClient = order.IsAcceptedByClient,
+                    IsAcceptedByCourier = order.IsAcceptedByCourier
                 });
             }
 
@@ -250,6 +252,67 @@ namespace Core.Services
                 paginationFilterDTO.PageNumber,
                 ordersCount,
                 totalPages);
+        }
+
+        public async Task<PaginatedList<DeliveredOrderDTO>> GetPageOfDeliveredAsync(
+            string userId, PaginationFilterDTO paginationFilterDTO)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            var userRole = await _identityRoleService.GetByUserAsync(user);
+
+            if (userRole == IdentityRoleNames.User.ToString())
+            {
+                var ordersCount = await _orderRepository.CountAsync(
+                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
+
+                if (ordersCount == 0)
+                {
+                    return null;
+                }
+
+                var totalPages = PaginatedList<OrderInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, ordersCount);
+
+                var ordersList = await _orderRepository.ListAsync(
+                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
+
+                var orders = FormDeliveredOrderDTOList(ordersList);
+
+                return PaginatedList<DeliveredOrderDTO>.Evaluate(
+                    orders,
+                    paginationFilterDTO.PageNumber,
+                    ordersCount,
+                    totalPages);
+            }
+            else if (userRole == IdentityRoleNames.Courier.ToString())
+            {
+                var ordersCount = await _orderRepository.CountAsync(
+                    new OrderSpecification.GetCourierDeliveredOrders(userId, paginationFilterDTO));
+
+                if (ordersCount == 0)
+                {
+                    return null;
+                }
+
+                var totalPages = PaginatedList<OrderInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, ordersCount);
+
+                var ordersList = await _orderRepository.ListAsync(
+                    new OrderSpecification.GetCourierDeliveredOrders(userId, paginationFilterDTO));
+
+                var orders = FormDeliveredOrderDTOList(ordersList);
+
+                return PaginatedList<DeliveredOrderDTO>.Evaluate(
+                    orders,
+                    paginationFilterDTO.PageNumber,
+                    ordersCount,
+                    totalPages);
+            }
+
+            return null;
         }
 
         public async Task RejectAsync(
@@ -352,6 +415,32 @@ namespace Core.Services
 
                 await _orderRepository.UpdateAsync(order);
             }
+        }
+
+        private static List<DeliveredOrderDTO> FormDeliveredOrderDTOList(
+            List<Order> ordersList)
+        {
+            var orders = new List<DeliveredOrderDTO>();
+
+            foreach (var order in ordersList)
+            {
+                var creator = order.Cart.Creator;
+
+                orders.Add(new DeliveredOrderDTO
+                {
+                    Id = order.Id,
+                    Address = order.Address,
+                    City = order.City,
+                    Country = order.Country,
+                    FullName = creator.Name + ' ' + creator.Surname,
+                    PhoneNumber = creator.PhoneNumber,
+                    WaresCount = order.Cart.WareCarts.Count,
+                    IsAcceptedByClient = order.IsAcceptedByClient,
+                    IsAcceptedByCourier = order.IsAcceptedByCourier
+                });
+            }
+
+            return orders;
         }
 
         private static List<OrderInfoDTO> FormOrderInfoDTOList(

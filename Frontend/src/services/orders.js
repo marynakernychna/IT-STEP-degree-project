@@ -200,10 +200,8 @@ export function confirmOrderDelivery(id) {
         .then(
             () => {
                 successMessage(
-                    ordersMessages.SUCCESSFULL_CONFIRM_DELIVERY
+                    ordersMessages.DELIVERY_SUCCESSFULLY_CONFIRMED
                 );
-
-                return true;
             },
             (err) => {
                 errorMessage(
@@ -215,6 +213,31 @@ export function confirmOrderDelivery(id) {
         .catch(() => {
             errorMessage(
                 ordersMessages.FAILED_CONFIRM_DELIVERY,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function rejectDeliveryConfirmation(id) {
+
+    return ordersService
+        .rejectDeliveryConfirmation({ id })
+        .then(
+            () => {
+                successMessage(
+                    ordersMessages.DELIVERY_CONFIRMATION_REJECTED_SUCCESSFULLY
+                );
+            },
+            (err) => {
+                errorMessage(
+                    err.response.data,
+                    generalMessages.SOMETHING_WENT_WRONG
+                )
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                ordersMessages.FAILED_REJECT_DELIVERY_CONFIRMATION,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });
