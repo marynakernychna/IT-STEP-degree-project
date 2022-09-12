@@ -370,7 +370,7 @@ namespace Core.Services
             }
         }
 
-        public async Task<PaginatedList<DeliveredOrderDTO>> GetDeliveredOrders(
+        public async Task<PaginatedList<DeliveredOrderDTO>> GetDeliveredOrdersAsync(
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -382,7 +382,7 @@ namespace Core.Services
             if (userRole == IdentityRoleNames.User.ToString())
             {
                 var ordersCount = await _orderRepository.CountAsync(
-                    new OrderSpecification.GetUserDeliveredOrders(userId, paginationFilterDTO));
+                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
 
                 if (ordersCount == 0)
                 {
@@ -393,7 +393,7 @@ namespace Core.Services
                     .GetTotalPages(paginationFilterDTO, ordersCount);
 
                 var ordersList = await _orderRepository.ListAsync(
-                    new OrderSpecification.GetUserDeliveredOrders(userId, paginationFilterDTO));
+                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
 
                 var orders = FormDeliveredOrderDTOList(ordersList);
 
@@ -437,7 +437,7 @@ namespace Core.Services
 
             foreach (var order in ordersList)
             {
-                var user = order.Cart.Creator;
+                var creator = order.Cart.Creator;
 
                 orders.Add(new DeliveredOrderDTO
                 {
@@ -445,8 +445,8 @@ namespace Core.Services
                     Address = order.Address,
                     City = order.City,
                     Country = order.Country,
-                    FullName = user.Name + ' ' + user.Surname,
-                    PhoneNumber = user.PhoneNumber,
+                    FullName = creator.Name + ' ' + creator.Surname,
+                    PhoneNumber = creator.PhoneNumber,
                     WaresCount = order.Cart.WareCarts.Count,
                     IsAcceptedByClient = order.IsAcceptedByClient,
                     IsAcceptedByCourier = order.IsAcceptedByCourier

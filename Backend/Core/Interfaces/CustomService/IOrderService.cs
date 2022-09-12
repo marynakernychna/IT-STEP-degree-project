@@ -21,7 +21,7 @@ namespace Core.Interfaces.CustomService
         Task DeleteAsync(string userId, int orderId);
         Task ConfirmDeliveryAsync(string userId, int orderId);
         Task RejectDeliveryConfirmationAsync(string userId, int orderId);
-        Task<PaginatedList<DeliveredOrderDTO>> GetDeliveredOrders(
+        Task<PaginatedList<DeliveredOrderDTO>> GetDeliveredOrdersAsync(
             string userId, PaginationFilterDTO paginationFilterDTO);
     }
 }

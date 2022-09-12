@@ -83,12 +83,12 @@ namespace Core.Specifications
             }
         }
 
-        internal class GetUserDeliveredOrders : Specification<Order>
+        internal class GetClientDeliveredOrders : Specification<Order>
         {
-            public GetUserDeliveredOrders(string userId, PaginationFilterDTO paginationFilterDTO)
+            public GetClientDeliveredOrders(string userId, PaginationFilterDTO paginationFilterDTO)
             {
-                Query.Where(o => o.Cart.CreatorId == userId 
-                            && o.IsAcceptedByClient 
+                Query.Where(o => o.Cart.CreatorId == userId
+                            && o.IsAcceptedByClient
                             && o.IsAcceptedByCourier)
                      .Include(o => o.Cart)
                      .ThenInclude(c => c.Creator)

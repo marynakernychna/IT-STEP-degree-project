@@ -142,12 +142,12 @@ namespace API.Controllers
 
         [HttpGet("delivered-orders")]
         [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Courier)]
-        public async Task<IActionResult> GetDeliveredOrders(
+        public async Task<IActionResult> GetDeliveredOrdersAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
             var userId = _userService.GetCurrentUserNameIdentifier(User);
 
-            var orders = await _orderService.GetDeliveredOrders(userId, paginationFilterDTO);
+            var orders = await _orderService.GetDeliveredOrdersAsync(userId, paginationFilterDTO);
 
             return Ok(orders);
         }
