@@ -45,4 +45,10 @@ export default class ordersService {
     static rejectDeliveryConfirmation(orderId) {
         return instance.put(ORDERS_URLS.REJECT_DELIVERY_CONFIRMATION, orderId);
     }
+
+    static getDeliveredOrders(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_DELIVERED_ORDERS +
+            `?PageNumber=${paginationFilterModel.pageNumber}
+             &PageSize=${paginationFilterModel.pageSize}`);
+    }
 }

@@ -37,7 +37,10 @@ export const userItems = [
         getItem("My goods", pageUrls.VIEW_MY_GOODS)
     ]),
     getItem("Cart", pageUrls.CART, <BsBasket />),
-    getItem("Orders", pageUrls.VIEW_MY_ORDERS, <AppstoreOutlined />),
+    getItem("Orders", 'sub2', <AppstoreOutlined />, [
+        getItem("View", pageUrls.VIEW_MY_ORDERS),
+        getItem("Delivered", pageUrls.DELIVERED_ORDERS)
+    ]),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];
 
@@ -45,7 +48,8 @@ export const courierItems = [
     getItem("Profile", pageUrls.VIEW_PROFILE_INFO, <UserOutlined />),
     getItem("Orders", 'sub1', <AppstoreOutlined />, [
         getItem("Available", pageUrls.AVAILABLE_ORDERS),
-        getItem("Picked", pageUrls.PICKED_ORDERS)
+        getItem("Picked", pageUrls.PICKED_ORDERS),
+        getItem("Delivered", pageUrls.DELIVERED_ORDERS)
     ]),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];

@@ -24,6 +24,7 @@ import ViewMyGoodsPage from './pages/client/goods/myGoods/index'
 import ViewAvailableOrders from './pages/courier/orders/available/index';
 import ViewOrders from './pages/client/orders/view/index';
 import ViewPickedOrders from './pages/courier/orders/picked/index';
+import ViewDeliveredOrders from './components/deliveredOrders/index';
 
 const history = createBrowserHistory();
 
@@ -106,6 +107,13 @@ export default function App() {
                     path={pageUrls.VIEW_MY_ORDERS}
                     allowedRoles={[userRoles.USER]}
                     component={ViewOrders}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.DELIVERED_ORDERS}
+                    allowedRoles={[userRoles.USER, userRoles.COURIER]}
+                    component={ViewDeliveredOrders}
                 />
 
                 <Route
