@@ -121,7 +121,7 @@ namespace Core.Services
                 user.Email == newUserInfo.Email)
             {
                 throw new HttpException(
-                    ErrorMessages.NewInfoSamePrevious,
+                    ErrorMessages.THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS,
                     HttpStatusCode.BadRequest);
             }
 
@@ -135,7 +135,7 @@ namespace Core.Services
                     new UserSpecification.GetByEmail(newUserInfo.Email)))
                 {
                     throw new HttpException(
-                        ErrorMessages.FailedSendEmail,
+                        ErrorMessages.THE_MAIL_SENDING_ERROR,
                         HttpStatusCode.BadRequest);
                 }
 

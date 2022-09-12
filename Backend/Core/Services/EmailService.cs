@@ -85,7 +85,7 @@ namespace Core.Services
             if (!result.IsSuccessStatusCode)
             {
                 throw new HttpException(
-                    ErrorMessages.FailedSendEmail,
+                    ErrorMessages.THE_MAIL_SENDING_ERROR,
                     HttpStatusCode.InternalServerError);
             }
         }

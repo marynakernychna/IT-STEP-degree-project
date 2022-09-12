@@ -53,7 +53,7 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 
@@ -63,7 +63,7 @@ namespace Core.Services
             if (duplicate != null)
             {
                 throw new HttpException(
-                    ErrorMessages.WareIsAlreadyInTheCart,
+                    ErrorMessages.THE_WARE_IS_ALREADY_IN_THE_CART,
                     HttpStatusCode.BadRequest);
             }
 
@@ -96,7 +96,7 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 
@@ -106,7 +106,7 @@ namespace Core.Services
             if (wareCart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.WareNotFound,
+                    ErrorMessages.THE_WARE_NOT_FOUND,
                     HttpStatusCode.BadRequest);
             }
 
@@ -141,7 +141,7 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 

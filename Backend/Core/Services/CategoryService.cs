@@ -38,7 +38,7 @@ namespace Core.Services
             if (isCategoryExist)
             {
                 throw new HttpException(
-                        ErrorMessages.CategoryAlreadyExists,
+                        ErrorMessages.THE_CATEGORY_ALREADY_EXISTS,
                         HttpStatusCode.BadRequest
                     );
             }
@@ -121,7 +121,7 @@ namespace Core.Services
             if (String.Equals(updateCategoryDTO.CurrentTitle, updateCategoryDTO.NewTitle))
             {
                 throw new HttpException(
-                    ErrorMessages.PreviousInfoIsTheSame,
+                    ErrorMessages.THE_PREVIOUS_INFO_IS_THE_SAME,
                     HttpStatusCode.BadRequest);
             }
 
@@ -131,7 +131,7 @@ namespace Core.Services
             if (isCategoryExist)
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryAlreadyExists,
+                    ErrorMessages.THE_CATEGORY_ALREADY_EXISTS,
                     HttpStatusCode.BadRequest);
             }
 

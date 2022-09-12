@@ -61,209 +61,209 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The cart is empty!.
+        ///   Looks up a localized string similar to Failed to change the password!.
         /// </summary>
-        internal static string CartIsEmpty {
+        internal static string CHANGE_PASSWORD_FAILED {
             get {
-                return ResourceManager.GetString("CartIsEmpty", resourceCulture);
+                return ResourceManager.GetString("CHANGE_PASSWORD_FAILED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cart not found!.
+        ///   Looks up a localized string similar to The client already has a product with that name!.
         /// </summary>
-        internal static string CartNotFound {
+        internal static string DUPLICATE_WARE_TITLE_BY_THE_USER {
             get {
-                return ResourceManager.GetString("CartNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Category already exists!.
-        /// </summary>
-        internal static string CategoryAlreadyExists {
-            get {
-                return ResourceManager.GetString("CategoryAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Category not found!.
-        /// </summary>
-        internal static string CategoryNotFound {
-            get {
-                return ResourceManager.GetString("CategoryNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Change password failed!.
-        /// </summary>
-        internal static string ChangePasswordFailed {
-            get {
-                return ResourceManager.GetString("ChangePasswordFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Duplicate name of the characteristic in a ware!.
-        /// </summary>
-        internal static string CharacteristicNameDuplicateInWare {
-            get {
-                return ResourceManager.GetString("CharacteristicNameDuplicateInWare", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is already a user with this email!.
-        /// </summary>
-        internal static string EmailAlreadyExists {
-            get {
-                return ResourceManager.GetString("EmailAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed send email!.
-        /// </summary>
-        internal static string FailedSendEmail {
-            get {
-                return ResourceManager.GetString("FailedSendEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The identity role not found!.
-        /// </summary>
-        internal static string IdentityRoleNotFound {
-            get {
-                return ResourceManager.GetString("IdentityRoleNotFound", resourceCulture);
+                return ResourceManager.GetString("DUPLICATE_WARE_TITLE_BY_THE_USER", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The invalid credentials!.
         /// </summary>
-        internal static string InvalidCredentials {
+        internal static string INVALID_CREDENTIALS {
             get {
-                return ResourceManager.GetString("InvalidCredentials", resourceCulture);
+                return ResourceManager.GetString("INVALID_CREDENTIALS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid password!.
         /// </summary>
-        internal static string InvalidPassword {
+        internal static string INVALID_PASSWORD {
             get {
-                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+                return ResourceManager.GetString("INVALID_PASSWORD", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid Token!.
+        ///   Looks up a localized string similar to Invalid token!.
         /// </summary>
-        internal static string InvalidToken {
+        internal static string INVALID_TOKEN {
             get {
-                return ResourceManager.GetString("InvalidToken", resourceCulture);
+                return ResourceManager.GetString("INVALID_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The passwords do not match!.
+        /// </summary>
+        internal static string PASSWORDS_DO_NOT_MATCH {
+            get {
+                return ResourceManager.GetString("PASSWORDS_DO_NOT_MATCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cart is empty!.
+        /// </summary>
+        internal static string THE_CART_IS_EMPTY {
+            get {
+                return ResourceManager.GetString("THE_CART_IS_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cart not found!.
+        /// </summary>
+        internal static string THE_CART_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("THE_CART_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A category with this name has already been created!.
+        /// </summary>
+        internal static string THE_CATEGORY_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("THE_CATEGORY_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The category not found!.
+        /// </summary>
+        internal static string THE_CATEGORY_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("THE_CATEGORY_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate name of the characteristic in the product!.
+        /// </summary>
+        internal static string THE_CHARACTERISTIC_NAME_DUPLICATE {
+            get {
+                return ResourceManager.GetString("THE_CHARACTERISTIC_NAME_DUPLICATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a user with this email!.
+        /// </summary>
+        internal static string THE_EMAIL_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("THE_EMAIL_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The identity role not found!.
+        /// </summary>
+        internal static string THE_IDENTITY_ROLE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("THE_IDENTITY_ROLE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to send mail!.
+        /// </summary>
+        internal static string THE_MAIL_SENDING_ERROR {
+            get {
+                return ResourceManager.GetString("THE_MAIL_SENDING_ERROR", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The new information is the same as the previous one!.
         /// </summary>
-        internal static string NewInfoSamePrevious {
+        internal static string THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS {
             get {
-                return ResourceManager.GetString("NewInfoSamePrevious", resourceCulture);
+                return ResourceManager.GetString("THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The order has already been confirmed!.
         /// </summary>
-        internal static string OrderAlreadyConfirmed {
+        internal static string THE_ORDER_ALREADY_CONFIRMED {
             get {
-                return ResourceManager.GetString("OrderAlreadyConfirmed", resourceCulture);
+                return ResourceManager.GetString("THE_ORDER_ALREADY_CONFIRMED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The order is already picked!.
+        ///   Looks up a localized string similar to The order has already been picked!.
         /// </summary>
-        internal static string OrderAlreadyPicked {
+        internal static string THE_ORDER_ALREADY_PICKED {
             get {
-                return ResourceManager.GetString("OrderAlreadyPicked", resourceCulture);
+                return ResourceManager.GetString("THE_ORDER_ALREADY_PICKED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order not confirmed!.
+        ///   Looks up a localized string similar to The order not confirmed!.
         /// </summary>
-        internal static string OrderNotConfirmed {
+        internal static string THE_ORDER_NOT_CONFIRMED {
             get {
-                return ResourceManager.GetString("OrderNotConfirmed", resourceCulture);
+                return ResourceManager.GetString("THE_ORDER_NOT_CONFIRMED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order not found!.
+        ///   Looks up a localized string similar to The order not found!.
         /// </summary>
-        internal static string OrderNotFound {
+        internal static string THE_ORDER_NOT_FOUND {
             get {
-                return ResourceManager.GetString("OrderNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords don&apos;t match!.
-        /// </summary>
-        internal static string PasswordsDontMatch {
-            get {
-                return ResourceManager.GetString("PasswordsDontMatch", resourceCulture);
+                return ResourceManager.GetString("THE_ORDER_NOT_FOUND", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The previous information is the same!.
         /// </summary>
-        internal static string PreviousInfoIsTheSame {
+        internal static string THE_PREVIOUS_INFO_IS_THE_SAME {
             get {
-                return ResourceManager.GetString("PreviousInfoIsTheSame", resourceCulture);
+                return ResourceManager.GetString("THE_PREVIOUS_INFO_IS_THE_SAME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User not found!.
+        ///   Looks up a localized string similar to The user not found!.
         /// </summary>
-        internal static string UserNotFound {
+        internal static string THE_USER_NOT_FOUND {
             get {
-                return ResourceManager.GetString("UserNotFound", resourceCulture);
+                return ResourceManager.GetString("THE_USER_NOT_FOUND", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The ware is already in the cart!.
+        ///   Looks up a localized string similar to The product is already in the cart!.
         /// </summary>
-        internal static string WareIsAlreadyInTheCart {
+        internal static string THE_WARE_IS_ALREADY_IN_THE_CART {
             get {
-                return ResourceManager.GetString("WareIsAlreadyInTheCart", resourceCulture);
+                return ResourceManager.GetString("THE_WARE_IS_ALREADY_IN_THE_CART", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ware not found!.
+        ///   Looks up a localized string similar to The product not found!.
         /// </summary>
-        internal static string WareNotFound {
+        internal static string THE_WARE_NOT_FOUND {
             get {
-                return ResourceManager.GetString("WareNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ware title duplicate by user!.
-        /// </summary>
-        internal static string WareTitleDuplicateByUser {
-            get {
-                return ResourceManager.GetString("WareTitleDuplicateByUser", resourceCulture);
+                return ResourceManager.GetString("THE_WARE_NOT_FOUND", resourceCulture);
             }
         }
     }

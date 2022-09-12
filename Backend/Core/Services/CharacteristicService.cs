@@ -24,7 +24,7 @@ namespace Core.Services
                     if (characteristic.Name == сharacteristics[j].Name)
                     {
                         throw new HttpException(
-                            ErrorMessages.CharacteristicNameDuplicateInWare,
+                            ErrorMessages.THE_CHARACTERISTIC_NAME_DUPLICATE,
                             HttpStatusCode.BadRequest);
                     }
                 }

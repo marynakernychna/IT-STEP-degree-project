@@ -59,7 +59,7 @@ namespace Core.Services
             if (wareDuplicate != null)
             {
                 throw new HttpException(
-                    ErrorMessages.WareTitleDuplicateByUser,
+                    ErrorMessages.DUPLICATE_WARE_TITLE_BY_THE_USER,
                     HttpStatusCode.BadRequest);
             }
 
@@ -125,7 +125,7 @@ namespace Core.Services
                new CategorySpecification.GetByTitle(paginationFilter.CategoryTitle)))
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryNotFound,
+                    ErrorMessages.THE_CATEGORY_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
 

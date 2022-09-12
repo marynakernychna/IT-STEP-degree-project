@@ -58,7 +58,7 @@ namespace Core.Services
             if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
             {
                 throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
+                        ErrorMessages.THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS,
                         HttpStatusCode.BadRequest);
             }
 
@@ -69,7 +69,7 @@ namespace Core.Services
                 changePasswordDTO.CurrentPassword))
             {
                 throw new HttpException(
-                        ErrorMessages.InvalidPassword,
+                        ErrorMessages.INVALID_PASSWORD,
                         HttpStatusCode.BadRequest);
             }
 
@@ -81,7 +81,7 @@ namespace Core.Services
             if (!result.Succeeded)
             {
                 throw new HttpException(
-                        ErrorMessages.ChangePasswordFailed,
+                        ErrorMessages.CHANGE_PASSWORD_FAILED,
                         HttpStatusCode.InternalServerError);
             }
         }
@@ -95,7 +95,7 @@ namespace Core.Services
                 !await _userManager.CheckPasswordAsync(user, userLoginDTO.Password))
             {
                 throw new HttpException(
-                        ErrorMessages.InvalidCredentials,
+                        ErrorMessages.INVALID_CREDENTIALS,
                         HttpStatusCode.Unauthorized
                     );
             }
@@ -125,7 +125,7 @@ namespace Core.Services
             if (isAlreadyExists)
             {
                 throw new HttpException(
-                        ErrorMessages.EmailAlreadyExists,
+                        ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
                         HttpStatusCode.BadRequest
                     );
             }
@@ -156,7 +156,7 @@ namespace Core.Services
             if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
             {
                 throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
+                        ErrorMessages.THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS,
                         HttpStatusCode.BadRequest);
             }
 
@@ -167,7 +167,7 @@ namespace Core.Services
                 resetPasswordDTO.Token))
             {
                 throw new HttpException(
-                        ErrorMessages.InvalidToken,
+                        ErrorMessages.INVALID_TOKEN,
                         HttpStatusCode.BadRequest);
             }
 

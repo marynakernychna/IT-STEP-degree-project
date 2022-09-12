@@ -73,7 +73,7 @@ namespace Core.Services
                 if (order.IsAcceptedByClient)
                 {
                     throw new HttpException(
-                        ErrorMessages.OrderAlreadyConfirmed,
+                        ErrorMessages.THE_ORDER_ALREADY_CONFIRMED,
                         HttpStatusCode.BadRequest);
                 }
 
@@ -89,7 +89,7 @@ namespace Core.Services
                 if (order.IsAcceptedByCourier)
                 {
                     throw new HttpException(
-                        ErrorMessages.OrderAlreadyConfirmed,
+                        ErrorMessages.THE_ORDER_ALREADY_CONFIRMED,
                         HttpStatusCode.BadRequest);
                 }
 
@@ -110,7 +110,7 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 
@@ -120,7 +120,7 @@ namespace Core.Services
             if (waresCount == 0)
             {
                 throw new HttpException(
-                    ErrorMessages.CartIsEmpty,
+                    ErrorMessages.THE_CART_IS_EMPTY,
                     HttpStatusCode.BadRequest);
             }
 
@@ -149,7 +149,7 @@ namespace Core.Services
             if (order == null)
             {
                 throw new HttpException(
-                    ErrorMessages.OrderNotFound,
+                    ErrorMessages.THE_ORDER_NOT_FOUND,
                     HttpStatusCode.BadRequest);
             }
 
@@ -376,7 +376,7 @@ namespace Core.Services
                 newInfo.Country == order.Country)
             {
                 throw new HttpException(
-                    ErrorMessages.PreviousInfoIsTheSame,
+                    ErrorMessages.THE_PREVIOUS_INFO_IS_THE_SAME,
                     HttpStatusCode.BadRequest);
             }
 

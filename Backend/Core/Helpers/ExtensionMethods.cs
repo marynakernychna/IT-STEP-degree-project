@@ -31,7 +31,7 @@ namespace Core.Helpers
             if (role == null)
             {
                 throw new HttpException(
-                    ErrorMessages.IdentityRoleNotFound,
+                    ErrorMessages.THE_IDENTITY_ROLE_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
         }
@@ -41,7 +41,7 @@ namespace Core.Helpers
             if (user == null)
             {
                 throw new HttpException(
-                    ErrorMessages.UserNotFound,
+                    ErrorMessages.THE_USER_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
         }
@@ -51,7 +51,7 @@ namespace Core.Helpers
             if (category == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CategoryNotFound,
+                    ErrorMessages.THE_CATEGORY_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
         }
@@ -61,7 +61,7 @@ namespace Core.Helpers
             if (refreshToken == null)
             {
                 throw new HttpException(
-                    ErrorMessages.InvalidToken,
+                    ErrorMessages.INVALID_TOKEN,
                     HttpStatusCode.NotFound);
             }
         }
@@ -71,7 +71,7 @@ namespace Core.Helpers
             if (ware == null)
             {
                 throw new HttpException(
-                    ErrorMessages.WareNotFound,
+                    ErrorMessages.THE_WARE_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
         }
@@ -81,7 +81,7 @@ namespace Core.Helpers
             if (order == null)
             {
                 throw new HttpException(
-                    ErrorMessages.OrderNotFound,
+                    ErrorMessages.THE_ORDER_NOT_FOUND,
                     HttpStatusCode.NotFound);
             }
         }
@@ -91,7 +91,7 @@ namespace Core.Helpers
             if (!order.IsAcceptedByClient)
             {
                 throw new HttpException(
-                    ErrorMessages.OrderNotConfirmed,
+                    ErrorMessages.THE_ORDER_NOT_CONFIRMED,
                     HttpStatusCode.BadRequest);
             }
         }
@@ -101,7 +101,7 @@ namespace Core.Helpers
             if (!order.IsAcceptedByCourier)
             {
                 throw new HttpException(
-                    ErrorMessages.OrderNotConfirmed,
+                    ErrorMessages.THE_ORDER_NOT_CONFIRMED,
                     HttpStatusCode.BadRequest);
             }
         }

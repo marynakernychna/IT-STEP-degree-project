@@ -117,73 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CartIsEmpty" xml:space="preserve">
-    <value>The cart is empty!</value>
+  <data name="CHANGE_PASSWORD_FAILED" xml:space="preserve">
+    <value>Failed to change the password!</value>
   </data>
-  <data name="CartNotFound" xml:space="preserve">
-    <value>Cart not found!</value>
+  <data name="DUPLICATE_WARE_TITLE_BY_THE_USER" xml:space="preserve">
+    <value>The client already has a product with that name!</value>
   </data>
-  <data name="CategoryAlreadyExists" xml:space="preserve">
-    <value>Category already exists!</value>
-  </data>
-  <data name="CategoryNotFound" xml:space="preserve">
-    <value>Category not found!</value>
-  </data>
-  <data name="ChangePasswordFailed" xml:space="preserve">
-    <value>Change password failed!</value>
-  </data>
-  <data name="CharacteristicNameDuplicateInWare" xml:space="preserve">
-    <value>Duplicate name of the characteristic in a ware!</value>
-  </data>
-  <data name="EmailAlreadyExists" xml:space="preserve">
-    <value>There is already a user with this email!</value>
-  </data>
-  <data name="FailedSendEmail" xml:space="preserve">
-    <value>Failed send email!</value>
-  </data>
-  <data name="IdentityRoleNotFound" xml:space="preserve">
-    <value>The identity role not found!</value>
-  </data>
-  <data name="InvalidCredentials" xml:space="preserve">
+  <data name="INVALID_CREDENTIALS" xml:space="preserve">
     <value>The invalid credentials!</value>
   </data>
-  <data name="InvalidPassword" xml:space="preserve">
+  <data name="INVALID_PASSWORD" xml:space="preserve">
     <value>Invalid password!</value>
   </data>
-  <data name="InvalidToken" xml:space="preserve">
-    <value>Invalid Token!</value>
+  <data name="INVALID_TOKEN" xml:space="preserve">
+    <value>Invalid token!</value>
   </data>
-  <data name="NewInfoSamePrevious" xml:space="preserve">
+  <data name="PASSWORDS_DO_NOT_MATCH" xml:space="preserve">
+    <value>The passwords do not match!</value>
+  </data>
+  <data name="THE_CART_IS_EMPTY" xml:space="preserve">
+    <value>The cart is empty!</value>
+  </data>
+  <data name="THE_CART_NOT_FOUND" xml:space="preserve">
+    <value>The cart not found!</value>
+  </data>
+  <data name="THE_CATEGORY_ALREADY_EXISTS" xml:space="preserve">
+    <value>A category with this name has already been created!</value>
+  </data>
+  <data name="THE_CATEGORY_NOT_FOUND" xml:space="preserve">
+    <value>The category not found!</value>
+  </data>
+  <data name="THE_CHARACTERISTIC_NAME_DUPLICATE" xml:space="preserve">
+    <value>Duplicate name of the characteristic in the product!</value>
+  </data>
+  <data name="THE_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <value>There is already a user with this email!</value>
+  </data>
+  <data name="THE_IDENTITY_ROLE_NOT_FOUND" xml:space="preserve">
+    <value>The identity role not found!</value>
+  </data>
+  <data name="THE_MAIL_SENDING_ERROR" xml:space="preserve">
+    <value>Failed to send mail!</value>
+  </data>
+  <data name="THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS" xml:space="preserve">
     <value>The new information is the same as the previous one!</value>
   </data>
-  <data name="OrderAlreadyConfirmed" xml:space="preserve">
+  <data name="THE_ORDER_ALREADY_CONFIRMED" xml:space="preserve">
     <value>The order has already been confirmed!</value>
   </data>
-  <data name="OrderAlreadyPicked" xml:space="preserve">
-    <value>The order is already picked!</value>
+  <data name="THE_ORDER_ALREADY_PICKED" xml:space="preserve">
+    <value>The order has already been picked!</value>
   </data>
-  <data name="OrderNotConfirmed" xml:space="preserve">
-    <value>Order not confirmed!</value>
+  <data name="THE_ORDER_NOT_CONFIRMED" xml:space="preserve">
+    <value>The order not confirmed!</value>
   </data>
-  <data name="OrderNotFound" xml:space="preserve">
-    <value>Order not found!</value>
+  <data name="THE_ORDER_NOT_FOUND" xml:space="preserve">
+    <value>The order not found!</value>
   </data>
-  <data name="PasswordsDontMatch" xml:space="preserve">
-    <value>Passwords don't match!</value>
-  </data>
-  <data name="PreviousInfoIsTheSame" xml:space="preserve">
+  <data name="THE_PREVIOUS_INFO_IS_THE_SAME" xml:space="preserve">
     <value>The previous information is the same!</value>
   </data>
-  <data name="UserNotFound" xml:space="preserve">
-    <value>User not found!</value>
+  <data name="THE_USER_NOT_FOUND" xml:space="preserve">
+    <value>The user not found!</value>
   </data>
-  <data name="WareIsAlreadyInTheCart" xml:space="preserve">
-    <value>The ware is already in the cart!</value>
+  <data name="THE_WARE_IS_ALREADY_IN_THE_CART" xml:space="preserve">
+    <value>The product is already in the cart!</value>
   </data>
-  <data name="WareNotFound" xml:space="preserve">
-    <value>Ware not found!</value>
-  </data>
-  <data name="WareTitleDuplicateByUser" xml:space="preserve">
-    <value>Ware title duplicate by user!</value>
+  <data name="THE_WARE_NOT_FOUND" xml:space="preserve">
+    <value>The product not found!</value>
   </data>
 </root>

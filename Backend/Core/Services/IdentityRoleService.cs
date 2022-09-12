@@ -28,7 +28,7 @@ namespace Core.Services
             if (userRoles.Count == 0)
             {
                 throw new HttpException(
-                                ErrorMessages.IdentityRoleNotFound,
+                                ErrorMessages.THE_IDENTITY_ROLE_NOT_FOUND,
                                 HttpStatusCode.NotFound
                             );
             }
