@@ -2,7 +2,7 @@
 {
     public enum IdentityRoleNames
     {
-        User,
+        Client,
         Courier,
         Admin
     }

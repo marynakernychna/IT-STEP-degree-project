@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet("by-category/page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetByCategoryAsync(
             [FromQuery] PaginationFilterWareDTO paginationFilter)
         {
@@ -36,7 +36,7 @@ namespace API.Controllers
 
         [HttpGet("by-id")]
         [AuthorizeByRole(
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetByIdAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
@@ -47,7 +47,7 @@ namespace API.Controllers
         }
 
         [HttpGet("clients/by-client/page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetCreatedByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
@@ -59,7 +59,7 @@ namespace API.Controllers
         }
 
         [HttpGet("page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetAllAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
@@ -69,7 +69,7 @@ namespace API.Controllers
         }
 
         [HttpPost("create")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> CreateAsync(
             [FromBody] CreateWareDTO createWareDTO)
         {

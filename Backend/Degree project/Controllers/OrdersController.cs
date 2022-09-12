@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet("clients/by-client/page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
@@ -59,7 +59,7 @@ namespace API.Controllers
 
         [HttpGet("delivered/by-user/page")]
         [AuthorizeByRole(
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Courier)]
         public async Task<IActionResult> GetPageOfDeliveredOrdersAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
@@ -72,7 +72,7 @@ namespace API.Controllers
         }
 
         [HttpPost("create")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> CreateAsync(
             [FromBody] OrderDTO createOrderDTO)
         {
@@ -110,7 +110,7 @@ namespace API.Controllers
 
         [HttpPut("delivery/confirm")]
         [AuthorizeByRole(
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Courier)]
         public async Task<IActionResult> ConfirmDeliveryAsync(
             [FromBody] EntityIdDTO idDTO)
@@ -124,7 +124,7 @@ namespace API.Controllers
 
         [HttpPut("delivery/reject")]
         [AuthorizeByRole(
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Courier)]
         public async Task<IActionResult> RejectDeliveryAsync(
             [FromBody] EntityIdDTO idDTO)
@@ -137,7 +137,7 @@ namespace API.Controllers
         }
 
         [HttpPut("update")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> UpdateAsync(
             [FromBody] ChangeOrderInfoDTO changeOrderInfoDTO)
         {
@@ -149,7 +149,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("delete")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> DeleteAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {

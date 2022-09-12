@@ -10,7 +10,7 @@ namespace Infrastructure.Data.SeedData
     {
         #region Identity roles ids
 
-        private static readonly string ROLE_USER_ID = Guid.NewGuid().ToString();
+        private static readonly string ROLE_CLIENT_ID = Guid.NewGuid().ToString();
         private static readonly string ROLE_COURIER_ID = Guid.NewGuid().ToString();
         private static readonly string ROLE_ADMIN_ID = Guid.NewGuid().ToString();
 
@@ -18,9 +18,9 @@ namespace Infrastructure.Data.SeedData
 
         #region Users ids
 
-        private static readonly string ADMIN_ID = Guid.NewGuid().ToString();
-        private static readonly string USER_ID = Guid.NewGuid().ToString();
+        private static readonly string CLIENT_ID = Guid.NewGuid().ToString();
         private static readonly string COURIER_ID = Guid.NewGuid().ToString();
+        private static readonly string ADMIN_ID = Guid.NewGuid().ToString();
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace Infrastructure.Data.SeedData
 
             var defaultUser = new User()
             {
-                Id = USER_ID,
+                Id = CLIENT_ID,
                 Name = "Etsuko",
                 Surname = "Mami",
                 PhoneNumber = "+380988931245",
@@ -100,10 +100,10 @@ namespace Infrastructure.Data.SeedData
                    .HasData(
                         new IdentityRole()
                         {
-                            Id = ROLE_USER_ID,
-                            Name = IdentityRoleNames.User.ToString(),
-                            NormalizedName = IdentityRoleNames.User.ToString().ToUpper(),
-                            ConcurrencyStamp = ROLE_USER_ID
+                            Id = ROLE_CLIENT_ID,
+                            Name = IdentityRoleNames.Client.ToString(),
+                            NormalizedName = IdentityRoleNames.Client.ToString().ToUpper(),
+                            ConcurrencyStamp = ROLE_CLIENT_ID
                         },
                         new IdentityRole()
                         {
@@ -134,8 +134,8 @@ namespace Infrastructure.Data.SeedData
                        },
                        new IdentityUserRole<string>()
                        {
-                           RoleId = ROLE_USER_ID,
-                           UserId = USER_ID
+                           RoleId = ROLE_CLIENT_ID,
+                           UserId = CLIENT_ID
                        },
                        new IdentityUserRole<string>()
                        {
@@ -152,7 +152,7 @@ namespace Infrastructure.Data.SeedData
             var defaultUserCart = new Cart()
             {
                 Id = 1,
-                CreatorId = USER_ID
+                CreatorId = CLIENT_ID
             };
 
             builder.Entity<Cart>()

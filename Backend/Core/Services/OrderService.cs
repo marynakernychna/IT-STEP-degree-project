@@ -63,7 +63,7 @@ namespace Core.Services
 
             var userRole = await _identityRoleService.GetByUserAsync(user);
 
-            if (userRole == IdentityRoleNames.User.ToString())
+            if (userRole == IdentityRoleNames.Client.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
                     new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
@@ -263,7 +263,7 @@ namespace Core.Services
 
             var userRole = await _identityRoleService.GetByUserAsync(user);
 
-            if (userRole == IdentityRoleNames.User.ToString())
+            if (userRole == IdentityRoleNames.Client.ToString())
             {
                 var ordersCount = await _orderRepository.CountAsync(
                     new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
@@ -338,7 +338,7 @@ namespace Core.Services
 
             var userRole = await _identityRoleService.GetByUserAsync(user);
 
-            if (userRole == IdentityRoleNames.User.ToString())
+            if (userRole == IdentityRoleNames.Client.ToString())
             {
                 var order = await _orderRepository.SingleOrDefaultAsync(
                     new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
@@ -402,7 +402,7 @@ namespace Core.Services
         private async Task ChangeIsAcceptedAsync(
             string userRole, Order order)
         {
-            if (userRole == IdentityRoleNames.User.ToString())
+            if (userRole == IdentityRoleNames.Client.ToString())
             {
                 order.IsAcceptedByClient = !order.IsAcceptedByClient;
 

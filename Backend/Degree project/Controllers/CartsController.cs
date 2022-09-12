@@ -34,7 +34,7 @@ namespace API.Controllers
         }
 
         [HttpGet("by-client/page")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
@@ -46,7 +46,7 @@ namespace API.Controllers
         }
 
         [HttpPut("by-client/add-ware")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> AddWareAsync(
             [FromBody] EntityIdDTO entityIdDTO)
         {
@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("by-client/delete-ware")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> DeleteWareAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {

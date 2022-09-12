@@ -136,7 +136,7 @@ namespace Core.Services
 
             ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
 
-            var roleName = IdentityRoleNames.User.ToString();
+            var roleName = IdentityRoleNames.Client.ToString();
             var userRole = await _identityRoleManager.FindByNameAsync(roleName);
 
             ExtensionMethods.IdentityRoleNullCheck(userRole);

@@ -64,7 +64,7 @@ namespace Core.Services
         public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
             PaginationFilterDTO paginationFilter)
         {
-            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.User.ToString());
+            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.Client.ToString());
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 

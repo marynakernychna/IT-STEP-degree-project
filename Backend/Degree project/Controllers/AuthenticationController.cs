@@ -43,7 +43,7 @@ namespace API.Controllers
         [HttpPost("logout")]
         [AuthorizeByRole(
             IdentityRoleNames.Admin,
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Courier)]
         public async Task<IActionResult> LogoutAsync(
             [FromBody] UserLogoutDTO userLogoutDTO)
@@ -67,7 +67,7 @@ namespace API.Controllers
 
         [HttpPut("change-password")]
         [AuthorizeByRole(
-            IdentityRoleNames.User,
+            IdentityRoleNames.Client,
             IdentityRoleNames.Courier,
             IdentityRoleNames.Admin)]
         public async Task<IActionResult> ChangePasswordAsync(

@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet("profile")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetClientProfileAsync()
         {
             var userInfo = await _userService.GetProfileAsync(
@@ -57,7 +57,7 @@ namespace API.Controllers
         }
 
         [HttpPut("profile/update")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> UpdateClientProfileAsync(
             [FromBody] UserEditProfileInfoDTO newUserInfo)
         {

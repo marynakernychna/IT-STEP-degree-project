@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetAllAsync()
         {
             var categories = await _categoryService.GetAllAsync();
