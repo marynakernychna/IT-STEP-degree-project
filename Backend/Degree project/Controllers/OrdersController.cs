@@ -139,5 +139,17 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("delivered-orders")]
+        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetDeliveredOrders(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            var userId = _userService.GetCurrentUserNameIdentifier(User);
+
+            var orders = await _orderService.GetDeliveredOrders(userId, paginationFilterDTO);
+
+            return Ok(orders);
+        }
     }
 }

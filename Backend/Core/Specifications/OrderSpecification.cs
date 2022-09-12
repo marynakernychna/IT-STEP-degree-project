@@ -82,5 +82,40 @@ namespace Core.Specifications
                      .AsNoTracking();
             }
         }
+
+        internal class GetUserDeliveredOrders : Specification<Order>
+        {
+            public GetUserDeliveredOrders(string userId, PaginationFilterDTO paginationFilterDTO)
+            {
+                Query.Where(o => o.Cart.CreatorId == userId 
+                            && o.IsAcceptedByClient 
+                            && o.IsAcceptedByCourier)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.Creator)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.WareCarts)
+                     .Skip((paginationFilterDTO.PageNumber - 1) * paginationFilterDTO.PageSize)
+                     .Take(paginationFilterDTO.PageSize)
+                     .AsNoTracking();
+            }
+        }
+
+        internal class GetCourierDeliveredOrders : Specification<Order>
+        {
+            public GetCourierDeliveredOrders(
+                string courierId, PaginationFilterDTO paginationFilterDTO)
+            {
+                Query.Where(o => o.CourierId == courierId
+                            && o.IsAcceptedByClient
+                            && o.IsAcceptedByCourier)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.Creator)
+                     .Include(o => o.Cart)
+                     .ThenInclude(c => c.WareCarts)
+                     .Skip((paginationFilterDTO.PageNumber - 1) * paginationFilterDTO.PageSize)
+                     .Take(paginationFilterDTO.PageSize)
+                     .AsNoTracking();
+            }
+        }
     }
 }
