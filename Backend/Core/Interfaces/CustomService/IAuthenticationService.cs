@@ -12,5 +12,6 @@ namespace Core.Interfaces.CustomService
         Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO);
         Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl);
         Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId);
+        Task RegisterCourierAsync(UserRegistrationDTO userRegistrationDTO);
     }
 }

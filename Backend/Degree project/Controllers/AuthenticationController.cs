@@ -83,5 +83,15 @@ namespace API.Controllers
 
             return Ok();
         }
+
+        [HttpPost("register-courier")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> RegisterCourierAsync(
+            [FromBody] UserRegistrationDTO userRegistrationDTO)
+        {
+            await _authenticationService.RegisterCourierAsync(userRegistrationDTO);
+
+            return Ok();
+        }
     }
 }

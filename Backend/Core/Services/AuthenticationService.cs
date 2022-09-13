@@ -70,31 +70,9 @@ namespace Core.Services
 
         public async Task RegisterAsync(UserRegistrationDTO userRegistrationDTO)
         {
-            var isAlreadyExists = await _userRepository.AnyAsync(
-                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
-
-            if (isAlreadyExists)
-            {
-                throw new HttpException(
-                        ErrorMessages.EmailAlreadyExists,
-                        HttpStatusCode.BadRequest
-                    );
-            }
-
-            var user = _mapper.Map<User>(userRegistrationDTO);
-            var createUserResult = await _userManager
-                                            .CreateAsync(user, userRegistrationDTO.Password);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
-
             var roleName = IdentityRoleNames.User.ToString();
-            var userRole = await _roleManager.FindByNameAsync(roleName);
 
-            ExtensionMethods.IdentityRoleNullCheck(userRole);
-
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+            var user = await RegisterUserAsync(userRegistrationDTO, roleName);
 
             await _cartService.CreateAsync(user);
         }
@@ -163,9 +141,9 @@ namespace Core.Services
             }
 
             if (!await _userManager.VerifyUserTokenAsync(
-                user, 
-                _userManager.Options.Tokens.PasswordResetTokenProvider, 
-                "ResetPassword", 
+                user,
+                _userManager.Options.Tokens.PasswordResetTokenProvider,
+                "ResetPassword",
                 resetPasswordDTO.Token))
             {
                 throw new HttpException(
@@ -179,6 +157,43 @@ namespace Core.Services
                 resetPasswordDTO.NewPassword);
 
             ExtensionMethods.CheckIdentityResultNullCheck(result);
+        }
+
+        public async Task RegisterCourierAsync(UserRegistrationDTO userRegistrationDTO)
+        {
+            var roleName = IdentityRoleNames.Courier.ToString();
+
+            await RegisterUserAsync(userRegistrationDTO, roleName);
+        }
+
+        private async Task<User> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO, string roleName)
+        {
+            var isAlreadyExists = await _userRepository.AnyAsync(
+                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
+
+            if (isAlreadyExists)
+            {
+                throw new HttpException(
+                        ErrorMessages.EmailAlreadyExists,
+                        HttpStatusCode.BadRequest
+                    );
+            }
+
+            var user = _mapper.Map<User>(userRegistrationDTO);
+            var createUserResult = await _userManager
+                                            .CreateAsync(user, userRegistrationDTO.Password);
+
+            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
+
+            var userRole = await _roleManager.FindByNameAsync(roleName);
+
+            ExtensionMethods.IdentityRoleNullCheck(userRole);
+
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
+
+            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            return user;
         }
     }
 }
