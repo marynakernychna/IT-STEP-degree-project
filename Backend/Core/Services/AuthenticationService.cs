@@ -72,10 +72,7 @@ namespace Core.Services
         {
             var roleName = IdentityRoleNames.User.ToString();
 
-            await UserRegisterAsync(userRegistrationDTO, roleName);
-
-            var user = await _userRepository.SingleOrDefaultAsync(
-                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
+            var user = await RegisterUserAsync(userRegistrationDTO, roleName);
 
             await _cartService.CreateAsync(user);
         }
@@ -162,14 +159,14 @@ namespace Core.Services
             ExtensionMethods.CheckIdentityResultNullCheck(result);
         }
 
-        public async Task AddCourierAsync(UserRegistrationDTO userRegistrationDTO)
+        public async Task RegisterCourierAsync(UserRegistrationDTO userRegistrationDTO)
         {
             var roleName = IdentityRoleNames.Courier.ToString();
 
-            await UserRegisterAsync(userRegistrationDTO, roleName);
+            await RegisterUserAsync(userRegistrationDTO, roleName);
         }
 
-        private async Task UserRegisterAsync(UserRegistrationDTO userRegistrationDTO, string roleName)
+        private async Task<User> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO, string roleName)
         {
             var isAlreadyExists = await _userRepository.AnyAsync(
                 new UserSpecification.GetByEmail(userRegistrationDTO.Email));
@@ -195,6 +192,8 @@ namespace Core.Services
             var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 
             ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            return user;
         }
     }
 }
