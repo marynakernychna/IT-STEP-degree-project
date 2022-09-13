@@ -115,6 +115,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error finding user role!.
+        /// </summary>
+        internal static string ROLE_FIND_ERROR {
+            get {
+                return ResourceManager.GetString("ROLE_FIND_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The cart is empty!.
         /// </summary>
         internal static string THE_CART_IS_EMPTY {

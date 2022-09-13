@@ -24,16 +24,15 @@ namespace Core.Services
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            // will only work if there is an error in adding to the database
-            if (userRoles.Count == 0)
+            // because according to the logic of the project, a user can have only one role
+            if (userRoles.Count != 1)
             {
                 throw new HttpException(
-                                ErrorMessages.THE_IDENTITY_ROLE_NOT_FOUND,
-                                HttpStatusCode.NotFound
-                            );
+                                ErrorMessages.ROLE_FIND_ERROR,
+                                HttpStatusCode.InternalServerError);
             }
 
-            return userRoles.First(); // because currently a user can only have one role
+            return userRoles.First();
         }
     }
 }

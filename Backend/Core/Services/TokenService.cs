@@ -33,8 +33,9 @@ namespace Core.Services
             User user, string userRole)
         {
             var claims = SetClaims(user, userRole);
-            var accessToken = CreateToken(claims);
+            var accessToken = CreateAccessToken(claims);
             var refreshToken = await CreateRefreshToken(user.Id);
+
             user.RefreshTokens.Add(refreshToken);
 
             var tokens = new UserAutorizationDTO()
@@ -50,6 +51,7 @@ namespace Core.Services
             string userId)
         {
             var randomBytes = new byte[32];
+
             using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
 
             rngCryptoServiceProvider.GetBytes(randomBytes);
@@ -67,7 +69,7 @@ namespace Core.Services
             return refreshTokenEntity;
         }
 
-        private string CreateToken(
+        private string CreateAccessToken(
             IEnumerable<Claim> claims)
         {
             var securityKey = new SymmetricSecurityKey(

@@ -52,33 +52,31 @@ namespace Core.Services
             _cartService = cartService;
         }
 
+        /// <summary>
+        ///     Changes the user's password.
+        /// </summary>
+        /// <param name="changePasswordDTO">
+        ///     DTO with two fields: current and new password.
+        /// </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="HttpException">
+        ///     Returns InternalServerError if the password change failed.
+        /// </exception>
         public async Task ChangePasswordAsync(
             ChangePasswordDTO changePasswordDTO, string userId)
         {
-            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
-            {
-                throw new HttpException(
-                        ErrorMessages.THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS,
-                        HttpStatusCode.BadRequest);
-            }
-
             var user = await _userRepository.GetByIdAsync(userId);
 
-            if (!await _userManager.CheckPasswordAsync(
-                user,
-                changePasswordDTO.CurrentPassword))
-            {
-                throw new HttpException(
-                        ErrorMessages.INVALID_PASSWORD,
-                        HttpStatusCode.BadRequest);
-            }
+            var identityResult = await _userManager
+                .ChangePasswordAsync(
+                    user,
+                    changePasswordDTO.CurrentPassword,
+                    changePasswordDTO.NewPassword
+                 );
 
-            var result = await _userManager.ChangePasswordAsync(
-                user,
-                changePasswordDTO.CurrentPassword,
-                changePasswordDTO.NewPassword);
-
-            if (!result.Succeeded)
+            if (!identityResult.Succeeded)
             {
                 throw new HttpException(
                         ErrorMessages.CHANGE_PASSWORD_FAILED,
@@ -86,6 +84,19 @@ namespace Core.Services
             }
         }
 
+        /// <summary>
+        ///     Gives a user access to the system.
+        /// </summary>
+        /// <param name="userLoginDTO">
+        ///     DTO with two fields: email and password.
+        /// </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation and
+        ///     DTO with two tokens: access and refresh.
+        /// </returns>
+        /// <exception cref="HttpException">
+        ///     Returns BadRequest if credetials are invalid.
+        /// </exception>
         public async Task<UserAutorizationDTO> LoginAsync(
             UserLoginDTO userLoginDTO)
         {
@@ -96,8 +107,7 @@ namespace Core.Services
             {
                 throw new HttpException(
                         ErrorMessages.INVALID_CREDENTIALS,
-                        HttpStatusCode.Unauthorized
-                    );
+                        HttpStatusCode.BadRequest);
             }
 
             var userRole = await _identityRoleService.GetByUserAsync(user);
@@ -105,6 +115,15 @@ namespace Core.Services
             return await _tokenService.GenerateForUserAsync(user, userRole);
         }
 
+        /// <summary>
+        ///     Removes access from the user to the system.
+        /// </summary>
+        /// <param name="userLogoutDTO">
+        ///     DTO with refresh token.
+        /// </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
         public async Task LogoutAsync(
             UserLogoutDTO userLogoutDTO)
         {
@@ -116,28 +135,39 @@ namespace Core.Services
             await _refreshTokenRepository.DeleteAsync(refreshToken);
         }
 
+        /// <summary>
+        ///     Register user.
+        /// </summary>
+        /// <param name="userRegistrationDTO">
+        ///     DTO with the user's: name, surname, phone number, email and password.
+        ///  </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="HttpException">
+        ///     Returns BadRequest if there is already a user with such email.
+        /// </exception>
         public async Task RegisterAsync(
             UserRegistrationDTO userRegistrationDTO)
         {
-            var isAlreadyExists = await _userRepository.AnyAsync(
+            var isEmailBusy = await _userRepository.AnyAsync(
                 new UserSpecification.GetByEmail(userRegistrationDTO.Email));
 
-            if (isAlreadyExists)
+            if (isEmailBusy)
             {
                 throw new HttpException(
                         ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
-                        HttpStatusCode.BadRequest
-                    );
+                        HttpStatusCode.BadRequest);
             }
 
             var user = _mapper.Map<User>(userRegistrationDTO);
             var createUserResult = await _userManager
-                                            .CreateAsync(user, userRegistrationDTO.Password);
+                .CreateAsync(user, userRegistrationDTO.Password);
 
             ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
 
-            var roleName = IdentityRoleNames.Client.ToString();
-            var userRole = await _identityRoleManager.FindByNameAsync(roleName);
+            var userRole = await _identityRoleManager
+                .FindByNameAsync(IdentityRoleNames.Client.ToString());
 
             ExtensionMethods.IdentityRoleNullCheck(userRole);
 
@@ -148,6 +178,18 @@ namespace Core.Services
             await _cartService.CreateAsync(user);
         }
 
+        /// <summary>
+        ///     Reset user password.
+        /// </summary>
+        /// <param name="resetPasswordDTO">
+        ///     DTO with email, confirmation token and new password.
+        /// </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="HttpException">
+        ///     Returns BadRequest if the information matches and the token is invalid.
+        /// </exception>
         public async Task ResetPasswordAsync(
             ResetPasswordDTO resetPasswordDTO)
         {
@@ -164,7 +206,7 @@ namespace Core.Services
                 user,
                 _userManager.Options.Tokens.PasswordResetTokenProvider,
                 "ResetPassword",
-                resetPasswordDTO.Token))
+                resetPasswordDTO.ConfirmationToken))
             {
                 throw new HttpException(
                         ErrorMessages.INVALID_TOKEN,
@@ -173,16 +215,25 @@ namespace Core.Services
 
             var result = await _userManager.ResetPasswordAsync(
                 user,
-                resetPasswordDTO.Token,
+                resetPasswordDTO.ConfirmationToken,
                 resetPasswordDTO.NewPassword);
 
             ExtensionMethods.CheckIdentityResultNullCheck(result);
         }
 
+        /// <summary>
+        ///     Sends a message to change the password.
+        /// </summary>
+        /// <param name="callbackUrl">
+        ///     Link to client side.
+        /// </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
         public async Task SendResetResetPasswordRequestAsync(
-            string email, string callbackUrl)
+            string userEmail, string callbackUrl)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(userEmail);
 
             ExtensionMethods.UserNullCheck(user);
 

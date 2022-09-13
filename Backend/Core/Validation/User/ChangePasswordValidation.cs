@@ -7,7 +7,7 @@ namespace Core.Validation.User
     {
         public ChangePasswordValidation()
         {
-            RuleFor(password => password.CurrentPassword)
+            RuleFor(dto => dto.CurrentPassword)
                 .NotEmpty()
                 .Length(8, 50)
                 .Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@$%^&*(){}:;<>,.?+_=|'~\\-])" +
@@ -16,14 +16,16 @@ namespace Core.Validation.User
                     "one or more uppercase and lowercase letters, one or more digits " +
                     "and special characters!");
 
-            RuleFor(password => password.NewPassword)
+            RuleFor(dto => dto.NewPassword)
                 .NotEmpty()
                 .Length(8, 50)
                 .Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@$%^&*(){}:;<>,.?+_=|'~\\-])" +
                     "[A-Za-z0-9!@$%^&*(){}:;<>,.?+_=|'~\\-]*$")
                 .WithMessage("Password must contain " +
                     "one or more uppercase and lowercase letters, one or more digits " +
-                    "and special characters!");
+                    "and special characters!")
+                .NotEqual(dto => dto.CurrentPassword)
+                .WithMessage("The passwords match!");
         }
     }
 }
