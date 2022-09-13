@@ -202,6 +202,8 @@ export function confirmOrderDelivery(id) {
                 successMessage(
                     ordersMessages.DELIVERY_SUCCESSFULLY_CONFIRMED
                 );
+
+                return true;
             },
             (err) => {
                 errorMessage(
@@ -227,6 +229,8 @@ export function rejectDeliveryConfirmation(id) {
                 successMessage(
                     ordersMessages.DELIVERY_CONFIRMATION_REJECTED_SUCCESSFULLY
                 );
+
+                return true;
             },
             (err) => {
                 errorMessage(
@@ -246,7 +250,7 @@ export function rejectDeliveryConfirmation(id) {
 export function getDeliveredOrders(paginationFilterModel) {
 
     return ordersService
-        .getDeliveredOrders(paginationFilterModel)
+        .getDelivered(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {

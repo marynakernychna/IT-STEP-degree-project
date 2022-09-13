@@ -27,6 +27,7 @@ namespace Core.Specifications
             public GetByUser(string userId, PaginationFilterDTO paginationFilterDTO)
             {
                 Query.Where(o => o.Cart.CreatorId == userId)
+                     .Where(o => !o.IsAcceptedByClient || !o.IsAcceptedByCourier)
                      .Include(o => o.Cart)
                      .ThenInclude(c => c.Creator)
                      .Include(o => o.Cart)
@@ -53,6 +54,7 @@ namespace Core.Specifications
                 string courierId, PaginationFilterDTO paginationFilterDTO)
             {
                 Query.Where(o => o.CourierId == courierId)
+                     .Where(o => !o.IsAcceptedByClient || !o.IsAcceptedByCourier)
                      .Include(o => o.Cart)
                      .ThenInclude(c => c.Creator)
                      .Include(o => o.Cart)

@@ -230,7 +230,9 @@ namespace Core.Services
                     Country = order.Country,
                     ClientFullName = user.Name + ' ' + user.Surname,
                     ClientPhoneNumber = user.PhoneNumber,
-                    WaresCount = order.Cart.WareCarts.Count
+                    WaresCount = order.Cart.WareCarts.Count,
+                    IsAcceptedByClient = order.IsAcceptedByClient,
+                    IsAcceptedByCourier = order.IsAcceptedByCourier
                 });
             }
 

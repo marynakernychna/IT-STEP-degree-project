@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Button } from 'antd';
-import { rejectSelectedOrder, confirmOrderDelivery, rejectDeliveryConfirmation } from "../../../../../services/orders"
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { rejectSelectedOrder, confirmOrderDelivery, rejectDeliveryConfirmation } from "../../../../../services/orders";
 
 function Order(props) {
 
@@ -13,11 +14,15 @@ function Order(props) {
     };
 
     const confirm = async () => {
-        await confirmOrderDelivery(data.id);
+        if (await confirmOrderDelivery(data.id)) {
+            props.updateOrder();
+        }
     };
 
     const reject = async () => {
-        await rejectDeliveryConfirmation(data.id);
+        if (await rejectDeliveryConfirmation(data.id)) {
+            props.updateOrder();
+        }
     };
 
     return (
@@ -52,6 +57,32 @@ function Order(props) {
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
                 {data.waresCount}
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Confirmed by the client:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                <div >
+                    {data?.isAcceptedByClient ?
+                        <CheckOutlined /> :
+                        <CloseOutlined />
+                    }
+                </div>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Confirmed by the courier:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                <div >
+                    {data?.isAcceptedByCourier ?
+                        <CheckOutlined /> :
+                        <CloseOutlined />
+                    }
+                </div>
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
