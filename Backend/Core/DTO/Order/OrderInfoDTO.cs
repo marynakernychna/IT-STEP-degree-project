@@ -9,5 +9,7 @@
         public string ClientFullName { get; set; }
         public string ClientPhoneNumber { get; set; }
         public int WaresCount { get; set; }
+        public bool IsAcceptedByClient { get; set; }
+        public bool IsAcceptedByCourier { get; set; }
     }
 }

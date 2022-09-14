@@ -202,6 +202,8 @@ export function confirmOrderDelivery(id) {
                 successMessage(
                     ordersMessages.DELIVERY_SUCCESSFULLY_CONFIRMED
                 );
+
+                return true;
             },
             (err) => {
                 errorMessage(
@@ -227,6 +229,8 @@ export function rejectDeliveryConfirmation(id) {
                 successMessage(
                     ordersMessages.DELIVERY_CONFIRMATION_REJECTED_SUCCESSFULLY
                 );
+
+                return true;
             },
             (err) => {
                 errorMessage(
@@ -238,6 +242,33 @@ export function rejectDeliveryConfirmation(id) {
         .catch(() => {
             errorMessage(
                 ordersMessages.FAILED_REJECT_DELIVERY_CONFIRMATION,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export function getDeliveredOrders(paginationFilterModel) {
+
+    return ordersService
+        .getDelivered(paginationFilterModel)
+        .then(
+            (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
+                return response.data;
+            },
+            () => {
+                errorMessage(
+                    generalMessages.GET_DATA_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.GET_DATA_FAILED,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });
