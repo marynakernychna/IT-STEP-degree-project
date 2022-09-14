@@ -105,6 +105,35 @@ namespace Core.Services
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
+            var clients = await GetUsersAsync(paginationFilter, role);
+
+            return clients;
+        }
+
+        public async Task<string> GetUserIdByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            return user.Id;
+        }
+
+        public async Task<PaginatedList<UserProfileInfoDTO>> GetCouriersProfileInfoAsync(
+            PaginationFilterDTO paginationFilter)
+        {
+            var role = await _roleManager.FindByNameAsync(IdentityRoleNames.Courier.ToString());
+
+            ExtensionMethods.IdentityRoleNullCheck(role);
+
+            var couriers = await GetUsersAsync(paginationFilter, role);
+
+            return couriers;
+        }
+
+        private async Task<PaginatedList<UserProfileInfoDTO>> GetUsersAsync(
+            PaginationFilterDTO paginationFilter, IdentityRole role)
+        {
             var userRoles = await _identityUserRoleRepository.ListAsync(
                 new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
 
@@ -134,15 +163,6 @@ namespace Core.Services
                 paginationFilter.PageNumber,
                 usersCount,
                 totalPages);
-        }
-
-        public async Task<string> GetUserIdByEmailAsync(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            return user.Id;
         }
     }
 }

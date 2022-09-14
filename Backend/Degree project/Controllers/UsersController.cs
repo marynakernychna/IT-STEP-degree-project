@@ -65,5 +65,14 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpGet("couriers-info")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetCouriersInfoAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var couriersInfo = await _userService.GetCouriersProfileInfoAsync(paginationFilter);
+
+            return Ok(couriersInfo);
+        }
     }
 }
