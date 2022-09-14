@@ -25,6 +25,7 @@ import ViewAvailableOrders from './pages/courier/orders/available/index';
 import OpenOrders from './pages/client/orders/view/index';
 import ViewPickedOrders from './pages/courier/orders/picked/index';
 import ViewDeliveredOrders from './components/deliveredOrders/index';
+import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index'
 
 const history = createBrowserHistory();
 
@@ -114,6 +115,13 @@ export default function App() {
                     path={pageUrls.DELIVERED_ORDERS}
                     allowedRoles={[userRoles.USER, userRoles.COURIER]}
                     component={ViewDeliveredOrders}
+                />
+
+                <PageLayoutRoute
+                    exact
+                    path={pageUrls.COURIERS_VIEW_AND_CREATE}
+                    allowedRoles={[userRoles.ADMIN]}
+                    component={ViewAndCreateCouriersPage}
                 />
 
                 <Route
