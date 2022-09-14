@@ -12,14 +12,16 @@ export const AUTHENTICATION_URLS = {
     LOGOUT: AUTHENTICATION_URL + "/logout",
     CHANGE_PASSWORD: AUTHENTICATION_URL + "/change-password",
     REQUES_PASSWORD_RESET: AUTHENTICATION_URL + "/request-password-reset",
-    RESET_PASSWORD: AUTHENTICATION_URL + "/reset-password"
+    RESET_PASSWORD: AUTHENTICATION_URL + "/reset-password",
+    REGISTER_COURIER: AUTHENTICATION_URL + "/register-courier",
 };
 
 export const USERS_URLS = {
     BRIEF_USERS_INFO: USERS_URL + "/users-info",
     VIEW_PROFILE_INFO: USERS_URL + "/user-info",
     EDIT_CLIENT_INFO: USERS_URL + "/user-edit-info",
-    EDIT_USER_INFO: USERS_URL + "/edit-info"
+    EDIT_USER_INFO: USERS_URL + "/edit-info",
+    VIEW_COURIERS_INFO: USERS_URL + "/couriers-info"
 };
 
 export const CATEGORIES_URLS = {
