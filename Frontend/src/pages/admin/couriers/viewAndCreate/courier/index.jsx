@@ -5,7 +5,7 @@ import email_icon from "../../../../../assets/icons/email.svg";
 import phoneNumber_icon from "../../../../../assets/icons/phoneNumber.svg";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
-function User(props) {
+function Courier(props) {
 
     return (
         <Card className="userCard">
@@ -42,4 +42,4 @@ function User(props) {
     )
 }
 
-export default User;
+export default Courier;

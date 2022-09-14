@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { customPageSizeOptions, paginationDefaultFilter } from './../../../../constants/pagination';
 import { getCouriersInfo } from './../../../../services/users';
 import { Button, Pagination, Result } from 'antd';
-import User from './courier/index';
+import Courier from './courier/index';
 import { PlusOutlined } from '@ant-design/icons';
 import RegisterCourierModal from './../../../../components/modals/courier/register/index';
 
@@ -46,7 +46,7 @@ const ViewAndCreateCouriersPage = () => {
                     </Button>
 
                     {couriers.items.map((user) =>
-                        <User
+                        <Courier
                             info={user}
                         />
                     )}
