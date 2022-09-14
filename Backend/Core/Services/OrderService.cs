@@ -160,7 +160,7 @@ namespace Core.Services
             string userId, PaginationFilterDTO paginationFilterDTO)
         {
             var ordersCount = await _orderRepository.CountAsync(
-                new OrderSpecification.GetByUser(userId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByClient(userId, paginationFilterDTO));
 
             if (ordersCount == 0)
             {
@@ -171,7 +171,7 @@ namespace Core.Services
                 .GetTotalPages(paginationFilterDTO, ordersCount);
 
             var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetByUser(userId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByClient(userId, paginationFilterDTO));
 
             var orders = new List<UserOrderInfoDTO>();
 
@@ -203,10 +203,10 @@ namespace Core.Services
         public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
             string courierId, PaginationFilterDTO paginationFilterDTO)
         {
-            var courier = await CheckCourierIdAsync(courierId);
+            await CheckCourierIdAsync(courierId);
 
             var ordersCount = await _orderRepository.CountAsync(
-                new OrderSpecification.GetListByCourier(courierId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByCourier(courierId, paginationFilterDTO));
 
             if (ordersCount == 0)
             {
@@ -217,7 +217,7 @@ namespace Core.Services
                 .GetTotalPages(paginationFilterDTO, ordersCount);
 
             var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetListByCourier(courierId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByCourier(courierId, paginationFilterDTO));
 
             var orders = FormOrderInfoDTOList(ordersList);
 
@@ -460,7 +460,9 @@ namespace Core.Services
                     Country = order.Country,
                     ClientFullName = user.Name + ' ' + user.Surname,
                     ClientPhoneNumber = user.PhoneNumber,
-                    WaresCount = order.Cart.WareCarts.Count
+                    WaresCount = order.Cart.WareCarts.Count,
+                    IsAcceptedByClient = order.IsAcceptedByClient,
+                    IsAcceptedByCourier = order.IsAcceptedByCourier
                 });
             }
 

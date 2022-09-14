@@ -18,11 +18,15 @@ function Order(props) {
     };
 
     const confirm = async () => {
-        await confirmOrderDelivery(data.id);
+        if (await confirmOrderDelivery(data.id)) {
+            props.updateOrders();
+        }
     };
 
     const reject = async () => {
-        await rejectDeliveryConfirmation(data.id);
+        if (await rejectDeliveryConfirmation(data.id)) {
+            props.updateOrders();
+        }
     };
 
     return (
@@ -65,6 +69,32 @@ function Order(props) {
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Confirmed by you:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                <div >
+                    {data?.isAcceptedByClient ?
+                        <CheckOutlined /> :
+                        <CloseOutlined />
+                    }
+                </div>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                Confirmed by the courier:
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
+                <div >
+                    {data?.isAcceptedByCourier ?
+                        <CheckOutlined /> :
+                        <CloseOutlined />
+                    }
+                </div>
+            </Card.Grid>
+
+            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                 <Button
                     danger
                     type="primary"
@@ -74,26 +104,27 @@ function Order(props) {
                 </Button>
             </Card.Grid>
 
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    className="submitButton"
-                    type="primary"
-                    onClick={() => confirm()}
-                >
-                    Confirm delivery
-                </Button>
-            </Card.Grid>
-
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    danger
-                    className="submitButton"
-                    type="primary"
-                    onClick={() => reject()}
-                >
-                    Reject delivery confirmation
-                </Button>
-            </Card.Grid>
+            {data?.isAcceptedByClient ?
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        danger
+                        type="primary"
+                        onClick={() => reject()}
+                    >
+                        Reject delivery confirmation
+                    </Button>
+                </Card.Grid> :
+                
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        className="submitButton"
+                        type="primary"
+                        onClick={() => confirm()}
+                    >
+                        Confirm delivery
+                    </Button>
+                </Card.Grid>
+            }
         </Card>
     )
 }

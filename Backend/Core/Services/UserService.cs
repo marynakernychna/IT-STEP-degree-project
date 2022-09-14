@@ -68,35 +68,30 @@ namespace Core.Services
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
-            var userRoles = await _identityUserRoleRepository.ListAsync(
-                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+            var clients = await GetUsersAsync(paginationFilter, role);
 
-            var userIds = new List<string>();
+            return clients;
+        }
 
-            foreach (var userRole in userRoles)
-            {
-                userIds.Add(userRole.UserId);
-            }
+        public async Task<string> GetUserIdByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
 
-            var usersCount = await _identityUserRoleRepository.CountAsync(
-                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+            ExtensionMethods.UserNullCheck(user);
 
-            int totalPages = PaginatedList<UserProfileInfoDTO>
-                .GetTotalPages(paginationFilter, usersCount);
+            return user.Id;
+        }
 
-            if (totalPages == 0)
-            {
-                return null;
-            }
+        public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfCouriersAsync(
+            PaginationFilterDTO paginationFilter)
+        {
+            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.Courier.ToString());
 
-            var users = await _userRepository.ListAsync(
-                new UserSpecification.GetByUsersIds(userIds));
+            ExtensionMethods.IdentityRoleNullCheck(role);
 
-            return PaginatedList<UserProfileInfoDTO>.Evaluate(
-                _mapper.Map<List<UserProfileInfoDTO>>(users),
-                paginationFilter.PageNumber,
-                usersCount,
-                totalPages);
+            var couriers = await GetUsersAsync(paginationFilter, role);
+
+            return couriers;
         }
 
         public async Task<UserProfileInfoDTO> GetProfileAsync(
@@ -149,6 +144,40 @@ namespace Core.Services
             }
 
             await _userRepository.UpdateAsync(user);
+        }
+
+        private async Task<PaginatedList<UserProfileInfoDTO>> GetUsersAsync(
+            PaginationFilterDTO paginationFilter, IdentityRole role)
+        {
+            var userRoles = await _identityUserRoleRepository.ListAsync(
+                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+
+            var userIds = new List<string>();
+
+            foreach (var userRole in userRoles)
+            {
+                userIds.Add(userRole.UserId);
+            }
+
+            var usersCount = await _identityUserRoleRepository.CountAsync(
+                new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
+
+            int totalPages = PaginatedList<UserProfileInfoDTO>
+                .GetTotalPages(paginationFilter, usersCount);
+
+            if (totalPages == 0)
+            {
+                return null;
+            }
+
+            var users = await _userRepository.ListAsync(
+                new UserSpecification.GetByUsersIds(userIds));
+
+            return PaginatedList<UserProfileInfoDTO>.Evaluate(
+                _mapper.Map<List<UserProfileInfoDTO>>(users),
+                paginationFilter.PageNumber,
+                usersCount,
+                totalPages);
         }
     }
 }

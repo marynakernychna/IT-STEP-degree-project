@@ -26,7 +26,17 @@ namespace API.Controllers
         public async Task<IActionResult> RegisterClientAsync(
             [FromBody] UserRegistrationDTO userRegistrationDTO)
         {
-            await _authenticationService.RegisterAsync(userRegistrationDTO);
+            await _authenticationService.RegisterClientAsync(userRegistrationDTO);
+
+            return Ok();
+        }
+
+        [HttpPost("couriers/register")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> RegisterCourierAsync(
+            [FromBody] UserRegistrationDTO userRegistrationDTO)
+        {
+            await _authenticationService.RegisterCourierAsync(userRegistrationDTO);
 
             return Ok();
         }

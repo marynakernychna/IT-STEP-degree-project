@@ -1,7 +1,6 @@
 ﻿using Core.DTO;
 using Core.DTO.User;
 using Core.Helpers;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces.CustomService
@@ -10,6 +9,8 @@ namespace Core.Interfaces.CustomService
     {
         Task<string> GetIdByEmailAsync(
             string email);
+        Task<PaginatedList<UserProfileInfoDTO>> GetPageOfCouriersAsync(
+            PaginationFilterDTO paginationFilter);
         Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
             PaginationFilterDTO paginationFilter);
         Task<UserProfileInfoDTO> GetProfileAsync(

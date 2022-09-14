@@ -43,7 +43,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatorId = "fa6bc988-be66-43bd-8b03-f9af7f08a99d"
+                            CreatorId = "4ae86c5f-694a-4bbc-8bc7-7b6ac22f9d25"
                         });
                 });
 
@@ -365,22 +365,22 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "846af0cc-1ef6-410d-9756-f8ed75736ffa",
-                            ConcurrencyStamp = "846af0cc-1ef6-410d-9756-f8ed75736ffa",
+                            Id = "3548abec-ea91-4049-8415-7bda3675362d",
+                            ConcurrencyStamp = "3548abec-ea91-4049-8415-7bda3675362d",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "d2982855-ef46-4149-8d4f-0210fda45664",
-                            ConcurrencyStamp = "d2982855-ef46-4149-8d4f-0210fda45664",
+                            Id = "2c8e9e26-4d0e-4f30-9645-934b39a8bd34",
+                            ConcurrencyStamp = "2c8e9e26-4d0e-4f30-9645-934b39a8bd34",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ebf9e6bc-4768-401a-82ba-11072cc08969",
-                            ConcurrencyStamp = "ebf9e6bc-4768-401a-82ba-11072cc08969",
+                            Id = "a29695b3-1320-4005-a266-6e045cf0a93d",
+                            ConcurrencyStamp = "a29695b3-1320-4005-a266-6e045cf0a93d",
                             Name = "Courier",
                             NormalizedName = "COURIER"
                         });
@@ -549,18 +549,18 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "546ebf8d-19d6-486f-8461-f80fc6e0718a",
-                            RoleId = "d2982855-ef46-4149-8d4f-0210fda45664"
+                            UserId = "6a6788fd-a2c8-46a7-8562-184aa7291426",
+                            RoleId = "2c8e9e26-4d0e-4f30-9645-934b39a8bd34"
                         },
                         new
                         {
-                            UserId = "fa6bc988-be66-43bd-8b03-f9af7f08a99d",
-                            RoleId = "846af0cc-1ef6-410d-9756-f8ed75736ffa"
+                            UserId = "4ae86c5f-694a-4bbc-8bc7-7b6ac22f9d25",
+                            RoleId = "3548abec-ea91-4049-8415-7bda3675362d"
                         },
                         new
                         {
-                            UserId = "54edeb5a-c9fc-41de-bef6-644f3b85a67b",
-                            RoleId = "ebf9e6bc-4768-401a-82ba-11072cc08969"
+                            UserId = "05771bff-38e5-47eb-8c58-8774e319ae80",
+                            RoleId = "a29695b3-1320-4005-a266-6e045cf0a93d"
                         });
                 });
 
@@ -609,62 +609,62 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "546ebf8d-19d6-486f-8461-f80fc6e0718a",
+                            Id = "6a6788fd-a2c8-46a7-8562-184aa7291426",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "21d096cc-6d00-42e7-91de-bffe78d08c5d",
+                            ConcurrencyStamp = "ef5ce1eb-a4d3-4f30-8c09-41183cd6b89f",
                             Email = "marylou@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARYLOU@GMAIL.COM",
                             NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL1NrfsP3FhJi34wM7BgpSeP2h5Kspmw7vP0WhFXh2iwOqePWkusjPH3CGhA36PSJg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHD4iwGeJo0g2UJfsDC1zd1nN1BacWRFKJ9I4yBfrFKvSrZOrzpgtqeAjg77i85pvQ==",
                             PhoneNumber = "+380986734245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f496bfc6-7fd1-419a-a548-fefbd8b83764",
+                            SecurityStamp = "de936898-d7e9-4da5-831e-fba05b2c4201",
                             TwoFactorEnabled = false,
                             UserName = "marylou@gmail.com",
                             Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 12, 19, 34, 22, 603, DateTimeKind.Unspecified).AddTicks(9568), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 14, 18, 35, 36, 37, DateTimeKind.Unspecified).AddTicks(2095), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Lou"
                         },
                         new
                         {
-                            Id = "fa6bc988-be66-43bd-8b03-f9af7f08a99d",
+                            Id = "4ae86c5f-694a-4bbc-8bc7-7b6ac22f9d25",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36318d7e-f06e-426d-aa09-3ce81973c9dd",
+                            ConcurrencyStamp = "99d0f983-2372-4603-b533-aa93c94b6403",
                             Email = "etsukomami@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
                             NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEQb69fmlYSy1daoVq37ruq0yFUo6Pt/KhkTKWKUDfBB5gImGdyNr3ReZgo4txvsUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGDC60MHt+B7a1ziHQZdB7iGV6s79XyXooKJ6PLbAn2D2NL85IY654MfsbEIMRznUA==",
                             PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dd42597b-2875-4a29-91d0-e1a59deddda9",
+                            SecurityStamp = "95322c48-642b-4147-94f9-f3984bb24002",
                             TwoFactorEnabled = false,
                             UserName = "etsukomami@gmail.com",
                             Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 12, 19, 34, 22, 606, DateTimeKind.Unspecified).AddTicks(5763), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 14, 18, 35, 36, 46, DateTimeKind.Unspecified).AddTicks(3310), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Mami"
                         },
                         new
                         {
-                            Id = "54edeb5a-c9fc-41de-bef6-644f3b85a67b",
+                            Id = "05771bff-38e5-47eb-8c58-8774e319ae80",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5d55c7aa-ee72-43b6-9618-941e36fb1a02",
+                            ConcurrencyStamp = "ac666496-f8e3-4728-a5ee-e8fc43b36d7b",
                             Email = "yuurimorishita@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "YUURIMORISHITA@GMAIL.COM",
                             NormalizedUserName = "YUURIMORISHITA@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIE2IaQC7F/09Beia/I6w7PyT9go87lm5cusu/toGgBPStymba5VwZEjkgdXJHlvdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECfHBEcqAR6w0nw7VXf8I4JUu6K0QuUIk/DjR8wdB25W5A3qTEJfV/yptP5l6Aqwcg==",
                             PhoneNumber = "+380988931245",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7ad1e465-d94a-4ed4-90dd-55019e1a26c8",
+                            SecurityStamp = "bb22ba08-21bb-42a6-b810-063023e7ae2d",
                             TwoFactorEnabled = false,
                             UserName = "yuurimorishita@gmail.com",
                             Name = "Yuuri",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 12, 19, 34, 22, 606, DateTimeKind.Unspecified).AddTicks(6074), new TimeSpan(0, 0, 0, 0, 0)),
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 14, 18, 35, 36, 46, DateTimeKind.Unspecified).AddTicks(3710), new TimeSpan(0, 0, 0, 0, 0)),
                             Surname = "Morishita"
                         });
                 });

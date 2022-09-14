@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { customPageSizeOptions, paginationDefaultFilter } from './../../../../constants/pagination';
+import { customPageSizeOptions, paginationDefaultFilter } from '../../constants/pagination';
 import { Pagination, Result } from 'antd';
-import { getUserOrders } from '../../../../services/orders';
+import { getDeliveredOrders } from '../../services/orders';
 import Order from './order/index';
 
 let paginationFilterModel = {
@@ -9,7 +9,7 @@ let paginationFilterModel = {
     pageSize: paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE
 };
 
-const OpenOrders = () => {
+const ViewDeliveredOrders = () => {
 
     const [orders, setOrders] = useState();
 
@@ -25,19 +25,18 @@ const OpenOrders = () => {
     };
 
     const updateOrders = async () => {
-        setOrders(await getUserOrders(paginationFilterModel));
+        setOrders(await getDeliveredOrders(paginationFilterModel));
     };
 
     return (
         <div id="ordersPage">
-            <p id="pageTitle">Open orders</p>
+            <p id="pageTitle">Delivered orders</p>
 
             {orders != null ?
                 <div id='container'>
                     {orders.items.map((order) =>
                         <Order
                             info={order}
-                            updateOrders={() => updateOrders()}
                         />
                     )}
 
@@ -60,4 +59,4 @@ const OpenOrders = () => {
     );
 };
 
-export default OpenOrders;
+export default ViewDeliveredOrders;

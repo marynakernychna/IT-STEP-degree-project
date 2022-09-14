@@ -205,7 +205,7 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The order has already been confirmed!.
+        ///   Looks up a localized string similar to The order is already picked!.
         /// </summary>
         internal static string THE_ORDER_ALREADY_CONFIRMED {
             get {

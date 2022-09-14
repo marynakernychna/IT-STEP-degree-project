@@ -136,46 +136,39 @@ namespace Core.Services
         }
 
         /// <summary>
-        ///     Register user.
+        ///     Register a client.
         /// </summary>
         /// <param name="userRegistrationDTO">
-        ///     DTO with the user's: name, surname, phone number, email and password.
+        ///     DTO with a client's: name, surname, phone number, email and password.
         ///  </param>
         /// <returns>
         ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
         /// </returns>
-        /// <exception cref="HttpException">
-        ///     Returns BadRequest if there is already a user with such email.
-        /// </exception>
-        public async Task RegisterAsync(
+        public async Task RegisterClientAsync(
             UserRegistrationDTO userRegistrationDTO)
         {
-            var isEmailBusy = await _userRepository.AnyAsync(
-                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
+            var roleName = IdentityRoleNames.Client.ToString();
 
-            if (isEmailBusy)
-            {
-                throw new HttpException(
-                        ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
-                        HttpStatusCode.BadRequest);
-            }
+            var client = await RegisterUserAsync(userRegistrationDTO, roleName);
 
-            var user = _mapper.Map<User>(userRegistrationDTO);
-            var createUserResult = await _userManager
-                .CreateAsync(user, userRegistrationDTO.Password);
+            await _cartService.CreateAsync(client);
+        }
 
-            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
+        /// <summary>
+        ///     Register a courier.
+        /// </summary>
+        /// <param name="userRegistrationDTO">
+        ///     DTO with a courier's: name, surname, phone number, email and password.
+        ///  </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
+        public async Task RegisterCourierAsync(
+            UserRegistrationDTO userRegistrationDTO)
+        {
+            var roleName = IdentityRoleNames.Courier.ToString();
 
-            var userRole = await _identityRoleManager
-                .FindByNameAsync(IdentityRoleNames.Client.ToString());
-
-            ExtensionMethods.IdentityRoleNullCheck(userRole);
-
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
-
-            await _cartService.CreateAsync(user);
+            await RegisterUserAsync(userRegistrationDTO, roleName);
         }
 
         /// <summary>
@@ -239,5 +232,52 @@ namespace Core.Services
 
             await _emailService.SendResetPasswordRequestAsync(user, callbackUrl);
         }
+
+        #region Private methods
+
+        /// <summary>
+        ///     Register a user.
+        /// </summary>
+        /// <param name="userRegistrationDTO">
+        ///     DTO with a user's: name, surname, phone number, email and password.
+        ///  </param>
+        /// <returns>
+        ///     The System.Threading.Tasks.Task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="HttpException">
+        ///     Returns BadRequest if there is already a user with such email.
+        /// </exception>
+        private async Task<User> RegisterUserAsync(
+            UserRegistrationDTO userRegistrationDTO, string roleName)
+        {
+            var isEmailBusy = await _userRepository.AnyAsync(
+                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
+
+            if (isEmailBusy)
+            {
+                throw new HttpException(
+                        ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
+                        HttpStatusCode.BadRequest);
+            }
+
+            var user = _mapper.Map<User>(userRegistrationDTO);
+            var createUserResult = await _userManager
+                .CreateAsync(user, userRegistrationDTO.Password);
+
+            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
+
+            var userRole = await _identityRoleManager
+                .FindByNameAsync(IdentityRoleNames.Client.ToString());
+
+            ExtensionMethods.IdentityRoleNullCheck(userRole);
+
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
+
+            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+
+            return user;
+        }
+
+        #endregion
     }
 }

@@ -12,7 +12,9 @@ namespace Core.Interfaces.CustomService
             UserLoginDTO userLoginDTO);
         Task LogoutAsync(
             UserLogoutDTO userLogoutDTO);
-        Task RegisterAsync(
+        Task RegisterClientAsync(
+            UserRegistrationDTO userRegistrationDTO);
+        Task RegisterCourierAsync(
             UserRegistrationDTO userRegistrationDTO);
         Task ResetPasswordAsync(
             ResetPasswordDTO resetPasswordDTO);

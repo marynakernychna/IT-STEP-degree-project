@@ -24,7 +24,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("admins/page")]
+        [HttpGet("admins/clients/page")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetPageOfClientsAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
@@ -32,6 +32,16 @@ namespace API.Controllers
             var usersInfo = await _userService.GetPageOfClientsAsync(paginationFilter);
 
             return Ok(usersInfo);
+        }
+
+        [HttpGet("admins/couriers/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageOfCouriersAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            var couriers = await _userService.GetPageOfCouriersAsync(paginationFilter);
+
+            return Ok(couriers);
         }
 
         [HttpGet("profile")]
@@ -44,13 +54,14 @@ namespace API.Controllers
             return Ok(userInfo);
         }
 
-        [HttpPost("admin/clients/by-client/profile/update")]
+        [HttpPut("admins/clients/by-client/profile/update")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> UpdateClientProfileAsync(
             [FromBody] UserEditProfileInfoDTO newUserInfo, string email)
         {
             var userId = await _userService.GetIdByEmailAsync(email);
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
+
             await _userService.UpdateProfileAsync(newUserInfo, userId, callbackUrl);
 
             return Ok();
