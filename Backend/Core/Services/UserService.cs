@@ -105,9 +105,9 @@ namespace Core.Services
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
-            var users = await GetUsers(paginationFilter, role);
+            var clients = await GetUsersAsync(paginationFilter, role);
 
-            return users;
+            return clients;
         }
 
         public async Task<string> GetUserIdByEmailAsync(string email)
@@ -126,12 +126,12 @@ namespace Core.Services
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
-            var couriers = await GetUsers(paginationFilter, role);
+            var couriers = await GetUsersAsync(paginationFilter, role);
 
             return couriers;
         }
 
-        private async Task<PaginatedList<UserProfileInfoDTO>> GetUsers(
+        private async Task<PaginatedList<UserProfileInfoDTO>> GetUsersAsync(
             PaginationFilterDTO paginationFilter, IdentityRole role)
         {
             var userRoles = await _identityUserRoleRepository.ListAsync(
