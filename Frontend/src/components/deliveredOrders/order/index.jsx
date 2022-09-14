@@ -61,9 +61,15 @@ function Order(props) {
                 </div>
             </Card.Grid>
 
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                Confirmed by the courier:
-            </Card.Grid>
+            {store.getState().authenticationReducer.userRole === userRoles.USER ?
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    Confirmed by the courier:
+                </Card.Grid> :
+
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    Confirmed by you:
+                </Card.Grid>
+            }
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
                 <div >

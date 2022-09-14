@@ -38,7 +38,7 @@ export const userItems = [
     ]),
     getItem("Cart", pageUrls.CART, <BsBasket />),
     getItem("Orders", 'sub2', <AppstoreOutlined />, [
-        getItem("View", pageUrls.VIEW_MY_ORDERS),
+        getItem("Open", pageUrls.OPEN_ORDERS),
         getItem("Delivered", pageUrls.DELIVERED_ORDERS)
     ]),
     getItem("Logout", "Logout", <LogoutOutlined />)

@@ -69,7 +69,7 @@ function Order(props) {
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                Confirmed by the client:
+                Confirmed by you:
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
@@ -104,25 +104,27 @@ function Order(props) {
                 </Button>
             </Card.Grid>
 
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    className="submitButton"
-                    type="primary"
-                    onClick={() => confirm()}
-                >
-                    Confirm delivery
-                </Button>
-            </Card.Grid>
-
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    danger
-                    type="primary"
-                    onClick={() => reject()}
-                >
-                    Reject delivery confirmation
-                </Button>
-            </Card.Grid>
+            {data?.isAcceptedByClient ?
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        danger
+                        type="primary"
+                        onClick={() => reject()}
+                    >
+                        Reject delivery confirmation
+                    </Button>
+                </Card.Grid> :
+                
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        className="submitButton"
+                        type="primary"
+                        onClick={() => confirm()}
+                    >
+                        Confirm delivery
+                    </Button>
+                </Card.Grid>
+            }
         </Card>
     )
 }

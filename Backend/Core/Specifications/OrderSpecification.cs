@@ -22,9 +22,9 @@ namespace Core.Specifications
             }
         }
 
-        internal class GetByUser : Specification<Order>
+        internal class GetUndeliveredByClient : Specification<Order>
         {
-            public GetByUser(string userId, PaginationFilterDTO paginationFilterDTO)
+            public GetUndeliveredByClient(string userId, PaginationFilterDTO paginationFilterDTO)
             {
                 Query.Where(o => o.Cart.CreatorId == userId)
                      .Where(o => !o.IsAcceptedByClient || !o.IsAcceptedByCourier)
@@ -48,9 +48,9 @@ namespace Core.Specifications
             }
         }
 
-        internal class GetListByCourier : Specification<Order>
+        internal class GetUndeliveredByCourier : Specification<Order>
         {
-            public GetListByCourier(
+            public GetUndeliveredByCourier(
                 string courierId, PaginationFilterDTO paginationFilterDTO)
             {
                 Query.Where(o => o.CourierId == courierId)

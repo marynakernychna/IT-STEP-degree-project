@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button } from 'antd';
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { rejectSelectedOrder, confirmOrderDelivery, rejectDeliveryConfirmation } from "../../../../../services/orders";
+import { DeleteOutlined } from '@ant-design/icons';
 
 function Order(props) {
 
@@ -73,7 +74,7 @@ function Order(props) {
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                Confirmed by the courier:
+                Confirmed by you:
             </Card.Grid>
 
             <Card.Grid hoverable={false} style={{ width: '75%', boxShadow: 'none', display: 'inline' }}>
@@ -92,30 +93,31 @@ function Order(props) {
                     type="primary"
                     onClick={() => onClick()}
                 >
-                    Reject the order
+                    <DeleteOutlined />
                 </Button>
             </Card.Grid>
 
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    className="submitButton"
-                    type="primary"
-                    onClick={() => confirm()}
-                >
-                    Confirm delivery
-                </Button>
-            </Card.Grid>
-
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    danger
-                    className="submitButton"
-                    type="primary"
-                    onClick={() => reject()}
-                >
-                    Reject delivery confirmation
-                </Button>
-            </Card.Grid>
+            {data?.isAcceptedByCourier ?
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        danger
+                        type="primary"
+                        onClick={() => reject()}
+                    >
+                        Reject delivery confirmation
+                    </Button>
+                </Card.Grid> :
+                
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        className="submitButton"
+                        type="primary"
+                        onClick={() => confirm()}
+                    >
+                        Confirm delivery
+                    </Button>
+                </Card.Grid>
+            }
         </Card>
     )
 }

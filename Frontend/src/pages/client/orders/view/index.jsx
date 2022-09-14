@@ -9,7 +9,7 @@ let paginationFilterModel = {
     pageSize: paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE
 };
 
-const ViewOrders = () => {
+const OpenOrders = () => {
 
     const [orders, setOrders] = useState();
 
@@ -30,7 +30,7 @@ const ViewOrders = () => {
 
     return (
         <div id="ordersPage">
-            <p id="pageTitle">Orders</p>
+            <p id="pageTitle">Open orders</p>
 
             {orders != null ?
                 <div id='container'>
@@ -60,4 +60,4 @@ const ViewOrders = () => {
     );
 };
 
-export default ViewOrders;
+export default OpenOrders;
