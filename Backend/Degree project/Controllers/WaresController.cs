@@ -29,9 +29,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetByCategoryAsync(
             [FromQuery] PaginationFilterWareDTO paginationFilter)
         {
-            var wares = await _wareService.GetByCategoryAsync(paginationFilter);
-
-            return Ok(wares);
+            return Ok(await _wareService
+                .GetByCategoryAsync(paginationFilter));
         }
 
         [HttpGet("by-id")]
@@ -41,9 +40,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetByIdAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var ware = await _wareService.FormWareInfoDTOByIdAsync(entityIdDTO.Id);
-
-            return Ok(ware);
+            return Ok(await _wareService
+                .FormWareInfoDTOByIdAsync(entityIdDTO.Id));
         }
 
         [HttpGet("clients/by-client/page")]
@@ -51,11 +49,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetCreatedByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var ware = await _wareService.GetCreatedByUserAsync(
+            return Ok(await _wareService.GetCreatedByUserAsync(
                 UserService.GetCurrentUserIdentifier(User),
-                paginationFilter);
-
-            return Ok(ware);
+                paginationFilter));
         }
 
         [HttpGet("page")]
@@ -63,9 +59,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetAllAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var wares = await _wareService.GetAllAsync(paginationFilter);
-
-            return Ok(wares);
+            return Ok(await _wareService
+                .GetAllAsync(paginationFilter));
         }
 
         [HttpPost("create")]

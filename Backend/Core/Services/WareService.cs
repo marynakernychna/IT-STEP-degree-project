@@ -18,26 +18,23 @@ namespace Core.Services
 {
     public class WareService : IWareService
     {
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Characteristic> _characteristicRepository;
         private readonly IRepository<Ware> _wareRepository;
 
+        private readonly ICategoryService _categoryService;
         private readonly ICharacteristicService _characteristicService;
         private readonly IFileService _fileService;
 
         private readonly IMapper _mapper;
 
         public WareService(
-            IRepository<Category> categoryRepository,
-            IRepository<Characteristic> characteristicRepository,
             IRepository<Ware> wareRepository,
+            ICategoryService categoryService,
             ICharacteristicService characteristicService,
             IFileService fileService,
             IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
-            _characteristicRepository = characteristicRepository;
             _wareRepository = wareRepository;
+            _categoryService = categoryService;
             _characteristicService = characteristicService;
             _fileService = fileService;
             _mapper = mapper;
@@ -46,20 +43,19 @@ namespace Core.Services
         public async Task CheckIfExistsByIdAsync(
             int wareId)
         {
-            var ware = await _wareRepository.GetByIdAsync(wareId);
-
-            ExtensionMethods.WareNullCheck(ware);
+            ExtensionMethods.WareNullCheck(
+                await _wareRepository.GetByIdAsync(wareId));
         }
 
         public async Task CreateAsync(
-            CreateWareDTO createWareDTO, string userId)
+            CreateWareDTO createWareDTO,
+            string userId)
         {
-            _characteristicService.CheckNamesForDuplicates(createWareDTO.Characteristics);
+            var categoryId = await _categoryService
+                .GetIdByTitleAsync(createWareDTO.CategoryTitle);
 
-            var category = await _categoryRepository.SingleOrDefaultAsync(
-            new CategorySpecification.GetByTitle(createWareDTO.CategoryTitle));
-
-            ExtensionMethods.CategoryNullCheck(category);
+            CharacteristicService
+                .CheckNamesForDuplicates(createWareDTO.Characteristics);
 
             var wareDuplicate = await _wareRepository.SingleOrDefaultAsync(
                 new WareSpecification.GetByTitleAndCreatorId(createWareDTO.Title, userId));
@@ -72,7 +68,8 @@ namespace Core.Services
             }
 
             var fileName = _fileService.CreateWarePhotoFile(
-                createWareDTO.PhotoBase64, createWareDTO.PhotoExtension);
+                createWareDTO.PhotoBase64,
+                createWareDTO.PhotoExtension);
 
             var ware = await _wareRepository.AddAsync(
                 new Ware
@@ -82,7 +79,7 @@ namespace Core.Services
                     Cost = createWareDTO.Cost,
                     PhotoLink = fileName,
                     AvailableCount = createWareDTO.AvailableCount,
-                    CategoryId = category.Id,
+                    CategoryId = categoryId,
                     CreatorId = userId
                 });
 
@@ -99,7 +96,7 @@ namespace Core.Services
                     });
             }
 
-            await _characteristicRepository.AddRangeAsync(characteristics);
+            await _characteristicService.AddRangeAsync(characteristics);
         }
 
         public async Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(
@@ -113,24 +110,20 @@ namespace Core.Services
                 return null;
             }
 
-            var totalPages = PaginatedList<WareInfoDTO>
-                .GetTotalPages(paginationFilter, waresCount);
-
-            var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetAll(paginationFilter));
-
             return FormPaginatedList(
-                wares,
+                await _wareRepository.ListAsync(
+                    new WareSpecification.GetAll(paginationFilter)),
                 waresCount,
                 paginationFilter.PageNumber,
-                totalPages);
+                PaginatedList<WareInfoDTO>
+                    .GetTotalPages(paginationFilter, waresCount));
         }
 
         public async Task<PaginatedList<WareBriefInfoDTO>> GetByCategoryAsync(
             PaginationFilterWareDTO paginationFilter)
         {
-            if (!await _categoryRepository.AnyAsync(
-               new CategorySpecification.GetByTitle(paginationFilter.CategoryTitle)))
+            if (!await _categoryService
+                    .CheckIfExistsByTitleAsync(paginationFilter.CategoryTitle))
             {
                 throw new HttpException(
                     ErrorMessages.THE_CATEGORY_NOT_FOUND,
@@ -151,17 +144,13 @@ namespace Core.Services
                 PageSize = paginationFilter.PageSize
             };
 
-            var totalPages = PaginatedList<WareInfoDTO>
-                .GetTotalPages(paginationFilterDTO, waresCount);
-
-            var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetByCategory(paginationFilter));
-
             return FormPaginatedList(
-                wares,
+                await _wareRepository.ListAsync(
+                    new WareSpecification.GetByCategory(paginationFilter)),
                 waresCount,
                 paginationFilter.PageNumber,
-                totalPages);
+                PaginatedList<WareInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, waresCount));
         }
 
         public async Task<Ware> GetByIdAsync(
@@ -175,11 +164,9 @@ namespace Core.Services
         }
 
         public async Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
-            string userId, PaginationFilterDTO paginationFilter)
+            string userId,
+            PaginationFilterDTO paginationFilter)
         {
-            var wares = await _wareRepository.ListAsync(
-                new WareSpecification.GetByCreatorId(paginationFilter, userId));
-
             var waresCount = await _wareRepository.CountAsync(
                 new WareSpecification.GetByCreatorId(paginationFilter, userId));
 
@@ -188,18 +175,20 @@ namespace Core.Services
                 return null;
             }
 
-            var totalPages = PaginatedList<WareInfoDTO>
-                .GetTotalPages(paginationFilter, waresCount);
-
             return FormPaginatedList(
-                wares,
+                await _wareRepository.ListAsync(
+                    new WareSpecification.GetByCreatorId(paginationFilter, userId)),
                 waresCount,
                 paginationFilter.PageNumber,
-                totalPages);
+                PaginatedList<WareInfoDTO>
+                    .GetTotalPages(paginationFilter, waresCount));
         }
 
         private PaginatedList<WareBriefInfoDTO> FormPaginatedList(
-            List<Ware> wares, int waresCount, int pageNumber, int totalPages)
+            List<Ware> wares,
+            int waresCount,
+            int pageNumber,
+            int totalPages)
         {
             var wareDTOs = new List<WareBriefInfoDTO>();
 

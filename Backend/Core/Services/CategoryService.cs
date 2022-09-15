@@ -29,6 +29,13 @@ namespace Core.Services
             _mapper = mapper;
         }
 
+        public async Task<bool> CheckIfExistsByTitleAsync(
+            string title)
+        {
+            return await _categoryRepository.AnyAsync(
+                new CategorySpecification.GetByTitle(title));
+        }
+
         public async Task CreateAsync(
             CategoryDTO categoryDTO)
         {
@@ -67,6 +74,17 @@ namespace Core.Services
             }
 
             return _mapper.Map<List<CategoryDTO>>(categories);
+        }
+
+        public async Task<int> GetIdByTitleAsync(
+            string title)
+        {
+            var category = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(title));
+
+            ExtensionMethods.CategoryNullCheck(category);
+
+            return category.Id;
         }
 
         public async Task<PaginatedList<CategoryInfoDTO>> GetPageAsync(

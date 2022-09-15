@@ -12,7 +12,8 @@ namespace Core.Interfaces.CustomService
         Task CheckIfExistsByIdAsync(
             int wareId);
         Task CreateAsync(
-            CreateWareDTO createWareDTO, string userId);
+            CreateWareDTO createWareDTO,
+            string userId);
         Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter);
         Task<PaginatedList<WareBriefInfoDTO>> GetByCategoryAsync(
@@ -20,7 +21,8 @@ namespace Core.Interfaces.CustomService
         Task<Ware> GetByIdAsync(
             int id);
         Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
-            string userId, PaginationFilterDTO paginationFilter);
+            string userId,
+            PaginationFilterDTO paginationFilter);
         Task<WareInfoDTO> FormWareInfoDTOByIdAsync(
             int id);
     }
