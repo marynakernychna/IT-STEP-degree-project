@@ -57,5 +57,6 @@ export const ORDERS_URLS = {
     DELETE: ORDERS_URL + "/delete",
     CONFIRM_DELIVERY: ORDERS_URL + "/confirm-delivery",
     REJECT_DELIVERY_CONFIRMATION: ORDERS_URL + "/reject-delivery-confirmation",
-    GET_DELIVERED_ORDERS: ORDERS_URL + "/delivered-orders"
+    GET_DELIVERED_ORDERS: ORDERS_URL + "/delivered-orders",
+    CHANGE_ORDER_INFO: ORDERS_URL + "/change-by-id"
 };

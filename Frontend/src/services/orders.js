@@ -273,3 +273,37 @@ export function getDeliveredOrders(paginationFilterModel) {
             );
         });
 }
+
+export async function changeOrderInfo(orderInfo) {
+
+    const model = {
+        orderInfo: {
+            address: orderInfo.address,
+            city: orderInfo.city,
+            country: orderInfo.country
+        },
+        orderId: orderInfo.orderId
+    };
+
+    return await ordersService
+        .change(model)
+        .then(
+            () => {
+                successMessage(ordersMessages.EDIT_ORDER_INFO_SUCCESS);
+
+                return true;
+            },
+            () => {
+                errorMessage(
+                    ordersMessages.EDIT_ORDER_INFO_FAILED,
+                    generalMessages.SOMETHING_WENT_WRONG
+                );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                generalMessages.SOMETHING_WENT_WRONG,
+                ""
+            );
+        });
+}
