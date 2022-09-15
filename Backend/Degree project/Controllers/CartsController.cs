@@ -28,7 +28,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var wares = await _cartService.GetPageByClientAsync(paginationFilterCartDTO);
+            var wares = await _cartService
+                .GetPageByClientAsync(paginationFilterCartDTO);
 
             return Ok(wares);
         }
@@ -38,11 +39,13 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var wares = await _cartService.GetPageByClientAsync(
-                UserService.GetCurrentUserIdentifier(User),
-                paginationFilterDTO);
+            var page = await _cartService
+                .GetPageByClientAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    paginationFilterDTO
+                );
 
-            return Ok(wares);
+            return Ok(page);
         }
 
         [HttpPut("by-client/add-ware")]
@@ -50,9 +53,11 @@ namespace API.Controllers
         public async Task<IActionResult> AddWareAsync(
             [FromBody] EntityIdDTO entityIdDTO)
         {
-            await _cartService.AddWareAsync(
-                UserService.GetCurrentUserIdentifier(User),
-                entityIdDTO.Id);
+            await _cartService
+                .AddWareAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    entityIdDTO.Id
+                );
 
             return Ok();
         }
@@ -62,9 +67,11 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteWareAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            await _cartService.DeleteWareAsync(
-                UserService.GetCurrentUserIdentifier(User),
-                entityIdDTO.Id);
+            await _cartService
+                .DeleteWareAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    entityIdDTO.Id
+                );
 
             return Ok();
         }

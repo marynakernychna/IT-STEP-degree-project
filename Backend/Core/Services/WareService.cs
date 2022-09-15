@@ -43,6 +43,14 @@ namespace Core.Services
             _mapper = mapper;
         }
 
+        public async Task CheckIfExistsByIdAsync(
+            int wareId)
+        {
+            var ware = await _wareRepository.GetByIdAsync(wareId);
+
+            ExtensionMethods.WareNullCheck(ware);
+        }
+
         public async Task CreateAsync(
             CreateWareDTO createWareDTO, string userId)
         {

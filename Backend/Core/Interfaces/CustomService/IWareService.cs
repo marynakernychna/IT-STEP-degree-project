@@ -8,6 +8,8 @@ namespace Core.Interfaces.CustomService
 {
     public interface IWareService
     {
+        Task CheckIfExistsByIdAsync(
+            int wareId);
         Task CreateAsync(
             CreateWareDTO createWareDTO, string userId);
         Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(

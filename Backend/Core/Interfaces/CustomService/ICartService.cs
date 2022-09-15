@@ -10,14 +10,17 @@ namespace Core.Interfaces.CustomService
     public interface ICartService
     {
         Task AddWareAsync(
-            string userId, int wareId);
+            string userId,
+            int wareId);
         Task CreateAsync(
             User user);
         Task DeleteWareAsync(
-            string userId, int wareId);
+            string userId,
+            int wareId);
         Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             PaginationFilterCartDTO paginationFilterCartDTO);
         Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO);
+            string userId,
+            PaginationFilterDTO paginationFilterDTO);
     }
 }
