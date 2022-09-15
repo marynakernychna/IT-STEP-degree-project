@@ -108,16 +108,21 @@ function Order(props) {
                 </Button>
             </Card.Grid>
 
-            <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
-                <Button
-                    type="primary"
-                >
-                    <AiOutlineEdit
-                        size={DEFAULT_ACTION_ICON_SIZE}
-                        onClick={() => setIsModalOpen(true)}
-                    />
-                </Button>
-            </Card.Grid>
+            {!data?.isAcceptedByClient && !data?.isAcceptedByCourier ?
+                <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
+                    <Button
+                        type="primary"
+                    >
+                        <AiOutlineEdit
+                            size={DEFAULT_ACTION_ICON_SIZE}
+                            onClick={() => setIsModalOpen(true)}
+                        />
+                    </Button>
+                </Card.Grid> :
+
+                <Card.Grid hoverable={false} style={{ width: '0', boxShadow: 'none', display: 'inline' }}>
+                </Card.Grid>
+            }
 
             {data?.isAcceptedByClient ?
                 <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>

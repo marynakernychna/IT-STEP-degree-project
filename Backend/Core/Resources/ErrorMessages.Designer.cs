@@ -115,6 +115,24 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The courier has not yet picked the order!.
+        /// </summary>
+        internal static string CourierNotYetPickedOrder {
+            get {
+                return ResourceManager.GetString("CourierNotYetPickedOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivery already confirmed!.
+        /// </summary>
+        internal static string DeliveryAlreadyConfirmed {
+            get {
+                return ResourceManager.GetString("DeliveryAlreadyConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already a user with this email!.
         /// </summary>
         internal static string EmailAlreadyExists {
