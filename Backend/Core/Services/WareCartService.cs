@@ -43,6 +43,20 @@ namespace Core.Services
             }
         }
 
+        public async Task CheckIfCartIsEmptyAsync(
+            int cartId)
+        {
+            var waresCount = await _wareCartRepository.CountAsync(
+                new WareCartSpecification.GetCartWares(cartId));
+
+            if (waresCount == 0)
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_CART_IS_EMPTY,
+                    HttpStatusCode.BadRequest);
+            }
+        }
+
         public async Task CreateAsync(
             int cartId,
             int wareId)

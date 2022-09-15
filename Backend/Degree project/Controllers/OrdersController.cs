@@ -28,11 +28,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var orders = await _orderService.GetPageByClientAsync(
+            return Ok(await _orderService.GetPageByClientAsync(
                 UserService.GetCurrentUserIdentifier(User),
-                paginationFilterDTO);
-
-            return Ok(orders);
+                paginationFilterDTO));
         }
 
         [HttpGet("couriers/available/page")]
@@ -40,9 +38,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfAvailvableAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var orders = await _orderService.GetPageOfAvailvableAsync(paginationFilterDTO);
-
-            return Ok(orders);
+            return Ok(await _orderService
+                .GetPageOfAvailvableAsync(paginationFilterDTO));
         }
 
         [HttpGet("couriers/by-courier/assigned/page")]
@@ -50,11 +47,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfAssignedByCourierAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var orders = await _orderService.GetPageOfAssignedByCourierAsync(
+            return Ok(await _orderService.GetPageOfAssignedByCourierAsync(
                 UserService.GetCurrentUserIdentifier(User),
-                paginationFilterDTO);
-
-            return Ok(orders);
+                paginationFilterDTO));
         }
 
         [HttpGet("delivered/by-user/page")]
@@ -64,11 +59,9 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfDeliveredOrdersAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var orders = await _orderService.GetPageOfDeliveredAsync(
+            return Ok(await _orderService.GetPageOfDeliveredAsync(
                 UserService.GetCurrentUserIdentifier(User),
-                paginationFilterDTO);
-
-            return Ok(orders);
+                paginationFilterDTO));
         }
 
         [HttpPost("create")]

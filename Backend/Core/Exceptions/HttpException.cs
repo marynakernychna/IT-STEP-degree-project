@@ -11,6 +11,12 @@ namespace Core.Exceptions
         public HttpException() { }
 
         public HttpException(
+            HttpStatusCode statusCode)
+        {
+            HttpStatusCode = statusCode;
+        }
+
+        public HttpException(
             string message,
             HttpStatusCode statusCode) : base(message)
         {

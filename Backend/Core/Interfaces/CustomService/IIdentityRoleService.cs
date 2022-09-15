@@ -7,5 +7,7 @@ namespace Core.Interfaces.CustomService
     {
         Task<string> GetByUserAsync(
             User user);
+        Task<string> GetByUserIdAsync(
+            string userId);
     }
 }

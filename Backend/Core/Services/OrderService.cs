@@ -16,34 +16,32 @@ namespace Core.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<WareCart> _wareCartRepository;
 
         private readonly ICartService _cartService;
         private readonly IIdentityRoleService _identityRoleService;
+        private readonly IUserService _userService;
+        private readonly IWareCartService _wareCartService;
 
         public OrderService(
-            IRepository<Cart> cartRepository,
             IRepository<Order> orderRepository,
-            IRepository<User> userRepository,
-            IRepository<WareCart> wareCartRepository,
             ICartService cartService,
-            IIdentityRoleService identityRoleService)
+            IIdentityRoleService identityRoleService,
+            IUserService userService,
+            IWareCartService wareCartService)
         {
-            _cartRepository = cartRepository;
-            _userRepository = userRepository;
             _orderRepository = orderRepository;
-            _wareCartRepository = wareCartRepository;
             _cartService = cartService;
             _identityRoleService = identityRoleService;
+            _userService = userService;
+            _wareCartService = wareCartService;
         }
 
         public async Task AssignAsync(
-            string courierId, int orderId)
+            string courierId,
+            int orderId)
         {
-            var courier = await CheckCourierIdAsync(courierId);
+            var courier = await _userService.GetByIdAsync(courierId);
 
             var order = await _orderRepository.GetByIdAsync(orderId);
 
@@ -55,20 +53,15 @@ namespace Core.Services
         }
 
         public async Task ConfirmDeliveryAsync(
-            string userId, int orderId)
+            string userId,
+            int orderId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            var userRole = await _identityRoleService.GetByUserAsync(user);
+            var userRole = await _identityRoleService
+                .GetByUserIdAsync(userId);
 
             if (userRole == IdentityRoleNames.Client.ToString())
             {
-                var order = await _orderRepository.SingleOrDefaultAsync(
-                    new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
-
-                ExtensionMethods.OrderNullCheck(order);
+                var order = await GetByCreatorIdAndIdAsync(userId, orderId);
 
                 if (order.CourierId == null)
                 {
@@ -88,10 +81,7 @@ namespace Core.Services
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
-                var order = await _orderRepository.SingleOrDefaultAsync(
-                    new OrderSpecification.GetByCourierIdAndId(userId, orderId));
-
-                ExtensionMethods.OrderNullCheck(order);
+                var order = await GetByCreatorIdAndIdAsync(userId, orderId);
 
                 if (order.IsAcceptedByCourier)
                 {
@@ -102,34 +92,21 @@ namespace Core.Services
 
                 await ChangeIsAcceptedAsync(userRole, order);
             }
+            else
+            {
+                throw new HttpException(HttpStatusCode.Forbidden);
+            }
         }
 
         public async Task CreateAsync(
-            string userId, OrderDTO createOrderDTO)
+            string userId,
+            OrderDTO createOrderDTO)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _userService.GetByIdAsync(userId);
 
-            ExtensionMethods.UserNullCheck(user);
+            var cart = await _cartService.GetByUserIdAsync(user.Id);
 
-            var cart = await _cartRepository.SingleOrDefaultAsync(
-                new CartSpecification.GetByCreatorId(user.Id));
-
-            if (cart == null)
-            {
-                throw new HttpException(
-                    ErrorMessages.THE_CART_NOT_FOUND,
-                    HttpStatusCode.InternalServerError);
-            }
-
-            var waresCount = await _wareCartRepository.CountAsync(
-                new WareCartSpecification.GetCartWares(cart.Id));
-
-            if (waresCount == 0)
-            {
-                throw new HttpException(
-                    ErrorMessages.THE_CART_IS_EMPTY,
-                    HttpStatusCode.BadRequest);
-            }
+            await _wareCartService.CheckIfCartIsEmptyAsync(cart.Id);
 
             var order = await _orderRepository.AddAsync(
                 new Order
@@ -140,15 +117,14 @@ namespace Core.Services
                     CartId = cart.Id
                 });
 
-            cart.OrderId = order.Id;
-
-            await _cartRepository.UpdateAsync(cart);
+            await _cartService.SetOrderIdAsync(order.Id, cart);
 
             await _cartService.CreateAsync(user);
         }
 
         public async Task DeleteAsync(
-            string userId, int orderId)
+            string userId,
+            int orderId)
         {
             var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
@@ -164,35 +140,35 @@ namespace Core.Services
         }
 
         public async Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO)
+            string userId,
+            PaginationFilterDTO paginationFilterDTO)
         {
             var ordersCount = await _orderRepository.CountAsync(
-                new OrderSpecification.GetUndeliveredByClient(userId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByClient(
+                    userId,
+                    paginationFilterDTO));
 
             if (ordersCount == 0)
             {
                 return null;
             }
 
-            var totalPages = PaginatedList<OrderInfoDTO>
-                .GetTotalPages(paginationFilterDTO, ordersCount);
-
             var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetUndeliveredByClient(userId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByClient(
+                    userId,
+                    paginationFilterDTO));
 
             var orders = new List<UserOrderInfoDTO>();
 
             foreach (var order in ordersList)
             {
-                var user = order.Cart.Creator;
-
                 orders.Add(new UserOrderInfoDTO
                 {
                     Id = order.Id,
                     Address = order.Address,
                     City = order.City,
                     Country = order.Country,
-                    PhoneNumber = user.PhoneNumber,
+                    PhoneNumber = order.Cart.Creator.PhoneNumber,
                     WaresCount = order.Cart.WareCarts.Count,
                     IsPicked = order.CourierId != null,
                     IsAcceptedByClient = order.IsAcceptedByClient,
@@ -204,35 +180,40 @@ namespace Core.Services
                 orders,
                 paginationFilterDTO.PageNumber,
                 ordersCount,
-                totalPages);
+                PaginatedList<OrderInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, ordersCount));
         }
 
         public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
-            string courierId, PaginationFilterDTO paginationFilterDTO)
+            string courierId,
+            PaginationFilterDTO paginationFilterDTO)
         {
-            await CheckCourierIdAsync(courierId);
+            await _userService.CheckIfExistsByIdAsync(courierId);
 
             var ordersCount = await _orderRepository.CountAsync(
-                new OrderSpecification.GetUndeliveredByCourier(courierId, paginationFilterDTO));
+                new OrderSpecification.GetUndeliveredByCourier(
+                    courierId,
+                    paginationFilterDTO));
 
             if (ordersCount == 0)
             {
                 return null;
             }
 
-            var totalPages = PaginatedList<OrderInfoDTO>
-                .GetTotalPages(paginationFilterDTO, ordersCount);
-
-            var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetUndeliveredByCourier(courierId, paginationFilterDTO));
-
-            var orders = FormOrderInfoDTOList(ordersList);
+            var orders = FormOrderInfoDTOList(
+                await _orderRepository.ListAsync(
+                    new OrderSpecification.GetUndeliveredByCourier(
+                        courierId,
+                        paginationFilterDTO)
+                    )
+                );
 
             return PaginatedList<OrderInfoDTO>.Evaluate(
                 orders,
                 paginationFilterDTO.PageNumber,
                 ordersCount,
-                totalPages);
+                PaginatedList<OrderInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, ordersCount));
         }
 
         public async Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
@@ -246,84 +227,89 @@ namespace Core.Services
                 return null;
             }
 
-            var totalPages = PaginatedList<OrderInfoDTO>
-                .GetTotalPages(paginationFilterDTO, ordersCount);
-
-            var ordersList = await _orderRepository.ListAsync(
-                new OrderSpecification.GetAvailable(paginationFilterDTO));
-
-            var orders = FormOrderInfoDTOList(ordersList);
+            var orders = FormOrderInfoDTOList(
+                await _orderRepository.ListAsync(
+                    new OrderSpecification.GetAvailable(paginationFilterDTO)));
 
             return PaginatedList<OrderInfoDTO>.Evaluate(
                 orders,
                 paginationFilterDTO.PageNumber,
                 ordersCount,
-                totalPages);
+                PaginatedList<OrderInfoDTO>
+                    .GetTotalPages(paginationFilterDTO, ordersCount));
         }
 
         public async Task<PaginatedList<DeliveredOrderDTO>> GetPageOfDeliveredAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO)
+            string userId,
+            PaginationFilterDTO paginationFilterDTO)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            var userRole = await _identityRoleService.GetByUserAsync(user);
+            var userRole = await _identityRoleService.GetByUserIdAsync(userId);
 
             if (userRole == IdentityRoleNames.Client.ToString())
             {
                 var ordersCount = await _orderRepository.CountAsync(
-                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
+                    new OrderSpecification.GetClientDeliveredOrders(
+                        userId,
+                        paginationFilterDTO)
+                    );
 
                 if (ordersCount == 0)
                 {
                     return null;
                 }
 
-                var totalPages = PaginatedList<OrderInfoDTO>
-                    .GetTotalPages(paginationFilterDTO, ordersCount);
-
-                var ordersList = await _orderRepository.ListAsync(
-                    new OrderSpecification.GetClientDeliveredOrders(userId, paginationFilterDTO));
-
-                var orders = FormDeliveredOrderDTOList(ordersList);
+                var orders = FormDeliveredOrderDTOList(
+                    await _orderRepository.ListAsync(
+                        new OrderSpecification.GetClientDeliveredOrders(
+                            userId,
+                            paginationFilterDTO)
+                        )
+                    );
 
                 return PaginatedList<DeliveredOrderDTO>.Evaluate(
                     orders,
                     paginationFilterDTO.PageNumber,
                     ordersCount,
-                    totalPages);
+                    PaginatedList<OrderInfoDTO>
+                        .GetTotalPages(paginationFilterDTO, ordersCount));
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
                 var ordersCount = await _orderRepository.CountAsync(
-                    new OrderSpecification.GetCourierDeliveredOrders(userId, paginationFilterDTO));
+                    new OrderSpecification.GetCourierDeliveredOrders(
+                        userId,
+                        paginationFilterDTO)
+                    );
 
                 if (ordersCount == 0)
                 {
                     return null;
                 }
 
-                var totalPages = PaginatedList<OrderInfoDTO>
-                    .GetTotalPages(paginationFilterDTO, ordersCount);
-
-                var ordersList = await _orderRepository.ListAsync(
-                    new OrderSpecification.GetCourierDeliveredOrders(userId, paginationFilterDTO));
-
-                var orders = FormDeliveredOrderDTOList(ordersList);
+                var orders = FormDeliveredOrderDTOList(
+                    await _orderRepository.ListAsync(
+                        new OrderSpecification.GetCourierDeliveredOrders(
+                            userId,
+                            paginationFilterDTO)
+                        )
+                    );
 
                 return PaginatedList<DeliveredOrderDTO>.Evaluate(
                     orders,
                     paginationFilterDTO.PageNumber,
                     ordersCount,
-                    totalPages);
+                    PaginatedList<OrderInfoDTO>
+                        .GetTotalPages(paginationFilterDTO, ordersCount));
             }
-
-            return null;
+            else
+            {
+                throw new HttpException(HttpStatusCode.Forbidden);
+            }
         }
 
         public async Task RejectAsync(
-            int orderId, string courierId)
+            int orderId,
+            string courierId)
         {
             var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCourier(orderId, courierId));
@@ -337,13 +323,10 @@ namespace Core.Services
         }
 
         public async Task RejectDeliveryAsync(
-            string userId, int orderId)
+            string userId,
+            int orderId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            var userRole = await _identityRoleService.GetByUserAsync(user);
+            var userRole = await _identityRoleService.GetByUserIdAsync(userId);
 
             if (userRole == IdentityRoleNames.Client.ToString())
             {
@@ -366,17 +349,21 @@ namespace Core.Services
 
                 await ChangeIsAcceptedAsync(userRole, order);
             }
+            else
+            {
+                throw new HttpException(HttpStatusCode.Forbidden);
+            }
         }
 
         public async Task UpdateAsync(
-            ChangeOrderInfoDTO changeOrderInfoDTO, string userId)
+            ChangeOrderInfoDTO changeOrderInfoDTO,
+            string userId)
         {
             var newInfo = changeOrderInfoDTO.OrderInfo;
 
-            var order = await _orderRepository.SingleOrDefaultAsync(
-                new OrderSpecification.GetByCreatorIdAndId(userId, changeOrderInfoDTO.OrderId));
-
-            ExtensionMethods.OrderNullCheck(order);
+            var order = await GetByCreatorIdAndIdAsync(
+                userId,
+                changeOrderInfoDTO.OrderId);
 
             if (order.IsAcceptedByCourier || order.IsAcceptedByClient)
             {
@@ -403,18 +390,9 @@ namespace Core.Services
             await _orderRepository.UpdateAsync(order);
         }
 
-        private async Task<User> CheckCourierIdAsync(
-            string courierId)
-        {
-            var courier = await _userRepository.GetByIdAsync(courierId);
-
-            ExtensionMethods.UserNullCheck(courier);
-
-            return courier;
-        }
-
         private async Task ChangeIsAcceptedAsync(
-            string userRole, Order order)
+            string userRole,
+            Order order)
         {
             if (userRole == IdentityRoleNames.Client.ToString())
             {
@@ -429,6 +407,26 @@ namespace Core.Services
 
                 await _orderRepository.UpdateAsync(order);
             }
+            else
+            {
+                throw new HttpException(HttpStatusCode.Forbidden);
+            }
+        }
+
+        private async Task<Order> GetByCreatorIdAndIdAsync(
+            string userId,
+            int orderId)
+        {
+            var order = await _orderRepository
+                .SingleOrDefaultAsync(
+                    new OrderSpecification.GetByCreatorIdAndId(
+                        userId,
+                        orderId)
+                    );
+
+            ExtensionMethods.OrderNullCheck(order);
+
+            return order;
         }
 
         private static List<DeliveredOrderDTO> FormDeliveredOrderDTOList(

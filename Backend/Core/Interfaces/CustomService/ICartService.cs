@@ -17,10 +17,15 @@ namespace Core.Interfaces.CustomService
         Task DeleteWareAsync(
             string userId,
             int wareId);
+        Task<Cart> GetByUserIdAsync(
+            string userId);
         Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             PaginationFilterCartDTO paginationFilterCartDTO);
         Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             string userId,
             PaginationFilterDTO paginationFilterDTO);
+        Task SetOrderIdAsync(
+            int orderId,
+            Cart cart);
     }
 }

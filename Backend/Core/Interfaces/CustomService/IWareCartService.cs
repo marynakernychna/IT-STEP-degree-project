@@ -10,6 +10,8 @@ namespace Core.Interfaces.CustomService
         Task CheckForWareDuplicateAsync(
             int cartId,
             int wareId);
+        Task CheckIfCartIsEmptyAsync(
+            int cartId);
         Task CreateAsync(
             int cartId,
             int wareId);

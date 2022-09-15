@@ -13,10 +13,14 @@ namespace Core.Services
     {
         private readonly UserManager<User> _userManager;
 
+        private readonly IUserService _userService;
+
         public IdentityRoleService(
-                UserManager<User> userManager)
+                UserManager<User> userManager,
+                IUserService userService)
         {
             _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<string> GetByUserAsync(
@@ -33,6 +37,13 @@ namespace Core.Services
             }
 
             return userRoles.First();
+        }
+
+        public async Task<string> GetByUserIdAsync(
+            string userId)
+        {
+            return await GetByUserAsync(
+                await _userService.GetByIdAsync(userId));
         }
     }
 }

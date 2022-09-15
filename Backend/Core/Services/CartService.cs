@@ -86,6 +86,22 @@ namespace Core.Services
             await _wareCartService.DeleteAsync(cart.Id, wareId);
         }
 
+        public async Task<Cart> GetByUserIdAsync(
+            string userId)
+        {
+            var cart = await _cartRepository.SingleOrDefaultAsync(
+                new CartSpecification.GetByCreatorId(userId));
+
+            if (cart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_CART_NOT_FOUND,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            return cart;
+        }
+
         public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             PaginationFilterCartDTO paginationFilterCartDTO)
         {
@@ -123,6 +139,15 @@ namespace Core.Services
                     paginationFilterDTO,
                     cart.Id
                 );
+        }
+
+        public async Task SetOrderIdAsync(
+            int orderId,
+            Cart cart)
+        {
+            cart.OrderId = orderId;
+
+            await _cartRepository.UpdateAsync(cart);
         }
     }
 }
