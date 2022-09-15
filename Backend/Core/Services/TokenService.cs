@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Core.Interfaces;
+using Core.Specifications;
 
 namespace Core.Services
 {
@@ -29,12 +30,23 @@ namespace Core.Services
             _refreshTokenRepository = refreshTokenRepository;
         }
 
+        public async Task DeleteRefreshTokenAsync(
+            string refreshToken)
+        {
+            var token = await _refreshTokenRepository.SingleOrDefaultAsync(
+                new RefreshTokenSpecification.GetByToken(refreshToken));
+
+            ExtensionMethods.RefreshTokenNullCheck(token);
+
+            await _refreshTokenRepository.DeleteAsync(token);
+        }
+
         public async Task<UserAutorizationDTO> GenerateForUserAsync(
             User user, string userRole)
         {
             var claims = SetClaims(user, userRole);
             var accessToken = CreateAccessToken(claims);
-            var refreshToken = await CreateRefreshToken(user.Id);
+            var refreshToken = await CreateRefreshTokenAsync(user.Id);
 
             user.RefreshTokens.Add(refreshToken);
 
@@ -47,7 +59,23 @@ namespace Core.Services
             return tokens;
         }
 
-        private async Task<RefreshToken> CreateRefreshToken(
+        private string CreateAccessToken(
+            IEnumerable<Claim> claims)
+        {
+            var securityKey = new SymmetricSecurityKey(
+                                    Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtOptions.Value.Issuer,
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(_jwtOptions.Value.LifeTime),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private async Task<RefreshToken> CreateRefreshTokenAsync(
             string userId)
         {
             var randomBytes = new byte[32];
@@ -69,23 +97,7 @@ namespace Core.Services
             return refreshTokenEntity;
         }
 
-        private string CreateAccessToken(
-            IEnumerable<Claim> claims)
-        {
-            var securityKey = new SymmetricSecurityKey(
-                                    Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtOptions.Value.Issuer,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(_jwtOptions.Value.LifeTime),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private IEnumerable<Claim> SetClaims(
+        private static IEnumerable<Claim> SetClaims(
             User user, string userRole)
         {
             var claims = new List<Claim>

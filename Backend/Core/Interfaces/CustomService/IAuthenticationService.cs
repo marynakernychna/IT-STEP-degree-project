@@ -7,7 +7,8 @@ namespace Core.Interfaces.CustomService
     public interface IAuthenticationService
     {
         Task ChangePasswordAsync(
-            ChangePasswordDTO changePasswordDTO, string userId);
+            ChangePasswordDTO changePasswordDTO,
+            string userId);
         Task<UserAutorizationDTO> LoginAsync(
             UserLoginDTO userLoginDTO);
         Task LogoutAsync(
@@ -19,6 +20,7 @@ namespace Core.Interfaces.CustomService
         Task ResetPasswordAsync(
             ResetPasswordDTO resetPasswordDTO);
         Task SendResetResetPasswordRequestAsync(
-            string email, string callbackUrl);
+            string email,
+            string callbackUrl);
     }
 }

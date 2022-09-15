@@ -26,7 +26,8 @@ namespace API.Controllers
         public async Task<IActionResult> RegisterClientAsync(
             [FromBody] UserRegistrationDTO userRegistrationDTO)
         {
-            await _authenticationService.RegisterClientAsync(userRegistrationDTO);
+            await _authenticationService
+                .RegisterClientAsync(userRegistrationDTO);
 
             return Ok();
         }
@@ -36,7 +37,8 @@ namespace API.Controllers
         public async Task<IActionResult> RegisterCourierAsync(
             [FromBody] UserRegistrationDTO userRegistrationDTO)
         {
-            await _authenticationService.RegisterCourierAsync(userRegistrationDTO);
+            await _authenticationService
+                .RegisterCourierAsync(userRegistrationDTO);
 
             return Ok();
         }
@@ -58,7 +60,8 @@ namespace API.Controllers
         public async Task<IActionResult> LogoutAsync(
             [FromBody] UserLogoutDTO userLogoutDTO)
         {
-            await _authenticationService.LogoutAsync(userLogoutDTO);
+            await _authenticationService
+                .LogoutAsync(userLogoutDTO);
 
             return Ok();
         }
@@ -69,8 +72,11 @@ namespace API.Controllers
         {
             var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
 
-            await _authenticationService.SendResetResetPasswordRequestAsync(
-                confirmationResetPasswordDTO.Email, callbackUrl);
+            await _authenticationService
+                .SendResetResetPasswordRequestAsync(
+                    confirmationResetPasswordDTO.Email,
+                    callbackUrl
+                );
 
             return Ok();
         }
@@ -83,9 +89,11 @@ namespace API.Controllers
         public async Task<IActionResult> ChangePasswordAsync(
             [FromBody] ChangePasswordDTO changePasswordDTO)
         {
-            await _authenticationService.ChangePasswordAsync(
-                changePasswordDTO,
-                UserService.GetCurrentUserIdentifier(User));
+            await _authenticationService
+                .ChangePasswordAsync(
+                    changePasswordDTO,
+                    UserService.GetCurrentUserIdentifier(User)
+                );
 
             return Ok();
         }
@@ -94,7 +102,8 @@ namespace API.Controllers
         public async Task<IActionResult> ResetPasswordAsync(
             [FromBody] ResetPasswordDTO resetPasswordDTO)
         {
-            await _authenticationService.ResetPasswordAsync(resetPasswordDTO);
+            await _authenticationService
+                .ResetPasswordAsync(resetPasswordDTO);
 
             return Ok();
         }
