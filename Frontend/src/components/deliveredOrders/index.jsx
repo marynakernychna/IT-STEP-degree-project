@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { customPageSizeOptions, paginationDefaultFilter } from '../../constants/pagination';
-import { Pagination, Result } from 'antd';
+import { Pagination, Result, Spin } from 'antd';
 import { getDeliveredOrders } from '../../services/orders';
 import Order from './order/index';
 
@@ -12,6 +12,7 @@ let paginationFilterModel = {
 const ViewDeliveredOrders = () => {
 
     const [orders, setOrders] = useState();
+    const [loading, setLoading] = useState(false);
 
     useEffect(async () => {
         updateOrders(paginationFilterModel);
@@ -25,37 +26,41 @@ const ViewDeliveredOrders = () => {
     };
 
     const updateOrders = async () => {
+        setLoading(true);
         setOrders(await getDeliveredOrders(paginationFilterModel));
+        setLoading(false);
     };
 
     return (
-        <div id="ordersPage">
-            <p id="pageTitle">Delivered orders</p>
+        <Spin size="large" spinning={loading}>
+            <div id="ordersPage">
+                <p id="pageTitle">Delivered orders</p>
 
-            {orders != null ?
-                <div id='container'>
-                    {orders.items.map((order) =>
-                        <Order
-                            info={order}
+                {orders != null ?
+                    <div id='container'>
+                        {orders.items.map((order) =>
+                            <Order
+                                info={order}
+                            />
+                        )}
+
+                        <Pagination
+                            onChange={onPaginationChange}
+                            total={orders.totalItems}
+                            showSizeChanger
+                            showTotal={(total) => `Total ${total} items`}
+                            pageSizeOptions={customPageSizeOptions}
+                            defaultPageSize={paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE}
                         />
-                    )}
-
-                    <Pagination
-                        onChange={onPaginationChange}
-                        total={orders.totalItems}
-                        showSizeChanger
-                        showTotal={(total) => `Total ${total} items`}
-                        pageSizeOptions={customPageSizeOptions}
-                        defaultPageSize={paginationDefaultFilter.DEFAULT_SMALL_PAGE_SIZE}
+                    </div>
+                    :
+                    <Result
+                        status="404"
+                        title="There are no orders yet!"
                     />
-                </div>
-                :
-                <Result
-                    status="404"
-                    title="There are no orders yet!"
-                />
-            }
-        </div>
+                }
+            </div>
+        </Spin>
     );
 };
 
