@@ -9,6 +9,7 @@ namespace Core.Interfaces.CustomService
         Task DeleteRefreshTokenAsync(
             string refreshToken);
         Task<UserAutorizationDTO> GenerateForUserAsync(
-            User user, string userRole);
+            User user,
+            string userRole);
     }
 }

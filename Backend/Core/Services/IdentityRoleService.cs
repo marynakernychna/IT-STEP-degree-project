@@ -28,12 +28,14 @@ namespace Core.Services
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            // because according to the logic of the project, a user can have only one role
+            // because according to the logic of the project,
+            // a user can have only one role
+
             if (userRoles.Count != 1)
             {
                 throw new HttpException(
-                                ErrorMessages.ROLE_FIND_ERROR,
-                                HttpStatusCode.InternalServerError);
+                    ErrorMessages.ROLE_FIND_ERROR,
+                    HttpStatusCode.InternalServerError);
             }
 
             return userRoles.First();

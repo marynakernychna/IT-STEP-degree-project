@@ -12,7 +12,8 @@ namespace Core.Services
         { }
 
         public string CreateWarePhotoFile(
-            string imageBase64String, string extension)
+            string imageBase64String,
+            string extension)
         {
             var fileName = GenerateFileName();
             var filePath = GenerateNewFilePath(fileName, extension);
@@ -38,7 +39,8 @@ namespace Core.Services
         private static string GetProjectDirectoryPath()
         {
             string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).FullName;
+            string projectDirectory =
+                Directory.GetParent(workingDirectory).FullName;
 
             return projectDirectory;
         }

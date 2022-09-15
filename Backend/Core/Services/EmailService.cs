@@ -33,48 +33,56 @@ namespace Core.Services
         }
 
         public async Task SendConfirmationEmailAsync(
-            User user, string callbackUrl)
+            User user,
+            string callbackUrl)
         {
             var confirmationToken = await _userManager
                 .GenerateEmailConfirmationTokenAsync(user);
 
-            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-            "ConfirmationEmail",
-            new ConfirmationEmailDTO
-            {
-                Name = user.Name,
-                Surname = user.Surname,
-                Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
-            });
+            var message = await _templateHelper
+                .GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
+                    "ConfirmationEmail",
+                    new ConfirmationEmailDTO
+                    {
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
+                    });
 
             await SendEmailAsync(user.Email, "Confirm your account", message);
         }
 
         public async Task SendResetPasswordRequestAsync(
-            User user, string callbackUrl)
+            User user,
+            string callbackUrl)
         {
-            var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetPasswordToken = await _userManager
+                .GeneratePasswordResetTokenAsync(user);
 
-            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-            "ConfirmationResetPasswordEmail",
-            new ConfirmationEmailDTO
-            {
-                Name = user.Name,
-                Surname = user.Surname,
-                Link = callbackUrl + "reset-password/" + resetPasswordToken + "/" + user.Email
-            });
+            var message = await _templateHelper
+                .GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
+                    "ConfirmationResetPasswordEmail",
+                    new ConfirmationEmailDTO
+                    {
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Link = callbackUrl + "reset-password/" +
+                            resetPasswordToken + "/" + user.Email
+                    });
 
             await SendEmailAsync(user.Email, "Confirm password reset", message);
         }
 
         private async Task SendEmailAsync(
-            string email, string subject, string message)
+            string email,
+            string subject,
+            string message)
         {
             var client = new SendGridClient(_appSettings.SendGridKey);
             var from = new EmailAddress(
-                                            _appSettings.SendGridEmail,
-                                            _appSettings.SendGridSenderName
-                                       );
+                _appSettings.SendGridEmail,
+                _appSettings.SendGridSenderName);
+
             var to = new EmailAddress(email, email);
             var plainTextContent = "";
             var msg = MailHelper

@@ -42,7 +42,8 @@ namespace Core.Services
         }
 
         public async Task<UserAutorizationDTO> GenerateForUserAsync(
-            User user, string userRole)
+            User user,
+            string userRole)
         {
             var claims = SetClaims(user, userRole);
             var accessToken = CreateAccessToken(claims);
@@ -64,7 +65,9 @@ namespace Core.Services
         {
             var securityKey = new SymmetricSecurityKey(
                                     Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(
+                securityKey,
+                SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _jwtOptions.Value.Issuer,
@@ -98,7 +101,8 @@ namespace Core.Services
         }
 
         private static IEnumerable<Claim> SetClaims(
-            User user, string userRole)
+            User user,
+            string userRole)
         {
             var claims = new List<Claim>
             {
