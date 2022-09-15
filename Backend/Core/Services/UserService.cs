@@ -23,6 +23,7 @@ namespace Core.Services
         private readonly RoleManager<IdentityRole> _identityRoleManager;
         private readonly UserManager<User> _userManager;
 
+        // If we replace it with an appropriate service, it will cause an initialization loop.
         private readonly IRepository<IdentityUserRole<string>> _identityUserRoleRepository;
         private readonly IRepository<User> _userRepository;
 
@@ -51,11 +52,9 @@ namespace Core.Services
             string newPassword,
             string userId)
         {
-            var user = await GetByIdAsync(userId);
-
             var identityResult = await _userManager
                 .ChangePasswordAsync(
-                    user,
+                    await GetByIdAsync(userId),
                     currentPassword,
                     newPassword
                  );
@@ -63,24 +62,16 @@ namespace Core.Services
             if (!identityResult.Succeeded)
             {
                 throw new HttpException(
-                        ErrorMessages.CHANGE_PASSWORD_FAILED,
-                        HttpStatusCode.InternalServerError);
+                    ErrorMessages.CHANGE_PASSWORD_FAILED,
+                    HttpStatusCode.InternalServerError);
             }
-        }
-
-        public async Task<bool> CheckIfExistsByEmailAsync(
-            string email)
-        {
-            return await _userRepository.AnyAsync(
-                new UserSpecification.GetByEmail(email));
         }
 
         public async Task CheckIfExistsByIdAsync(
             string userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            ExtensionMethods.UserNullCheck(user);
+            ExtensionMethods.UserNullCheck(
+                await _userRepository.GetByIdAsync(userId));
         }
 
         public async Task<bool> CheckPasswordAsync(
@@ -94,32 +85,25 @@ namespace Core.Services
             UserRegistrationDTO userRegistrationDTO,
             string roleName)
         {
-            var isEmailBusy = await CheckIfExistsByEmailAsync(
-                userRegistrationDTO.Email);
-
-            if (isEmailBusy)
+            if (await CheckIfExistsByEmailAsync(userRegistrationDTO.Email))
             {
                 throw new HttpException(
-                        ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
-                        HttpStatusCode.BadRequest);
+                    ErrorMessages.THE_EMAIL_ALREADY_EXISTS,
+                    HttpStatusCode.BadRequest);
             }
 
             var user = _mapper.Map<User>(userRegistrationDTO);
 
-            var createUserResult = await _userManager
-                .CreateAsync(user, userRegistrationDTO.Password);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(
+                await _userManager.CreateAsync(user, userRegistrationDTO.Password));
 
             var userRole = await _identityRoleManager
                 .FindByNameAsync(roleName);
 
             ExtensionMethods.IdentityRoleNullCheck(userRole);
 
-            var addToRoleResult = await _userManager
-                .AddToRoleAsync(user, userRole.Name);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(
+                await _userManager.AddToRoleAsync(user, userRole.Name));
 
             return user;
         }
@@ -127,7 +111,11 @@ namespace Core.Services
         public async Task<User> GetByEmailAsync(
             string email)
         {
-            return await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
+
+            ExtensionMethods.UserNullCheck(user);
+
+            return user;
         }
 
         public async Task<User> GetByIdAsync(
@@ -149,47 +137,41 @@ namespace Core.Services
         public async Task<string> GetIdByEmailAsync(
             string email)
         {
-            var user = await GetByEmailAsync(email);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            return user.Id;
+            return (await GetByEmailAsync(email)).Id;
         }
 
         public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfClientsAsync(
             PaginationFilterDTO paginationFilter)
         {
-            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.Client.ToString());
+            var role = await _identityRoleManager
+                .FindByNameAsync(IdentityRoleNames.Client.ToString());
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
-            var clients = await GetUsersAsync(paginationFilter, role);
-
-            return clients;
+            return await GetUsersAsync(paginationFilter, role);
         }
 
         public async Task<PaginatedList<UserProfileInfoDTO>> GetPageOfCouriersAsync(
             PaginationFilterDTO paginationFilter)
         {
-            var role = await _identityRoleManager.FindByNameAsync(IdentityRoleNames.Courier.ToString());
+            var role = await _identityRoleManager
+                .FindByNameAsync(IdentityRoleNames.Courier.ToString());
 
             ExtensionMethods.IdentityRoleNullCheck(role);
 
-            var couriers = await GetUsersAsync(paginationFilter, role);
-
-            return couriers;
+            return await GetUsersAsync(paginationFilter, role);
         }
 
         public async Task<UserProfileInfoDTO> GetProfileAsync(
             string userId)
         {
-            var user = await GetByIdAsync(userId);
-
-            return _mapper.Map<UserProfileInfoDTO>(user);
+            return _mapper.Map<UserProfileInfoDTO>(await GetByIdAsync(userId));
         }
 
         public async Task ResetPasswordAsync(
-            string userEmail, string resetToken, string newPassword)
+            string userEmail,
+            string resetToken,
+            string newPassword)
         {
             var user = await GetByEmailAsync(userEmail);
 
@@ -201,26 +183,28 @@ namespace Core.Services
             }
 
             if (!await _userManager.VerifyUserTokenAsync(
-                user,
-                _userManager.Options.Tokens.PasswordResetTokenProvider,
-                "ResetPassword",
-                resetToken))
+                    user,
+                    _userManager.Options.Tokens.PasswordResetTokenProvider,
+                    "ResetPassword",
+                    resetToken))
             {
                 throw new HttpException(
                         ErrorMessages.INVALID_TOKEN,
                         HttpStatusCode.BadRequest);
             }
 
-            var identityResult = await _userManager.ResetPasswordAsync(
-                user,
-                resetToken,
-                newPassword);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(identityResult);
+            ExtensionMethods.CheckIdentityResultNullCheck(
+                await _userManager.ResetPasswordAsync(
+                    user,
+                    resetToken,
+                    newPassword)
+                );
         }
 
         public async Task UpdateProfileAsync(
-            UserEditProfileInfoDTO newUserInfo, string userId, string callbackUrl)
+            UserEditProfileInfoDTO newUserInfo,
+            string userId,
+            string callbackUrl)
         {
             var user = await GetByIdAsync(userId);
 
@@ -241,7 +225,7 @@ namespace Core.Services
             if (!newUserInfo.Email.Equals(user.Email))
             {
                 if (await _userRepository.AnyAsync(
-                    new UserSpecification.GetByEmail(newUserInfo.Email)))
+                        new UserSpecification.GetByEmail(newUserInfo.Email)))
                 {
                     throw new HttpException(
                         ErrorMessages.THE_MAIL_SENDING_ERROR,
@@ -260,8 +244,16 @@ namespace Core.Services
             await _userRepository.UpdateAsync(user);
         }
 
+        private async Task<bool> CheckIfExistsByEmailAsync(
+            string email)
+        {
+            return await _userRepository.AnyAsync(
+                new UserSpecification.GetByEmail(email));
+        }
+
         private async Task<PaginatedList<UserProfileInfoDTO>> GetUsersAsync(
-            PaginationFilterDTO paginationFilter, IdentityRole role)
+            PaginationFilterDTO paginationFilter,
+            IdentityRole role)
         {
             var userRoles = await _identityUserRoleRepository.ListAsync(
                 new UserRoleSpecification.GetByUsersByRoleId(paginationFilter, role.Id));
@@ -284,11 +276,11 @@ namespace Core.Services
                 return null;
             }
 
-            var users = await _userRepository.ListAsync(
-                new UserSpecification.GetByUsersIds(userIds));
-
             return PaginatedList<UserProfileInfoDTO>.Evaluate(
-                _mapper.Map<List<UserProfileInfoDTO>>(users),
+                _mapper.Map<List<UserProfileInfoDTO>>(
+                    await _userRepository.ListAsync(
+                        new UserSpecification.GetByUsersIds(userIds))
+                ),
                 paginationFilter.PageNumber,
                 usersCount,
                 totalPages);

@@ -10,14 +10,14 @@ namespace Core.Interfaces.CustomService
     public interface IUserService
     {
         Task ChangePasswordAsync(
-            string currentPassword, string newPassword,
+            string currentPassword,
+            string newPassword,
             string userId);
-        Task<bool> CheckIfExistsByEmailAsync(
-            string email);
         Task CheckIfExistsByIdAsync(
             string userId);
         Task<bool> CheckPasswordAsync(
-            User user, string password);
+            User user,
+            string password);
         Task<User> CreateAsync(
             UserRegistrationDTO userRegistrationDTO,
             string roleName);
@@ -34,10 +34,12 @@ namespace Core.Interfaces.CustomService
         Task<UserProfileInfoDTO> GetProfileAsync(
             string userId);
         Task ResetPasswordAsync(
-            string userEmail, string resetToken,
+            string userEmail,
+            string resetToken,
             string newPassword);
         Task UpdateProfileAsync(
             UserEditProfileInfoDTO userEditProfileInfo,
-            string userId, string callbackUrl);
+            string userId,
+            string callbackUrl);
     }
 }

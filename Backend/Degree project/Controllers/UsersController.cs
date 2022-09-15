@@ -29,9 +29,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfClientsAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var usersInfo = await _userService.GetPageOfClientsAsync(paginationFilter);
-
-            return Ok(usersInfo);
+            return Ok(await _userService
+                .GetPageOfClientsAsync(paginationFilter));
         }
 
         [HttpGet("admins/couriers/page")]
@@ -39,30 +38,29 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageOfCouriersAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var couriers = await _userService.GetPageOfCouriersAsync(paginationFilter);
-
-            return Ok(couriers);
+            return Ok(await _userService
+                .GetPageOfCouriersAsync(paginationFilter));
         }
 
         [HttpGet("profile")]
         [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetClientProfileAsync()
         {
-            var userInfo = await _userService.GetProfileAsync(
-                UserService.GetCurrentUserIdentifier(User));
-
-            return Ok(userInfo);
+            return Ok(await _userService
+                .GetProfileAsync(
+                    UserService.GetCurrentUserIdentifier(User))
+                );
         }
 
         [HttpPut("admins/clients/by-client/profile/update")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> UpdateClientProfileAsync(
-            [FromBody] UserEditProfileInfoDTO newUserInfo, string email)
+            [FromBody] UserEditProfileInfoDTO newUserInfo, string email) /// !!!
         {
-            var userId = await _userService.GetIdByEmailAsync(email);
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
-            await _userService.UpdateProfileAsync(newUserInfo, userId, callbackUrl);
+            await _userService.UpdateProfileAsync(
+                newUserInfo,
+                await _userService.GetIdByEmailAsync(email),
+                Request.GetTypedHeaders().Referer.ToString());
 
             return Ok();
         }
@@ -72,12 +70,11 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateClientProfileAsync(
             [FromBody] UserEditProfileInfoDTO newUserInfo)
         {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
+            ;
             await _userService.UpdateProfileAsync(
                 newUserInfo,
                 UserService.GetCurrentUserIdentifier(User),
-                callbackUrl);
+                Request.GetTypedHeaders().Referer.ToString());
 
             return Ok();
         }
