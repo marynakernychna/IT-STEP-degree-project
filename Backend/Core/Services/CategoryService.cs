@@ -32,10 +32,8 @@ namespace Core.Services
         public async Task CreateAsync(
             CategoryDTO categoryDTO)
         {
-            var isCategoryExist = await _categoryRepository.AnyAsync(
-                new CategorySpecification.GetByTitle(categoryDTO.Title));
-
-            if (isCategoryExist)
+            if (await _categoryRepository.AnyAsync(
+                    new CategorySpecification.GetByTitle(categoryDTO.Title)))
             {
                 throw new HttpException(
                         ErrorMessages.THE_CATEGORY_ALREADY_EXISTS,
@@ -43,9 +41,19 @@ namespace Core.Services
                     );
             }
 
-            var category = _mapper.Map<Category>(categoryDTO);
+            await _categoryRepository.AddAsync(
+                _mapper.Map<Category>(categoryDTO));
+        }
 
-            await _categoryRepository.AddAsync(category);
+        public async Task DeleteAsync(
+            string categoryTitle)
+        {
+            var category = await _categoryRepository.SingleOrDefaultAsync(
+                new CategorySpecification.GetByTitle(categoryTitle));
+
+            ExtensionMethods.CategoryNullCheck(category);
+
+            await _categoryRepository.DeleteAsync(category);
         }
 
         public async Task<List<CategoryDTO>> GetAllAsync()
@@ -104,17 +112,6 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task DeleteAsync(
-            string categoryTitle)
-        {
-            var category = await _categoryRepository.SingleOrDefaultAsync(
-                new CategorySpecification.GetByTitle(categoryTitle));
-
-            ExtensionMethods.CategoryNullCheck(category);
-
-            await _categoryRepository.DeleteAsync(category);
-        }
-
         public async Task UpdateAsync(
             UpdateCategoryDTO updateCategoryDTO)
         {
@@ -125,10 +122,8 @@ namespace Core.Services
                     HttpStatusCode.BadRequest);
             }
 
-            var isCategoryExist = await _categoryRepository.AnyAsync(
-                new CategorySpecification.GetByTitle(updateCategoryDTO.NewTitle));
-
-            if (isCategoryExist)
+            if (await _categoryRepository.AnyAsync(
+                    new CategorySpecification.GetByTitle(updateCategoryDTO.NewTitle)))
             {
                 throw new HttpException(
                     ErrorMessages.THE_CATEGORY_ALREADY_EXISTS,

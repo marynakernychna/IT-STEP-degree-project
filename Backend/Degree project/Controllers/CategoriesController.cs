@@ -26,9 +26,7 @@ namespace API.Controllers
         [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetAllAsync()
         {
-            var categories = await _categoryService.GetAllAsync();
-
-            return Ok(categories);
+            return Ok(await _categoryService.GetAllAsync());
         }
 
         [HttpGet("admins/page")]
@@ -36,9 +34,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageAsync(
             [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var categories = await _categoryService.GetPageAsync(paginationFilter);
-
-            return Ok(categories);
+            return Ok(await _categoryService
+                .GetPageAsync(paginationFilter));
         }
 
         [HttpPost("admins/create")]

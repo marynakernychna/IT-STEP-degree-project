@@ -10,11 +10,11 @@ namespace Core.Interfaces.CustomService
     {
         Task CreateAsync(
             CategoryDTO categoryDTO);
+        Task DeleteAsync(
+            string categoryTitle);
         Task<List<CategoryDTO>> GetAllAsync();
         Task<PaginatedList<CategoryInfoDTO>> GetPageAsync(
             PaginationFilterDTO paginationFilter);
-        Task DeleteAsync(
-            string categoryTitle);
         Task UpdateAsync(
             UpdateCategoryDTO updateCategoryDTO);
     }

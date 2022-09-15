@@ -47,9 +47,7 @@ namespace API.Controllers
         public async Task<IActionResult> LoginAsync(
             [FromBody] UserLoginDTO data)
         {
-            var tokens = await _authenticationService.LoginAsync(data);
-
-            return Ok(tokens);
+            return Ok(await _authenticationService.LoginAsync(data));
         }
 
         [HttpPost("logout")]
@@ -70,12 +68,10 @@ namespace API.Controllers
         public async Task<IActionResult> SendResetPasswordRequestAsync(
             [FromBody] ConfirmationResetPasswordDTO confirmationResetPasswordDTO)
         {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-
             await _authenticationService
                 .SendResetResetPasswordRequestAsync(
                     confirmationResetPasswordDTO.Email,
-                    callbackUrl
+                    Request.GetTypedHeaders().Referer.ToString()
                 );
 
             return Ok();

@@ -28,10 +28,8 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var wares = await _cartService
-                .GetPageByClientAsync(paginationFilterCartDTO);
-
-            return Ok(wares);
+            return Ok(await _cartService
+                .GetPageByClientAsync(paginationFilterCartDTO));
         }
 
         [HttpGet("by-client/page")]
@@ -39,13 +37,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetPageByClientAsync(
             [FromQuery] PaginationFilterDTO paginationFilterDTO)
         {
-            var page = await _cartService
+            return Ok(await _cartService
                 .GetPageByClientAsync(
                     UserService.GetCurrentUserIdentifier(User),
                     paginationFilterDTO
-                );
-
-            return Ok(page);
+                ));
         }
 
         [HttpPut("by-client/add-ware")]
