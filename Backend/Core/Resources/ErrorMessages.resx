@@ -180,6 +180,9 @@
   <data name="PreviousInfoIsTheSame" xml:space="preserve">
     <value>The previous information is the same!</value>
   </data>
+  <data name="ThisYourWare" xml:space="preserve">
+    <value>This is your ware!</value>
+  </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>User not found!</value>
   </data>

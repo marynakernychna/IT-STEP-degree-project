@@ -45,6 +45,13 @@ namespace Core.Services
 
             ExtensionMethods.WareNullCheck(ware);
 
+            if(ware.CreatorId == userId)
+            {
+                throw new HttpException(
+                    ErrorMessages.ThisYourWare,
+                    HttpStatusCode.BadRequest);
+            }
+
             var cart = await _cartRepository.SingleOrDefaultAsync(
                 new CartSpecification.GetByCreatorId(userId));
 

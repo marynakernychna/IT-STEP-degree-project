@@ -250,6 +250,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is your ware!.
+        /// </summary>
+        internal static string ThisYourWare {
+            get {
+                return ResourceManager.GetString("ThisYourWare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User not found!.
         /// </summary>
         internal static string UserNotFound {
