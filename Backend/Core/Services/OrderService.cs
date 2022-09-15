@@ -247,6 +247,13 @@ namespace Core.Services
             var order = await _orderRepository.SingleOrDefaultAsync(
                 new OrderSpecification.GetByCreatorIdAndId(userId, changeOrderInfoDTO.OrderId));
 
+            if (order.IsAcceptedByCourier || order.IsAcceptedByClient)
+            {
+                throw new HttpException(
+                    ErrorMessages.DeliveryAlreadyConfirmed,
+                    HttpStatusCode.InternalServerError);
+            }
+
             ExtensionMethods.OrderNullCheck(order);
 
             if (newInfo.Address == order.Address &&
@@ -313,6 +320,13 @@ namespace Core.Services
                     new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
 
                 ExtensionMethods.OrderNullCheck(order);
+
+                if (order.CourierId == null)
+                {
+                    throw new HttpException(
+                        ErrorMessages.CourierNotYetPickedOrder,
+                        HttpStatusCode.BadRequest);
+                }
 
                 if (order.IsAcceptedByClient)
                 {

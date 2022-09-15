@@ -51,4 +51,8 @@ export default class ordersService {
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
+
+    static change(model) {
+        return instance.put(ORDERS_URLS.CHANGE_ORDER_INFO, model);
+    }
 }

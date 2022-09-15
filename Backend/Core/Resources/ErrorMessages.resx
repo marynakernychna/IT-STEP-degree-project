@@ -135,6 +135,12 @@
   <data name="CharacteristicNameDuplicateInWare" xml:space="preserve">
     <value>Duplicate name of the characteristic in a ware!</value>
   </data>
+  <data name="CourierNotYetPickedOrder" xml:space="preserve">
+    <value>The courier has not yet picked the order!</value>
+  </data>
+  <data name="DeliveryAlreadyConfirmed" xml:space="preserve">
+    <value>Delivery already confirmed!</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>There is already a user with this email!</value>
   </data>
