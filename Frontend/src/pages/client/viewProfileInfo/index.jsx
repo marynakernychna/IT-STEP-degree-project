@@ -80,10 +80,6 @@ const ViewProfileInfoPage = () => {
         });
     };
 
-    if (user === undefined) {
-        return <>Loading...</>
-    }
-
     return (
         <Spin size="large" spinning={loading}>
             <Layout className="viewProfileInfoPage">
