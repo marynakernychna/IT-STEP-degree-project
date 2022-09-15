@@ -321,7 +321,7 @@ namespace Core.Services
 
                 ExtensionMethods.OrderNullCheck(order);
 
-                if (order.Courier == null)
+                if (order.CourierId == null)
                 {
                     throw new HttpException(
                         ErrorMessages.CourierNotYetPickedOrder,
