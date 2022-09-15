@@ -135,6 +135,12 @@
   <data name="PASSWORDS_DO_NOT_MATCH" xml:space="preserve">
     <value>The passwords do not match!</value>
   </data>
+  <data name="OrderWasNotPicked" xml:space="preserve">
+    <value>The courier has not yet picked the order!</value>
+  </data>
+  <data name="DeliveryAlreadyConfirmed" xml:space="preserve">
+    <value>Delivery already confirmed!</value>
+  </data>
   <data name="THE_CART_IS_EMPTY" xml:space="preserve">
     <value>The cart is empty!</value>
   </data>

@@ -207,3 +207,43 @@ export async function resetPassword(model, history) {
                 );
             });
 }
+
+export async function registerCourier(userData) {
+
+    const model = {
+        name: userData.name,
+        surname: userData.surname,
+        phoneNumber: userData.phoneNumber,
+        email: userData.email,
+        password: userData.password
+    };
+
+    return await authenticationService
+        .registerCourier(model)
+        .then(
+            () => {
+                successMessage(
+                    authenticationMessages.SUCCESSFUL_REGISTRATION
+                );
+
+                return true;
+            },
+            (err) => {
+                err.response.status === statusCodes.BAD_REQUEST
+                    ? errorMessage(
+                        authenticationMessages.REGISTRATION_FAILED,
+                        authenticationMessages.REGISTRATION_FAILED_COURIER_ALREADY_EXIST
+                    )
+                    : errorMessage(
+                        authenticationMessages.REGISTRATION_FAILED,
+                        generalMessages.SOMETHING_WENT_WRONG
+                    );
+            }
+        )
+        .catch(() => {
+            errorMessage(
+                authenticationMessages.REGISTRATION_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}

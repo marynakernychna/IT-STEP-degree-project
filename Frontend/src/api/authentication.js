@@ -25,4 +25,8 @@ export default class authenticationService {
     static resetPassword(model) {
         return instance.put(AUTHENTICATION_URLS.RESET_PASSWORD, model);
     }
+
+    static registerCourier(data) {
+        return instance.post(AUTHENTICATION_URLS.REGISTER_COURIER, data);
+    }
 }

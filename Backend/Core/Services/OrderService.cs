@@ -70,6 +70,13 @@ namespace Core.Services
 
                 ExtensionMethods.OrderNullCheck(order);
 
+                if (order.CourierId == null)
+                {
+                    throw new HttpException(
+                        ErrorMessages.ORDER_WAS_NOT_PICKED,
+                        HttpStatusCode.BadRequest);
+                }
+
                 if (order.IsAcceptedByClient)
                 {
                     throw new HttpException(
@@ -370,6 +377,13 @@ namespace Core.Services
                 new OrderSpecification.GetByCreatorIdAndId(userId, changeOrderInfoDTO.OrderId));
 
             ExtensionMethods.OrderNullCheck(order);
+
+            if (order.IsAcceptedByCourier || order.IsAcceptedByClient)
+            {
+                throw new HttpException(
+                    ErrorMessages.DELIVERY_ALREADY_CONFIRMED,
+                    HttpStatusCode.InternalServerError);
+            }
 
             if (newInfo.Address == order.Address &&
                 newInfo.City == order.City &&

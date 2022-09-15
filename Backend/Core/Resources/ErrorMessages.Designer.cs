@@ -115,6 +115,24 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order was not picked!.
+        /// </summary>
+        internal static string ORDER_WAS_NOT_PICKED {
+            get {
+                return ResourceManager.GetString("OrderWasNotPicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivery already confirmed!.
+        /// </summary>
+        internal static string DELIVERY_ALREADY_CONFIRMED {
+            get {
+                return ResourceManager.GetString("DeliveryAlreadyConfirmed", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Error finding user role!.
         /// </summary>
         internal static string ROLE_FIND_ERROR {

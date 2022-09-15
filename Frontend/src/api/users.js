@@ -21,4 +21,10 @@ export default class usersService {
     static editUserInfo(model) {
         return instance.post(USERS_URLS.EDIT_USER_INFO, model);
     }
+
+    static getCouriersInfo(paginationFilterModel) {
+        return instance.get(USERS_URLS.VIEW_COURIERS_INFO +
+            `?PageNumber=${paginationFilterModel.pageNumber}
+             &PageSize=${paginationFilterModel.pageSize}`);
+    }
 }

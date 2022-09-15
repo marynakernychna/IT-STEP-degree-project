@@ -26,6 +26,9 @@ export const adminItems = [
     getItem("Categories", 'sub2', <TagsOutlined />, [
         getItem("View & manage", pageUrls.CATEGORIES_VIEW_AND_MANAGE)
     ]),
+    getItem("Courier", 'sub3', <TagsOutlined />, [
+        getItem("View & create", pageUrls.COURIERS_VIEW_AND_CREATE)
+    ]),
     getItem("Logout", "Logout", <LogoutOutlined />)
 ];
 
