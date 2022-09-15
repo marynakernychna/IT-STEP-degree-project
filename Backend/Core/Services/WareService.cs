@@ -164,27 +164,14 @@ namespace Core.Services
                 totalPages);
         }
 
-        public async Task<WareInfoDTO> GetByIdAsync(
+        public async Task<Ware> GetByIdAsync(
             int id)
         {
-            var ware = await _wareRepository.SingleOrDefaultAsync(
-                new WareSpecification.GetById(id));
+            var ware = await _wareRepository.GetByIdAsync(id);
 
             ExtensionMethods.WareNullCheck(ware);
 
-            return new WareInfoDTO
-            {
-                Title = ware.Title,
-                Description = ware.Description,
-                CreatorFullName = ware.Creator.Name + ' ' + ware.Creator.Surname,
-                Cost = ware.Cost,
-                PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
-                AvailableCount = ware.AvailableCount,
-                CreationDate = ware.CreationDate,
-                CategoryTitle = ware.Category.Title,
-                Characteristics = _mapper
-                    .Map<List<CharacteristicWithoutWareIdDTO>>(ware.Characteristics)
-            };
+            return ware;
         }
 
         public async Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
@@ -234,6 +221,29 @@ namespace Core.Services
                 pageNumber,
                 waresCount,
                 totalPages);
+        }
+
+        public async Task<WareInfoDTO> FormWareInfoDTOByIdAsync(
+            int id)
+        {
+            var ware = await _wareRepository.SingleOrDefaultAsync(
+                new WareSpecification.GetById(id));
+
+            ExtensionMethods.WareNullCheck(ware);
+
+            return new WareInfoDTO
+            {
+                Title = ware.Title,
+                Description = ware.Description,
+                CreatorFullName = ware.Creator.Name + ' ' + ware.Creator.Surname,
+                Cost = ware.Cost,
+                PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
+                AvailableCount = ware.AvailableCount,
+                CreationDate = ware.CreationDate,
+                CategoryTitle = ware.Category.Title,
+                Characteristics = _mapper
+                    .Map<List<CharacteristicWithoutWareIdDTO>>(ware.Characteristics)
+            };
         }
     }
 }

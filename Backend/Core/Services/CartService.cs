@@ -37,7 +37,14 @@ namespace Core.Services
             string userId,
             int wareId)
         {
-            await _wareService.CheckIfExistsByIdAsync(wareId);
+            var ware = await _wareService.GetByIdAsync(wareId);
+
+            if (ware.CreatorId == userId)
+            {
+                throw new HttpException(
+                    ErrorMessages.THIS_IS_YOUR_WARE,
+                    HttpStatusCode.BadRequest);
+            }
 
             var cart = await _cartRepository
                 .SingleOrDefaultAsync(

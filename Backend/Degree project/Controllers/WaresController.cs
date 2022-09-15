@@ -41,7 +41,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetByIdAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var ware = await _wareService.GetByIdAsync(entityIdDTO.Id);
+            var ware = await _wareService.FormWareInfoDTOByIdAsync(entityIdDTO.Id);
 
             return Ok(ware);
         }

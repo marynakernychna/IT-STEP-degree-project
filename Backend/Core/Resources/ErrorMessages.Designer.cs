@@ -104,7 +104,7 @@ namespace Core.Resources {
                 return ResourceManager.GetString("INVALID_TOKEN", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The passwords do not match!.
         /// </summary>
@@ -113,22 +113,22 @@ namespace Core.Resources {
                 return ResourceManager.GetString("PASSWORDS_DO_NOT_MATCH", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Order was not picked!.
         /// </summary>
         internal static string ORDER_WAS_NOT_PICKED {
             get {
-                return ResourceManager.GetString("OrderWasNotPicked", resourceCulture);
+                return ResourceManager.GetString("ORDER_WAS_NOT_PICKED", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delivery already confirmed!.
         /// </summary>
         internal static string DELIVERY_ALREADY_CONFIRMED {
             get {
-                return ResourceManager.GetString("DeliveryAlreadyConfirmed", resourceCulture);
+                return ResourceManager.GetString("DELIVERY_ALREADY_CONFIRMED", resourceCulture);
             }
         }
 
@@ -221,7 +221,7 @@ namespace Core.Resources {
                 return ResourceManager.GetString("THE_NEW_INFO_IS_THE_SAME_AS_PREVIOUS", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The order is already picked!.
         /// </summary>
@@ -291,6 +291,15 @@ namespace Core.Resources {
         internal static string THE_WARE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("THE_WARE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot add your ware to the cart!.
+        /// </summary>
+        internal static string THIS_IS_YOUR_WARE {
+            get {
+                return ResourceManager.GetString("THIS_IS_YOUR_WARE", resourceCulture);
             }
         }
     }
