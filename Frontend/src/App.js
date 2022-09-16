@@ -25,7 +25,8 @@ import ViewAvailableOrders from './pages/courier/orders/available/index';
 import OpenOrders from './pages/client/orders/view/index';
 import ViewPickedOrders from './pages/courier/orders/picked/index';
 import ViewDeliveredOrders from './components/deliveredOrders/index';
-import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index'
+import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index';
+import HomePage from './pages/home/index'
 
 const history = createBrowserHistory();
 
@@ -142,6 +143,13 @@ export default function App() {
                     path={pageUrls.LOGIN}
                 >
                     <LoginPage />
+                </Route>
+
+                <Route
+                    exact
+                    path={pageUrls.HOME_PAGE}
+                >
+                    <HomePage />
                 </Route>
 
                 <Redirect to="/login" />    {/* there will be a 404 page later */}
