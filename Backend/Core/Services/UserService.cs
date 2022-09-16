@@ -236,7 +236,6 @@ namespace Core.Services
                 user.UserName = newUserInfo.Email;
                 user.NormalizedEmail = newUserInfo.Email.ToUpper();
                 user.NormalizedUserName = newUserInfo.Email.ToUpper();
-                user.EmailConfirmed = false;
 
                 await _emailService.SendConfirmationEmailAsync(user, callbackUrl);
             }

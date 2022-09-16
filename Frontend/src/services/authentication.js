@@ -9,7 +9,7 @@ import { userRoles } from '../constants/userRoles';
 import { pageUrls } from './../constants/pageUrls';
 import tokenService from './tokens';
 
-export function registerUser(userData, history) {
+export async function registerUser(userData, history) {
 
     const model = {
         name: userData.name,
@@ -19,7 +19,7 @@ export function registerUser(userData, history) {
         password: userData.password
     };
 
-    authenticationService
+    await authenticationService
         .clientRegister(model)
         .then(
             () => {
@@ -49,14 +49,14 @@ export function registerUser(userData, history) {
         });
 }
 
-export function loginUser(userData, history) {
+export async function loginUser(userData, history) {
 
     const model = {
         email: userData.email,
         password: userData.password
     };
 
-    authenticationService
+    await authenticationService
         .login(model)
         .then(
             (response) => {

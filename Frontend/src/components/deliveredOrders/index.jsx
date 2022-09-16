@@ -56,7 +56,7 @@ const ViewDeliveredOrders = () => {
                     :
                     <Result
                         status="404"
-                        title="There are no orders yet!"
+                        title="There are no delivered orders yet!"
                     />
                 }
             </div>

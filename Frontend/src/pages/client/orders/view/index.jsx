@@ -56,7 +56,7 @@ const OpenOrders = () => {
                     :
                     <Result
                         status="404"
-                        title="There are no orders yet!"
+                        title="There are no open orders yet!"
                     />
                 }
             </div>

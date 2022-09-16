@@ -14,9 +14,9 @@ function RegistrationPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         setLoading(true);
-        registerUser(values, history);
+        await registerUser(values, history);
         setLoading(false);
     };
 

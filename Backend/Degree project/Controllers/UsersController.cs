@@ -69,11 +69,13 @@ namespace API.Controllers
         }
 
         [HttpPut("profile/update")]
-        [AuthorizeByRole(IdentityRoleNames.Client)]
+        [AuthorizeByRole(
+            IdentityRoleNames.Admin,
+            IdentityRoleNames.Client,
+            IdentityRoleNames.Courier)]
         public async Task<IActionResult> UpdateClientProfileAsync(
             [FromBody] UserEditProfileInfoDTO newUserInfo)
         {
-            ;
             await _userService.UpdateProfileAsync(
                 newUserInfo,
                 UserService.GetCurrentUserIdentifier(User),
