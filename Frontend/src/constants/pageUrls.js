@@ -15,5 +15,6 @@ export const pageUrls = {
     PICKED_ORDERS: "/orders/picked",
     DELIVERED_ORDERS: "/orders/delivered",
     COURIERS_VIEW_AND_CREATE: "/couriers/view-and-create",
-    HOME_PAGE: "/"
+    HOME_PAGE: "/",
+    CONFIRM_EMAIL: "/confirm-email"
 };

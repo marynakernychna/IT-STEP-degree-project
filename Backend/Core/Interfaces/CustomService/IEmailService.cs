@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.DTO.Email;
+using Core.Entities;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces.CustomService
@@ -11,5 +12,7 @@ namespace Core.Interfaces.CustomService
         Task SendResetPasswordRequestAsync(
             User user,
             string callbackUrl);
+        Task ConfirmEmailAsync(
+            EmailConfirmationTokenRequestDTO request);
     }
 }

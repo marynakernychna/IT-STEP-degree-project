@@ -27,6 +27,7 @@ import ViewDeliveredOrders from './components/deliveredOrders/index';
 import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index';
 import HomePage from './pages/home/index';
 import ErrorPage from './components/page404/index';
+import ConfirmEmailPage from "./pages/authentication/confirmEmail";
 
 const history = createBrowserHistory();
 
@@ -124,6 +125,12 @@ export default function App() {
                     allowedRoles={[userRoles.ADMIN]}
                     component={ViewAndCreateCouriersPage}
                 />
+
+                <Route
+                    path={pageUrls.CONFIRM_EMAIL}
+                >
+                    <ConfirmEmailPage />
+                </Route>
 
                 <Route
                     path={pageUrls.RESET_PASSWORD}

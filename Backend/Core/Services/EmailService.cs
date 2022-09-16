@@ -5,6 +5,7 @@ using Core.Helpers;
 using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
+using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SendGrid;
@@ -22,14 +23,18 @@ namespace Core.Services
 
         private readonly ITemplateHelper _templateHelper;
 
+        private readonly IRepository<User> _userRepository;
+
         public EmailService(
             IOptions<AppSettings> appSettings,
             UserManager<User> userManager,
-            ITemplateHelper templateHelper)
+            ITemplateHelper templateHelper,
+            IRepository<User> userRepository)
         {
             _appSettings = appSettings.Value;
             _userManager = userManager;
             _templateHelper = templateHelper;
+            _userRepository = userRepository;
         }
 
         public async Task SendConfirmationEmailAsync(
@@ -46,7 +51,8 @@ namespace Core.Services
                     {
                         Name = user.Name,
                         Surname = user.Surname,
-                        Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
+                        Link = callbackUrl + "confirm-email/" +
+                            confirmationToken + "/" + user.Email
                     });
 
             await SendEmailAsync(user.Email, "Confirm your account", message);
@@ -95,6 +101,38 @@ namespace Core.Services
                 throw new HttpException(
                     ErrorMessages.THE_MAIL_SENDING_ERROR,
                     HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public async Task ConfirmEmailAsync(
+            EmailConfirmationTokenRequestDTO emailConfirmationTokenRequestDTO)
+        {
+            var user = await _userRepository.SingleOrDefaultAsync(
+                new UserSpecification.GetByEmail(emailConfirmationTokenRequestDTO.Email));
+
+            ExtensionMethods.UserNullCheck(user);
+
+            if (!user.EmailConfirmed)
+            {
+                var confirm = await _userManager
+                    .ConfirmEmailAsync(user, emailConfirmationTokenRequestDTO.Token);
+
+                if (!confirm.Succeeded)
+                {
+                    throw new HttpException(
+                        ErrorMessages.THE_MAIL_SENDING_ERROR,
+                        HttpStatusCode.BadRequest);
+                }
+
+                user.EmailConfirmed = true;
+
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_MAIL_SENDING_ERROR,
+                    HttpStatusCode.BadRequest);
             }
         }
     }

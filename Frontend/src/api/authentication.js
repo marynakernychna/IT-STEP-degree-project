@@ -29,4 +29,9 @@ export default class authenticationService {
     static courierRegister(data) {
         return instance.post(AUTHENTICATION_URLS.COURIER_REGISTER, data);
     }
+
+    static confirmEmail(model) {
+        console.log(model)
+        return instance.post(AUTHENTICATION_URLS.CONFIRM_EMAIL, model);
+    }
 }

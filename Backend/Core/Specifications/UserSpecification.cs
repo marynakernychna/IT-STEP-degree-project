@@ -21,8 +21,7 @@ namespace Core.Specifications
         {
             public GetByEmail(string email)
             {
-                Query.Where(u => u.Email == email)
-                     .AsNoTracking();
+                Query.Where(u => u.Email == email);
             }
         }
     }

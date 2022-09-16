@@ -1,5 +1,6 @@
 using Core.Constants;
 using Core.DTO.Authentication;
+using Core.DTO.Email;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
@@ -15,11 +16,14 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEmailService _emailService;
 
         public AuthenticationController(
-                IAuthenticationService authenticationService)
+                IAuthenticationService authenticationService,
+                IEmailService emailService)
         {
             _authenticationService = authenticationService;
+            _emailService = emailService;
         }
 
         [HttpPost("clients/register")]
@@ -103,6 +107,16 @@ namespace API.Controllers
         {
             await _authenticationService
                 .ResetPasswordAsync(resetPasswordDTO);
+
+            return Ok();
+        }
+
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmailAsync(
+            [FromBody] EmailConfirmationTokenRequestDTO emailConfirmationTokenRequestDTO)
+        {
+            await _emailService
+                .ConfirmEmailAsync(emailConfirmationTokenRequestDTO);
 
             return Ok();
         }

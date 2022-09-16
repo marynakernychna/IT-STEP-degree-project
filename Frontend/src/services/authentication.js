@@ -254,3 +254,29 @@ export async function registerCourier(userData) {
             );
         });
 }
+
+export async function confirmEmailAsync(token, email) {
+    const model = {
+        email: email,
+        token: token
+    };
+
+    return authenticationService
+        .confirmEmail(model)
+        .then(
+            () => {
+                successMessage(authenticationMessages.SUCCESSFUL_EMAIL_CONFIRMATION);
+            },
+            () => {
+                errorMessage(
+                    authenticationMessages.SEND_EMAIL_CONFIRMATION_FAILED,
+                    authenticationMessages.EMAIL_ALREADY_CONFIRIMED
+                );
+            })
+        .catch(() => {
+            errorMessage(
+                authenticationMessages.SEND_EMAIL_CONFIRMATION_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}

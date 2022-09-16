@@ -14,6 +14,7 @@ export const AUTHENTICATION_URLS = {
     RESET_PASSWORD_REQUEST: AUTHENTICATION_URL + "/reset-password-request",
     RESET_PASSWORD: AUTHENTICATION_URL + "/reset-password",
     COURIER_REGISTER: AUTHENTICATION_URL + "/couriers/register",
+    CONFIRM_EMAIL: AUTHENTICATION_URL + "/confirm-email"
 };
 
 export const USERS_URLS = {
