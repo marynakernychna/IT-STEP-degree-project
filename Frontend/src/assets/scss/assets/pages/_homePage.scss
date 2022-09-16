@@ -1,0 +1,74 @@
+@import '../variables/colors';
+
+.main {
+    background-color: black;
+    height: 100ch;
+
+    .contentBlock {
+        border-radius: 8px;
+        position: absolute;
+        background-size: 100% 100%;
+        background-color: transparent;
+        width: 85%;
+        height: 30%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        table {
+            height: 100%;
+            margin-right: 0;
+
+            #info {
+                width: 65%;
+                padding-right: 10%;
+
+                div {
+                    text-align: right;
+
+                    h1 {
+                        font-size: 40px, ;
+                        font-family: sans-serif, ;
+                        color: white;
+                        margin: 0;
+                        height: 100%;
+                    }
+                }
+            }
+
+            #line {
+                padding: 0 20px;
+
+                div {
+                    height: 250%;
+                    border-left: 6px solid white;
+                    margin: 0, 50px;
+                }
+            }
+
+            #login {
+                padding: 0;
+                width: 35%;
+
+                div {
+                    text-align: left;
+                    padding-left: 10%;
+
+                    h1 {
+                        font-size: 40px, ;
+                        font-family: sans-serif, ;
+                        color: white;
+                        margin: 0;
+                        height: 100%;
+                    }
+
+                    Button {
+                        margin-top: 3%;
+                        height: 50px;
+                        width: 40%;
+                    }
+                }
+            }
+        }
+    }
+}
