@@ -69,13 +69,16 @@ namespace Core.Services
         }
 
         public async Task RegisterClientAsync(
-            UserRegistrationDTO userRegistrationDTO)
+            UserRegistrationDTO userRegistrationDTO,
+            string callbackUrl)
         {
             var client = await _userService.CreateAsync(
                 userRegistrationDTO,
                 IdentityRoleNames.Client.ToString());
 
             await _cartService.CreateAsync(client);
+
+            await _emailService.SendConfirmationEmailAsync(client, callbackUrl);
         }
 
         public async Task RegisterCourierAsync(

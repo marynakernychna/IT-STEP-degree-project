@@ -3,27 +3,27 @@ import { USERS_URLS } from './../constants/api/urls';
 
 export default class usersService {
 
-    static getBriefUsersInfo(paginationFilterModel) {
-        return instance.get(USERS_URLS.BRIEF_USERS_INFO +
+    static getPageOfClients(paginationFilterModel) {
+        return instance.get(USERS_URLS.VIEW_PAGE_OF_CLIENTS +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
-    static getUserInfo() {
-        return instance.get(USERS_URLS.VIEW_PROFILE_INFO);
+    static getUserProfile() {
+        return instance.get(USERS_URLS.PROFILE);
     }
 
-    static editClientInfo(model, userEmail) {
-        return instance.post(USERS_URLS.EDIT_CLIENT_INFO +
+    static updateClientsProfile(model, userEmail) {
+        return instance.put(USERS_URLS.UPDATE_CLIENT_PROFILE +
             `?email=${userEmail}`, model);
     }
 
-    static editUserInfo(model) {
-        return instance.post(USERS_URLS.EDIT_USER_INFO, model);
+    static updateProfile(model) {
+        return instance.put(USERS_URLS.UPDATE_PROFILE, model);
     }
 
-    static getCouriersInfo(paginationFilterModel) {
-        return instance.get(USERS_URLS.VIEW_COURIERS_INFO +
+    static getPageOfCouiers(paginationFilterModel) {
+        return instance.get(USERS_URLS.VIEW_PAGE_OF_COURIERS +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }

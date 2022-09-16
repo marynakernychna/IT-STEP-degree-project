@@ -20,7 +20,7 @@ export function registerUser(userData, history) {
     };
 
     authenticationService
-        .registerUser(model)
+        .clientRegister(model)
         .then(
             () => {
                 successMessage(
@@ -57,15 +57,16 @@ export function loginUser(userData, history) {
     };
 
     authenticationService
-        .loginUser(model)
+        .login(model)
         .then(
             (response) => {
+                
                 store.dispatch(setAccess(response.data));
 
                 const role = store.getState().authenticationReducer.userRole;
 
                 switch (role) {
-                    case userRoles.USER:
+                    case userRoles.CLIENT:
                         history.push(pageUrls.VIEW_GOODS);
                         break;
                     case userRoles.ADMIN:
@@ -154,7 +155,7 @@ export async function changePassword(model) {
 export async function requestPasswordReset(model) {
 
     return await
-        authenticationService.requestPasswordReset(model)
+        authenticationService.sendResetPasswordRequest(model)
             .then(
                 () => {
                     successMessage(authenticationMessages.SEND_REQUES_SUCCESS);
@@ -219,7 +220,7 @@ export async function registerCourier(userData) {
     };
 
     return await authenticationService
-        .registerCourier(model)
+        .courierRegister(model)
         .then(
             () => {
                 successMessage(

@@ -27,7 +27,10 @@ namespace API.Controllers
             [FromBody] UserRegistrationDTO userRegistrationDTO)
         {
             await _authenticationService
-                .RegisterClientAsync(userRegistrationDTO);
+                .RegisterClientAsync(
+                    userRegistrationDTO,
+                    Request.GetTypedHeaders().Referer.ToString()
+                );
 
             return Ok();
         }

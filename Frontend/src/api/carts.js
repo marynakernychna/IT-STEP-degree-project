@@ -3,23 +3,23 @@ import { CARTS_URLS } from '../constants/api/urls';
 
 export default class cartsService {
 
-    static getByUser(paginationFilterModel) {
-        return instance.get(CARTS_URLS.GET_BY_USER +
+    static getPageByClient(paginationFilterModel) {
+        return instance.get(CARTS_URLS.GET_PAGE_BY_CLIENT +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
-    static deleteWareByUser(goodId) {
-        return instance.delete(CARTS_URLS.DELETE_WARE_BY_USER +
+    static deleteWareByClient(goodId) {
+        return instance.delete(CARTS_URLS.DELETE_WARE_BY_CLIENT +
             `?Id=${goodId}`);
     }
 
-    static addWareByUser(model) {
-        return instance.post(CARTS_URLS.ADD_WARE_BY_USER, model);
+    static addWareByClient(model) {
+        return instance.put(CARTS_URLS.ADD_WARE_BY_CLIENT, model);
     }
 
-    static getByUserAdmin(paginationFilterModel) {
-        return instance.get(CARTS_URLS.GET_BY_USER_ADMIN +
+    static getPageByClientAdmin(paginationFilterModel) {
+        return instance.get(CARTS_URLS.GET_PAGE_BY_CLIENT_ADMIN +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}
              &UserEmail=${paginationFilterModel.userEmail}`);

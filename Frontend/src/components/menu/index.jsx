@@ -14,7 +14,7 @@ function CustomMenu() {
 
     useEffect(async () => {
         switch(store.getState().authenticationReducer.userRole) {
-            case userRoles.USER:
+            case userRoles.CLIENT:
                 setMenuType(userItems);
                 break;
             case userRoles.COURIER:

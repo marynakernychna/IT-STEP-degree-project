@@ -7,7 +7,7 @@ import { cartsMessages } from './../constants/messages/carts';
 export function getCartByUser(paginationFilterModel) {
 
     return cartsService
-        .getByUser(paginationFilterModel)
+        .getPageByClient(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -34,7 +34,7 @@ export function getCartByUser(paginationFilterModel) {
 export function deleteWareFromCartByUser(goodId) {
 
     return cartsService
-        .deleteWareByUser(goodId)
+        .deleteWareByClient(goodId)
         .then(
             () => {
                 successMessage(
@@ -61,7 +61,7 @@ export function deleteWareFromCartByUser(goodId) {
 export function addWareToCartByUser(goodId) {
 
     return cartsService
-        .addWareByUser({ id: goodId })
+        .addWareByClient({ id: goodId })
         .then(
             () => {
                 successMessage(
@@ -94,7 +94,7 @@ export function addWareToCartByUser(goodId) {
 export function getCartByUserAdmin(paginationFilterModel) {
 
     return cartsService
-        .getByUserAdmin(paginationFilterModel)
+        .getPageByClientAdmin(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {

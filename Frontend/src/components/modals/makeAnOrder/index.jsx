@@ -1,9 +1,10 @@
 import React from 'react';
 import { generalMessages } from '../../../constants/messages/general';
 import { confirmMessage, errorMessage } from '../../../services/alerts';
-import { orderAll } from './../../../services/orders';
+import { create } from './../../../services/orders';
 import { Modal, Form, Input, Button, InputNumber } from 'antd';
 import InputRules from './../../../constants/inputRules';
+import { inputValidationErrorMessages } from './../../../constants/messages/inputValidationErrors';
 
 const { TextArea } = Input;
 
@@ -21,7 +22,7 @@ function MakeAnOderModal(props) {
         confirmMessage()
             .then((result) => {
                 if (result) {
-                    orderAll({
+                    create({
                         address: values.address + ' ' + values.buildingNumber,
                         city: values.city,
                         country: values.country
@@ -84,7 +85,7 @@ function MakeAnOderModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_ADDRESS
                         )
                     ]}
                 >
@@ -104,7 +105,7 @@ function MakeAnOderModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_CITY
                         )
                     ]}
                 >
@@ -124,7 +125,7 @@ function MakeAnOderModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_COUNTRY
                         )
                     ]}
                 >

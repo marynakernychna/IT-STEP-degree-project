@@ -43,8 +43,11 @@ namespace API.Controllers
         }
 
         [HttpGet("profile")]
-        [AuthorizeByRole(IdentityRoleNames.Client)]
-        public async Task<IActionResult> GetClientProfileAsync()
+        [AuthorizeByRole(
+            IdentityRoleNames.Admin,
+            IdentityRoleNames.Client,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetUserProfileAsync()
         {
             return Ok(await _userService
                 .GetProfileAsync(

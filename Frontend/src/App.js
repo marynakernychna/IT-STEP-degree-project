@@ -36,28 +36,28 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_GOODS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={ViewGoods}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.CREATE_GOOD}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={CreateGoodPage}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.CART}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={Cart}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_PROFILE_INFO}
-                    allowedRoles={[userRoles.USER, userRoles.COURIER, userRoles.ADMIN]}
+                    allowedRoles={[userRoles.CLIENT, userRoles.COURIER, userRoles.ADMIN]}
                     component={ViewProfileInfoPage}
                 />
 
@@ -99,21 +99,21 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_MY_GOODS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={ViewMyGoodsPage}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.OPEN_ORDERS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={OpenOrders}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.DELIVERED_ORDERS}
-                    allowedRoles={[userRoles.USER, userRoles.COURIER]}
+                    allowedRoles={[userRoles.CLIENT, userRoles.COURIER]}
                     component={ViewDeliveredOrders}
                 />
 

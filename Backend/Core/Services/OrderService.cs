@@ -81,7 +81,8 @@ namespace Core.Services
             }
             else if (userRole == IdentityRoleNames.Courier.ToString())
             {
-                var order = await GetByCreatorIdAndIdAsync(userId, orderId);
+                var order = await _orderRepository.SingleOrDefaultAsync(
+                    new OrderSpecification.GetByCourierIdAndId(userId, orderId));
 
                 if (order.IsAcceptedByCourier)
                 {
@@ -330,8 +331,7 @@ namespace Core.Services
 
             if (userRole == IdentityRoleNames.Client.ToString())
             {
-                var order = await _orderRepository.SingleOrDefaultAsync(
-                    new OrderSpecification.GetByCreatorIdAndId(userId, orderId));
+                var order = await GetByCreatorIdAndIdAsync(userId, orderId);
 
                 ExtensionMethods.OrderNullCheck(order);
                 ExtensionMethods.OrderNotConfirmedClientCheck(order);

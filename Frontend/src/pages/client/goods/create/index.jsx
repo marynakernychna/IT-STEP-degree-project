@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Input, InputNumber, Select, Button, Table, Form, Spin } from 'antd';
+import { useHistory } from 'react-router-dom';
 import { getCategories } from '../../../../services/categories';
 import Upload from 'antd/lib/upload/Upload';
 import ImgCrop from 'antd-img-crop';
@@ -15,6 +16,8 @@ import { createGood } from '../../../../services/goods';
 const { TextArea } = Input;
 
 const CreateGoodPage = () => {
+    let history = useHistory();
+
     const [categories, setCategories] = useState([]);
     const [characteristics, setCharacteristics] = useState([]);
     const [characteristicName, setCharacteristicName] = useState("");
@@ -110,7 +113,8 @@ const CreateGoodPage = () => {
             characteristics: characteristics
         };
 
-        createGood(model);
+        createGood(model, history);
+        setLoading(false);
     };
 
     const addCharacteristic = () => {
