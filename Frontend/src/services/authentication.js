@@ -83,7 +83,13 @@ export async function loginUser(userData, history) {
                         break;
                 }
             },
-            () => {
+            (err) => {
+                err.response.status === 404 ?
+                errorMessage(
+                    authenticationMessages.INVALID_CREDENTIALS,
+                    ""
+                )
+                :
                 errorMessage(
                     authenticationMessages.LOGIN_FAILED,
                     generalMessages.SOMETHING_WENT_WRONG
@@ -158,7 +164,7 @@ export async function requestPasswordReset(model) {
         authenticationService.sendResetPasswordRequest(model)
             .then(
                 () => {
-                    successMessage(authenticationMessages.SEND_REQUES_SUCCESS);
+                    successMessage(authenticationMessages.SEND_REQUEST_SUCCESS);
                 },
                 (err) => {
                     err.response.status === statusCodes.BAD_REQUEST
@@ -167,7 +173,7 @@ export async function requestPasswordReset(model) {
                             ""
                         )
                         : errorMessage(
-                            authenticationMessages.SEND_REQUES_FAILED,
+                            authenticationMessages.SEND_REQUEST_FAILED,
                             generalMessages.SOMETHING_WENT_WRONG
                         );
                 }

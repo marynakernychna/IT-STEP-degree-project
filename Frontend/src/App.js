@@ -2,8 +2,7 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Redirect
+    Route
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import "antd/dist/antd.css";
@@ -26,7 +25,8 @@ import OpenOrders from './pages/client/orders/view/index';
 import ViewPickedOrders from './pages/courier/orders/picked/index';
 import ViewDeliveredOrders from './components/deliveredOrders/index';
 import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index';
-import HomePage from './pages/home/index'
+import HomePage from './pages/home/index';
+import ErrorPage from './components/page404/index';
 
 const history = createBrowserHistory();
 
@@ -133,7 +133,7 @@ export default function App() {
 
                 <Route
                     exact
-                    path="/registration"
+                    path={pageUrls.REGISTRATION}
                 >
                     <RegistrationPage />
                 </Route>
@@ -152,7 +152,11 @@ export default function App() {
                     <HomePage />
                 </Route>
 
-                <Redirect to="/login" />    {/* there will be a 404 page later */}
+                <Route
+                    path="*"
+                >
+                    <ErrorPage />
+                </Route>
             </Switch>
         </Router>
     );
