@@ -179,7 +179,7 @@ function RegistrationPage() {
                         </Form>
 
                         <div className="linksDiv">
-                            <Link>Home</Link>
+                            <Link to={pageUrls.HOME_PAGE}>Home</Link>
                             <Link to={pageUrls.LOGIN}>Login</Link>
                         </div>
                     </div>

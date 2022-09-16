@@ -96,7 +96,7 @@ function LoginPage() {
                         </Form>
 
                         <div className="linksDiv">
-                            <Link>Home</Link>
+                            <Link to={pageUrls.HOME_PAGE}>Home</Link>
                             <Link to={pageUrls.REGISTRATION}>Registration</Link>
                         </div>
 
