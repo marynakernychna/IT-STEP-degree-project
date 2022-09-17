@@ -2,8 +2,9 @@ import { statusCodes } from '../constants/statusCodes';
 import { errorMessage, successMessage } from './alerts';
 import { generalMessages } from '../constants/messages/general';
 import goodsService from './../api/goods';
+import { pageUrls } from './../constants/pageUrls';
 
-export function createGood(model) {
+export function createGood(model, history) {
 
     return goodsService
         .create(model)
@@ -12,6 +13,7 @@ export function createGood(model) {
                 successMessage(
                     generalMessages.CREATION_SUCCESSFUL
                 );
+                history.push(pageUrls.VIEW_MY_GOODS);
             },
             (err) => {
                 err.response.status === statusCodes.BAD_REQUEST && err.response.data !== undefined ?
@@ -114,7 +116,7 @@ export function getFullGoodInfo(id) {
 export function getCreatedByUserGoods(paginationFilterModel) {
 
     return goodsService
-        .getCreatedByUser(paginationFilterModel)
+        .getCreatedByClient(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {

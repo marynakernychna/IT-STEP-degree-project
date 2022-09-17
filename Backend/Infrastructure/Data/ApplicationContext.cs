@@ -14,9 +14,6 @@ namespace Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Characteristic> Characteristics { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Rate> Rates { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<Review> Reviews { get; set; }
         public DbSet<Ware> Wares { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<WareCart> WareCarts { get; set; }
@@ -27,14 +24,19 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new CharacteristicConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
-            builder.ApplyConfiguration(new RateConfiguration());
-            builder.ApplyConfiguration(new ReportConfiguration());
-            builder.ApplyConfiguration(new ReviewConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new WareConfiguration());
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
             builder.ApplyConfiguration(new WareCartConfiguration());
+
+            builder
+                .Entity<Category>()
+                .HasMany(c => c.Wares)
+                .WithOne(w => w.Category)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Seed();
+
             base.OnModelCreating(builder);
         }
     }

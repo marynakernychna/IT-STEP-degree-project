@@ -7,21 +7,37 @@ namespace Core.Interfaces.CustomService
 {
     public interface IOrderService
     {
-        Task CreateAsync(string userId, OrderDTO createOrderDTO);
-        Task<PaginatedList<OrderInfoDTO>> GetAvailableAsync(
+        Task AssignAsync(
+            string courierId,
+            int orderId);
+        Task ConfirmDeliveryAsync(
+            string userId,
+            int orderId);
+        Task CreateAsync(
+            string userId,
+            OrderDTO createOrderDTO);
+        Task DeleteAsync(
+            string userId,
+            int orderId);
+        Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(
+            string userId,
             PaginationFilterDTO paginationFilterDTO);
-        Task<PaginatedList<UserOrderInfoDTO>> GetByUserAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO);
-        Task AssignToOrderAsync(string courierId, int orderId);
-        Task RejectSelectedOrderAsync(int orderId, string courierId);
-        Task<PaginatedList<OrderInfoDTO>> GetByCourierAsync(
-            string courierId, PaginationFilterDTO paginationFilterDTO);
-        Task ChangeInfoAsync(
-            ChangeOrderInfoDTO changeOrderInfoDTO, string userId);
-        Task DeleteAsync(string userId, int orderId);
-        Task ConfirmDeliveryAsync(string userId, int orderId);
-        Task RejectDeliveryConfirmationAsync(string userId, int orderId);
-        Task<PaginatedList<DeliveredOrderDTO>> GetDeliveredOrdersAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO);
+        Task<PaginatedList<OrderInfoDTO>> GetPageOfAssignedByCourierAsync(
+            string courierId,
+            PaginationFilterDTO paginationFilterDTO);
+        Task<PaginatedList<OrderInfoDTO>> GetPageOfAvailvableAsync(
+            PaginationFilterDTO paginationFilterDTO);
+        Task<PaginatedList<DeliveredOrderDTO>> GetPageOfDeliveredAsync(
+            string userId,
+            PaginationFilterDTO paginationFilterDTO);
+        Task RejectAsync(
+            int orderId,
+            string courierId);
+        Task RejectDeliveryAsync(
+            string userId,
+            int orderId);
+        Task UpdateAsync(
+            ChangeOrderInfoDTO changeOrderInfoDTO,
+            string userId);
     }
 }

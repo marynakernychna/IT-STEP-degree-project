@@ -11,7 +11,9 @@ namespace Core.Specifications
         internal class GetByTitleAndCreatorId : Specification<Ware>,
                                                 ISingleResultSpecification<Ware>
         {
-            public GetByTitleAndCreatorId(string wareTitle, string creatorId)
+            public GetByTitleAndCreatorId(
+                string wareTitle,
+                string creatorId)
             {
                 Query.Where(w => w.Title == wareTitle &&
                             w.CreatorId == creatorId)
@@ -19,14 +21,26 @@ namespace Core.Specifications
             }
         }
 
-        internal class GetAll : Specification<Ware>
+        internal class GetPage : Specification<Ware>
         {
-            public GetAll(PaginationFilterDTO paginationFilter)
+            public GetPage(
+                PaginationFilterDTO paginationFilter)
             {
-                Query.Include(w => w.Category)
+                Query.Where(w => w.AvailableCount > 0)
+                     .Include(w => w.Category)
                      .OrderBy(w => w.Title)
                      .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
                      .Take(paginationFilter.PageSize)
+                     .AsNoTracking();
+            }
+        }
+
+        internal class GetAllByCategoryTitle : Specification<Ware>
+        {
+            public GetAllByCategoryTitle(
+                string categoryTitle)
+            {
+                Query.Where(w => w.Category.Title == categoryTitle)
                      .AsNoTracking();
             }
         }
@@ -60,7 +74,9 @@ namespace Core.Specifications
         internal class GetByCreatorId : Specification<Ware>,
                                         ISingleResultSpecification<Ware>
         {
-            public GetByCreatorId(PaginationFilterDTO paginationFilter, string creatorId)
+            public GetByCreatorId(
+                PaginationFilterDTO paginationFilter,
+                string creatorId)
             {
                 Query.Where(w => w.CreatorId == creatorId)
                      .Include(w => w.Creator)

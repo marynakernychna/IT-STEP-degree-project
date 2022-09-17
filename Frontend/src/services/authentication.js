@@ -9,7 +9,7 @@ import { userRoles } from '../constants/userRoles';
 import { pageUrls } from './../constants/pageUrls';
 import tokenService from './tokens';
 
-export function registerUser(userData, history) {
+export async function registerUser(userData, history) {
 
     const model = {
         name: userData.name,
@@ -19,8 +19,8 @@ export function registerUser(userData, history) {
         password: userData.password
     };
 
-    authenticationService
-        .registerUser(model)
+    await authenticationService
+        .clientRegister(model)
         .then(
             () => {
                 successMessage(
@@ -49,23 +49,24 @@ export function registerUser(userData, history) {
         });
 }
 
-export function loginUser(userData, history) {
+export async function loginUser(userData, history) {
 
     const model = {
         email: userData.email,
         password: userData.password
     };
 
-    authenticationService
-        .loginUser(model)
+    await authenticationService
+        .login(model)
         .then(
             (response) => {
+                
                 store.dispatch(setAccess(response.data));
 
                 const role = store.getState().authenticationReducer.userRole;
 
                 switch (role) {
-                    case userRoles.USER:
+                    case userRoles.CLIENT:
                         history.push(pageUrls.VIEW_GOODS);
                         break;
                     case userRoles.ADMIN:
@@ -82,7 +83,13 @@ export function loginUser(userData, history) {
                         break;
                 }
             },
-            () => {
+            (err) => {
+                err.response.status === 404 ?
+                errorMessage(
+                    authenticationMessages.INVALID_CREDENTIALS,
+                    ""
+                )
+                :
                 errorMessage(
                     authenticationMessages.LOGIN_FAILED,
                     generalMessages.SOMETHING_WENT_WRONG
@@ -154,10 +161,10 @@ export async function changePassword(model) {
 export async function requestPasswordReset(model) {
 
     return await
-        authenticationService.requestPasswordReset(model)
+        authenticationService.sendResetPasswordRequest(model)
             .then(
                 () => {
-                    successMessage(authenticationMessages.SEND_REQUES_SUCCESS);
+                    successMessage(authenticationMessages.SEND_REQUEST_SUCCESS);
                 },
                 (err) => {
                     err.response.status === statusCodes.BAD_REQUEST
@@ -166,7 +173,7 @@ export async function requestPasswordReset(model) {
                             ""
                         )
                         : errorMessage(
-                            authenticationMessages.SEND_REQUES_FAILED,
+                            authenticationMessages.SEND_REQUEST_FAILED,
                             generalMessages.SOMETHING_WENT_WRONG
                         );
                 }
@@ -219,7 +226,7 @@ export async function registerCourier(userData) {
     };
 
     return await authenticationService
-        .registerCourier(model)
+        .courierRegister(model)
         .then(
             () => {
                 successMessage(
@@ -243,6 +250,34 @@ export async function registerCourier(userData) {
         .catch(() => {
             errorMessage(
                 authenticationMessages.REGISTRATION_FAILED,
+                generalMessages.SOMETHING_WENT_WRONG
+            );
+        });
+}
+
+export async function confirmEmailAsync(token, email, history) {
+    const model = {
+        email: email,
+        token: token
+    };
+
+    return authenticationService
+        .confirmEmail(model)
+        .then(
+            () => {
+                successMessage(authenticationMessages.SUCCESSFUL_EMAIL_CONFIRMATION);
+                
+                history.push(pageUrls.LOGIN);
+            },
+            () => {
+                errorMessage(
+                    authenticationMessages.SEND_EMAIL_CONFIRMATION_FAILED,
+                    authenticationMessages.EMAIL_ALREADY_CONFIRIMED
+                );
+            })
+        .catch(() => {
+            errorMessage(
+                authenticationMessages.SEND_EMAIL_CONFIRMATION_FAILED,
                 generalMessages.SOMETHING_WENT_WRONG
             );
         });

@@ -41,11 +41,11 @@ const authenticationReducer = (state = intialState, action) => {
         case types.LOGOUT: {
 
             tokenService.deleteTokens();
-
+            
             return {
                 ...state,
-                role: userRoles.GUEST,
-                isAuthUser: false
+                userRole: userRoles.GUEST,
+                isUserAuthorized: false
             }
         }
 

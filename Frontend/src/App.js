@@ -2,8 +2,7 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Redirect
+    Route
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import "antd/dist/antd.css";
@@ -26,7 +25,9 @@ import OpenOrders from './pages/client/orders/view/index';
 import ViewPickedOrders from './pages/courier/orders/picked/index';
 import ViewDeliveredOrders from './components/deliveredOrders/index';
 import ViewAndCreateCouriersPage from './pages/admin/couriers/viewAndCreate/index';
-import HomePage from './pages/home/index'
+import HomePage from './pages/home/index';
+import ErrorPage from './components/page404/index';
+import ConfirmEmailPage from "./pages/authentication/confirmEmail";
 
 const history = createBrowserHistory();
 
@@ -37,28 +38,28 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_GOODS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={ViewGoods}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.CREATE_GOOD}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={CreateGoodPage}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.CART}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={Cart}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_PROFILE_INFO}
-                    allowedRoles={[userRoles.USER, userRoles.COURIER, userRoles.ADMIN]}
+                    allowedRoles={[userRoles.CLIENT, userRoles.COURIER, userRoles.ADMIN]}
                     component={ViewProfileInfoPage}
                 />
 
@@ -100,21 +101,21 @@ export default function App() {
                 <PageLayoutRoute
                     exact
                     path={pageUrls.VIEW_MY_GOODS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={ViewMyGoodsPage}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.OPEN_ORDERS}
-                    allowedRoles={[userRoles.USER]}
+                    allowedRoles={[userRoles.CLIENT]}
                     component={OpenOrders}
                 />
 
                 <PageLayoutRoute
                     exact
                     path={pageUrls.DELIVERED_ORDERS}
-                    allowedRoles={[userRoles.USER, userRoles.COURIER]}
+                    allowedRoles={[userRoles.CLIENT, userRoles.COURIER]}
                     component={ViewDeliveredOrders}
                 />
 
@@ -126,6 +127,12 @@ export default function App() {
                 />
 
                 <Route
+                    path={pageUrls.CONFIRM_EMAIL}
+                >
+                    <ConfirmEmailPage />
+                </Route>
+
+                <Route
                     path={pageUrls.RESET_PASSWORD}
                 >
                     <ResetPasswordPage />
@@ -133,7 +140,7 @@ export default function App() {
 
                 <Route
                     exact
-                    path="/registration"
+                    path={pageUrls.REGISTRATION}
                 >
                     <RegistrationPage />
                 </Route>
@@ -152,7 +159,11 @@ export default function App() {
                     <HomePage />
                 </Route>
 
-                <Redirect to="/login" />    {/* there will be a 404 page later */}
+                <Route
+                    path="*"
+                >
+                    <ErrorPage />
+                </Route>
             </Switch>
         </Router>
     );

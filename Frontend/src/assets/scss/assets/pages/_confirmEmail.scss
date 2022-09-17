@@ -1,0 +1,26 @@
+@import '../variables/colors';
+@import '../variables/others';
+
+.authEmail {
+    background-color: $body_color;
+    min-height: 100%;
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        min-height: 100vh;
+
+        .title {
+            font-size: 72px;
+            margin-bottom: 25px;
+            color: #DDFBE7;
+        }
+
+        h2 {
+            color: #DDFBE7;
+        }
+    }
+}

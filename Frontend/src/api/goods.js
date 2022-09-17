@@ -8,13 +8,13 @@ export default class goodsService {
     }
 
     static getAll(paginationFilterModel) {
-        return instance.get(GOODS_URLS.GET_PAGINATED_ALL +
+        return instance.get(GOODS_URLS.GET_PAGE +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
     static getByCategory(paginationFilterModel) {
-        return instance.get(GOODS_URLS.GET_PAGINATED_BY_CATEGORY +
+        return instance.get(GOODS_URLS.GET_PAGE_BY_CATEGORY +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}
              &CategoryTitle=${paginationFilterModel.categoryTitle}`);
@@ -25,8 +25,8 @@ export default class goodsService {
             `?Id=${model}`);
     }
 
-    static getCreatedByUser(paginationFilterModel) {
-        return instance.get(GOODS_URLS.GET_CREATED_BY_USER +
+    static getCreatedByClient(paginationFilterModel) {
+        return instance.get(GOODS_URLS.GET_CREATED_BY_CLIENT +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }

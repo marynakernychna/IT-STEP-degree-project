@@ -7,56 +7,57 @@ const CARTS_URL = "/Carts";
 const ORDERS_URL = "/Orders";
 
 export const AUTHENTICATION_URLS = {
-    REGISTER_USER: AUTHENTICATION_URL + "/register",
+    CLIENT_REGISTER: AUTHENTICATION_URL + "/clients/register",
     LOGIN: AUTHENTICATION_URL + "/login",
     LOGOUT: AUTHENTICATION_URL + "/logout",
     CHANGE_PASSWORD: AUTHENTICATION_URL + "/change-password",
-    REQUES_PASSWORD_RESET: AUTHENTICATION_URL + "/request-password-reset",
+    RESET_PASSWORD_REQUEST: AUTHENTICATION_URL + "/reset-password-request",
     RESET_PASSWORD: AUTHENTICATION_URL + "/reset-password",
-    REGISTER_COURIER: AUTHENTICATION_URL + "/register-courier",
+    COURIER_REGISTER: AUTHENTICATION_URL + "/couriers/register",
+    CONFIRM_EMAIL: AUTHENTICATION_URL + "/confirm-email"
 };
 
 export const USERS_URLS = {
-    BRIEF_USERS_INFO: USERS_URL + "/users-info",
-    VIEW_PROFILE_INFO: USERS_URL + "/user-info",
-    EDIT_CLIENT_INFO: USERS_URL + "/user-edit-info",
-    EDIT_USER_INFO: USERS_URL + "/edit-info",
-    VIEW_COURIERS_INFO: USERS_URL + "/couriers-info"
+    VIEW_PAGE_OF_CLIENTS: USERS_URL + "/admins/clients/page",
+    PROFILE: USERS_URL + "/profile",
+    UPDATE_CLIENT_PROFILE: USERS_URL + "/admins/clients/by-client/profile/update",
+    UPDATE_PROFILE: USERS_URL + "/profile/update",
+    VIEW_PAGE_OF_COURIERS: USERS_URL + "/admins/couriers/page"
 };
 
 export const CATEGORIES_URLS = {
-    GET_PAGINATED_ALL: CATEGORIES_URL + "/all",
+    GET_PAGE: CATEGORIES_URL + "/admins/page",
     GET_ALL: CATEGORIES_URL,
-    CREATE: CATEGORIES_URL + "/create",
-    UPDATE: CATEGORIES_URL + "/update",
-    DELETE: CATEGORIES_URL + "/delete"
+    CREATE: CATEGORIES_URL + "/admins/create",
+    UPDATE: CATEGORIES_URL + "/admins/update",
+    DELETE: CATEGORIES_URL + "/admins/delete"
 };
 
 export const GOODS_URLS = {
     CREATE: GOODS_URL + "/create",
-    GET_PAGINATED_ALL: GOODS_URL,
-    GET_PAGINATED_BY_CATEGORY: GOODS_URL + "/by-category",
+    GET_PAGE: GOODS_URL + "/page",
+    GET_PAGE_BY_CATEGORY: GOODS_URL + "/by-category/page",
     GET_BY_ID: GOODS_URL + "/by-id",
-    GET_CREATED_BY_USER: GOODS_URL + "/created-by-user"
+    GET_CREATED_BY_CLIENT: GOODS_URL + "/clients/by-client/page"
 };
 
 export const CARTS_URLS = {
-    GET_BY_USER: CARTS_URL + "/by-user",
-    DELETE_WARE_BY_USER: CARTS_URL + "/delete-ware",
-    ADD_WARE_BY_USER: CARTS_URL + "/add-ware",
-    GET_BY_USER_ADMIN: CARTS_URL + "/admin/by-user"
+    GET_PAGE_BY_CLIENT: CARTS_URL + "/by-client/page",
+    DELETE_WARE_BY_CLIENT: CARTS_URL + "/by-client/delete-ware",
+    ADD_WARE_BY_CLIENT: CARTS_URL + "/by-client/add-ware",
+    GET_PAGE_BY_CLIENT_ADMIN: CARTS_URL + "/admins/by-client/page"
 };
 
 export const ORDERS_URLS = {
     CREATE: ORDERS_URL + "/create",
-    GET_BY_USER: ORDERS_URL + "/by-user",
-    GET_BY_COURIER: ORDERS_URL + "/by-courier",
-    GET_AVAILABLE: ORDERS_URL + "/available",
-    ASSIGN: ORDERS_URL + "/assign-to-order",
-    REJECT: ORDERS_URL + "/reject-selected-order",
+    GET_PAGE_BY_CLIENT: ORDERS_URL + "/clients/by-client/page",
+    GET_PAGE_OF_ASSIGNED_BY_COURIER: ORDERS_URL + "/couriers/by-courier/assigned/page",
+    GET_PAGE_OF_AVAILABLE: ORDERS_URL + "/couriers/available/page",
+    ASSIGN: ORDERS_URL + "/couriers/assign",
+    REJECT: ORDERS_URL + "/couriers/reject",
     DELETE: ORDERS_URL + "/delete",
-    CONFIRM_DELIVERY: ORDERS_URL + "/confirm-delivery",
-    REJECT_DELIVERY_CONFIRMATION: ORDERS_URL + "/reject-delivery-confirmation",
-    GET_DELIVERED_ORDERS: ORDERS_URL + "/delivered-orders",
-    CHANGE_ORDER_INFO: ORDERS_URL + "/change-by-id"
+    CONFIRM_DELIVERY: ORDERS_URL + "/delivery/confirm",
+    REJECT_DELIVERY_CONFIRMATION: ORDERS_URL + "/delivery/reject",
+    GET_PAGE_OF_DELIVERED_ORDERS: ORDERS_URL + "/delivered/by-user/page",
+    UPDATE: ORDERS_URL + "/update"
 };

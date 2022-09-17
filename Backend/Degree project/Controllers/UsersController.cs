@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.DTO.User;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,56 +24,64 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("user-info")]
-        public async Task<IActionResult> GetUserInfoAsync()
+        [HttpGet("admins/clients/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageOfClientsAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            var userInfo = await _userService.GetUserProfileInfoAsync(userId);
-
-            return Ok(userInfo);
+            return Ok(await _userService
+                .GetPageOfClientsAsync(paginationFilter));
         }
 
-        [HttpPost("edit-info")]
-        public async Task<IActionResult> UserEditProfileInfoAsync(
-            UserEditProfileInfoDTO newUserInfo)
+        [HttpGet("admins/couriers/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageOfCouriersAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+            return Ok(await _userService
+                .GetPageOfCouriersAsync(paginationFilter));
+        }
+
+        [HttpGet("profile")]
+        [AuthorizeByRole(
+            IdentityRoleNames.Admin,
+            IdentityRoleNames.Client,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> GetUserProfileAsync()
+        {
+            return Ok(await _userService
+                .GetProfileAsync(
+                    UserService.GetCurrentUserIdentifier(User))
+                );
+        }
+
+        [HttpPut("admins/clients/by-client/profile/update")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> UpdateClientProfileAsync(
+            [FromBody] UserEditProfileInfoDTO newUserInfo, string email) /// !!!
+        {
+            await _userService.UpdateProfileAsync(
+                newUserInfo,
+                await _userService.GetIdByEmailAsync(email),
+                Request.GetTypedHeaders().Referer.ToString());
 
             return Ok();
         }
 
-        [HttpGet("users-info")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetUsersInfoAsync(
-            [FromQuery] PaginationFilterDTO paginationFilter)
+        [HttpPut("profile/update")]
+        [AuthorizeByRole(
+            IdentityRoleNames.Admin,
+            IdentityRoleNames.Client,
+            IdentityRoleNames.Courier)]
+        public async Task<IActionResult> UpdateClientProfileAsync(
+            [FromBody] UserEditProfileInfoDTO newUserInfo)
         {
-            var usersInfo = await _userService.GetUsersProfileInfoAsync(paginationFilter);
-
-            return Ok(usersInfo);
-        }
-
-        [HttpPost("user-edit-info")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> UserEditProfileInfoAsync(
-            UserEditProfileInfoDTO newUserInfo, string email)
-        {
-            var userId = await _userService.GetUserIdByEmailAsync(email);
-            var callbackUrl = Request.GetTypedHeaders().Referer.ToString();
-            await _userService.UserEditProfileInfoAsync(newUserInfo, userId, callbackUrl);
+            await _userService.UpdateProfileAsync(
+                newUserInfo,
+                UserService.GetCurrentUserIdentifier(User),
+                Request.GetTypedHeaders().Referer.ToString());
 
             return Ok();
-        }
-
-        [HttpGet("couriers-info")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetCouriersInfoAsync(
-            [FromQuery] PaginationFilterDTO paginationFilter)
-        {
-            var couriersInfo = await _userService.GetCouriersProfileInfoAsync(paginationFilter);
-
-            return Ok(couriersInfo);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Core.DTO;
 using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
+using Core.Entities;
 using Core.Helpers;
 using System.Threading.Tasks;
 
@@ -8,13 +9,21 @@ namespace Core.Interfaces.CustomService
 {
     public interface IWareService
     {
-        Task CreateAsync(CreateWareDTO createWareDTO, string userId);
+        Task CheckIfExistsByIdAsync(
+            int wareId);
+        Task CreateAsync(
+            CreateWareDTO createWareDTO,
+            string userId);
         Task<PaginatedList<WareBriefInfoDTO>> GetAllAsync(
             PaginationFilterDTO paginationFilter);
         Task<PaginatedList<WareBriefInfoDTO>> GetByCategoryAsync(
             PaginationFilterWareDTO paginationFilter);
-        Task<WareInfoDTO> GetByIdAsync(int id);
+        Task<Ware> GetByIdAsync(
+            int id);
         Task<PaginatedList<WareBriefInfoDTO>> GetCreatedByUserAsync(
-            string userId, PaginationFilterDTO paginationFilter);
+            string userId,
+            PaginationFilterDTO paginationFilter);
+        Task<WareInfoDTO> FormWareInfoDTOByIdAsync(
+            int id);
     }
 }

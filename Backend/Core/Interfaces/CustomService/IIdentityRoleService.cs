@@ -5,6 +5,9 @@ namespace Core.Interfaces.CustomService
 {
     public interface IIdentityRoleService
     {
-        Task<string> GetUserRoleAsync(User user);
+        Task<string> GetByUserAsync(
+            User user);
+        Task<string> GetByUserIdAsync(
+            string userId);
     }
 }

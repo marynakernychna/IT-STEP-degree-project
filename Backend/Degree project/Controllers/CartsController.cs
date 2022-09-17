@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.DTO.PaginationFilter;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -14,61 +15,61 @@ namespace API.Controllers
     [ApiController]
     public class CartsController : Controller
     {
-        private readonly IUserService _userService;
         private readonly ICartService _cartService;
 
         public CartsController(
-            IUserService userService,
             ICartService cartService)
         {
-            _userService = userService;
             _cartService = cartService;
         }
 
-        [HttpGet("by-user")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetByUserAsync(
-            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        [HttpGet("admins/by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageByClientAsync(
+            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            var wares = await _cartService.GetByUserIdAsync(userId, paginationFilterDTO);
-
-            return Ok(wares);
+            return Ok(await _cartService
+                .GetPageByClientAsync(paginationFilterCartDTO));
         }
 
-        [HttpPost("add-ware")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [HttpGet("by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
+        public async Task<IActionResult> GetPageByClientAsync(
+            [FromQuery] PaginationFilterDTO paginationFilterDTO)
+        {
+            return Ok(await _cartService
+                .GetPageByClientAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    paginationFilterDTO
+                ));
+        }
+
+        [HttpPut("by-client/add-ware")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> AddWareAsync(
             [FromBody] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _cartService.AddWareAsync(userId, entityIdDTO.Id);
+            await _cartService
+                .AddWareAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    entityIdDTO.Id
+                );
 
             return Ok();
         }
 
-        [HttpDelete("delete-ware")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [HttpDelete("by-client/delete-ware")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> DeleteWareAsync(
             [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-
-            await _cartService.DeleteWareAsync(userId, entityIdDTO.Id);
+            await _cartService
+                .DeleteWareAsync(
+                    UserService.GetCurrentUserIdentifier(User),
+                    entityIdDTO.Id
+                );
 
             return Ok();
-        }
-
-        [HttpGet("admin/by-user")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetCartByUserAsync(
-            [FromQuery] PaginationFilterCartDTO paginationFilterCartDTO)
-        {
-            var wares = await _cartService.GetByUserIdAsync(paginationFilterCartDTO);
-
-            return Ok(wares);
         }
     }
 }

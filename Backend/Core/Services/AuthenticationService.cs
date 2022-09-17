@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using Core.Constants;
+﻿using Core.Constants;
 using Core.DTO.Authentication;
 using Core.DTO.User;
-using Core.Entities;
 using Core.Exceptions;
-using Core.Helpers;
-using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
-using Core.Specifications;
-using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,183 +11,100 @@ namespace Core.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly ICartService _cartService;
+        private readonly IEmailService _emailService;
         private readonly IIdentityRoleService _identityRoleService;
         private readonly ITokenService _tokenService;
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IMapper _mapper;
-        private readonly IRepository<RefreshToken> _refreshTokenRepository;
-        private readonly IEmailService _emailService;
-        private readonly ICartService _cartService;
+        private readonly IUserService _userService;
 
         public AuthenticationService(
-                IRepository<User> userRepository,
+                ICartService cartService,
+                IEmailService emailService,
                 IIdentityRoleService identityRoleService,
                 ITokenService tokenService,
-                UserManager<User> userManager,
-                RoleManager<IdentityRole> roleManager,
-                IMapper mapper,
-                IRepository<RefreshToken> refreshTokenRepository,
-                IEmailService emailService,
-                ICartService cartService
-            )
+                IUserService userService)
         {
-            _userRepository = userRepository;
             _identityRoleService = identityRoleService;
             _tokenService = tokenService;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _mapper = mapper;
-            _refreshTokenRepository = refreshTokenRepository;
             _emailService = emailService;
             _cartService = cartService;
+            _userService = userService;
         }
 
-        public async Task<UserAutorizationDTO> LoginAsync(UserLoginDTO userLoginDTO)
+        public async Task ChangePasswordAsync(
+            ChangePasswordDTO changePasswordDTO,
+            string userId)
         {
-            var user = await _userManager.FindByEmailAsync(userLoginDTO.Email);
-
-            if (user == null ||
-                !await _userManager.CheckPasswordAsync(user, userLoginDTO.Password))
-            {
-                throw new HttpException(
-                        ErrorMessages.InvalidCredentials,
-                        HttpStatusCode.Unauthorized
-                    );
-            }
-
-            var userRole = await _identityRoleService.GetUserRoleAsync(user);
-
-            return await _tokenService.GenerateUserTokens(user, userRole);
-        }
-
-        public async Task RegisterAsync(UserRegistrationDTO userRegistrationDTO)
-        {
-            var roleName = IdentityRoleNames.User.ToString();
-
-            var user = await RegisterUserAsync(userRegistrationDTO, roleName);
-
-            await _cartService.CreateAsync(user);
-        }
-
-        public async Task LogoutAsync(UserLogoutDTO userLogoutDTO)
-        {
-            var refreshToken = await _refreshTokenRepository.SingleOrDefaultAsync(
-                new RefreshTokenSpecification.GetByToken(userLogoutDTO.RefreshToken));
-
-            ExtensionMethods.RefreshTokenNullCheck(refreshToken);
-
-            await _refreshTokenRepository.DeleteAsync(refreshToken);
-        }
-
-        public async Task ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, string userId)
-        {
-            if (changePasswordDTO.CurrentPassword == changePasswordDTO.NewPassword)
-            {
-                throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
-                        HttpStatusCode.BadRequest);
-            }
-
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            if (!await _userManager.CheckPasswordAsync(
-                user,
-                changePasswordDTO.CurrentPassword))
-            {
-                throw new HttpException(
-                        ErrorMessages.InvalidPassword,
-                        HttpStatusCode.BadRequest);
-            }
-
-            var result = await _userManager.ChangePasswordAsync(
-                user,
+            await _userService.ChangePasswordAsync(
                 changePasswordDTO.CurrentPassword,
-                changePasswordDTO.NewPassword);
-
-            if (!result.Succeeded)
-            {
-                throw new HttpException(
-                        ErrorMessages.ChangePasswordFailed,
-                        HttpStatusCode.InternalServerError);
-            }
+                changePasswordDTO.NewPassword,
+                userId);
         }
 
-        public async Task SendConfirmResetPasswordEmailAsync(string email, string callbackUrl)
+        public async Task<UserAutorizationDTO> LoginAsync(
+            UserLoginDTO userLoginDTO)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userService
+                .GetByEmailAsync(userLoginDTO.Email);
 
-            ExtensionMethods.UserNullCheck(user);
-
-            await _emailService.SendConfirmationResetPasswordEmailAsync(user, callbackUrl);
-        }
-
-        public async Task ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
-        {
-            var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
-
-            if (await _userManager.CheckPasswordAsync(user, resetPasswordDTO.NewPassword))
+            if (!await _userService
+                    .CheckPasswordAsync(user, userLoginDTO.Password))
             {
                 throw new HttpException(
-                        ErrorMessages.NewInfoSamePrevious,
+                        ErrorMessages.INVALID_CREDENTIALS,
                         HttpStatusCode.BadRequest);
             }
 
-            if (!await _userManager.VerifyUserTokenAsync(
-                user,
-                _userManager.Options.Tokens.PasswordResetTokenProvider,
-                "ResetPassword",
-                resetPasswordDTO.Token))
-            {
-                throw new HttpException(
-                        ErrorMessages.InvalidToken,
-                        HttpStatusCode.BadRequest);
-            }
+            var userRole = await _identityRoleService.GetByUserAsync(user);
 
-            var result = await _userManager.ResetPasswordAsync(
-                user,
-                resetPasswordDTO.Token,
+            return await _tokenService
+                .GenerateForUserAsync(user, userRole);
+        }
+
+        public async Task LogoutAsync(
+            UserLogoutDTO userLogoutDTO)
+        {
+            await _tokenService
+                .DeleteRefreshTokenAsync(userLogoutDTO.RefreshToken);
+        }
+
+        public async Task RegisterClientAsync(
+            UserRegistrationDTO userRegistrationDTO,
+            string callbackUrl)
+        {
+            var client = await _userService.CreateAsync(
+                userRegistrationDTO,
+                IdentityRoleNames.Client.ToString());
+
+            await _cartService.CreateAsync(client);
+
+            await _emailService.SendConfirmationEmailAsync(client, callbackUrl);
+        }
+
+        public async Task RegisterCourierAsync(
+            UserRegistrationDTO userRegistrationDTO)
+        {
+            await _userService.CreateAsync(
+                userRegistrationDTO,
+                IdentityRoleNames.Courier.ToString());
+        }
+
+        public async Task ResetPasswordAsync(
+            ResetPasswordDTO resetPasswordDTO)
+        {
+            await _userService.ResetPasswordAsync(
+                resetPasswordDTO.Email,
+                resetPasswordDTO.ConfirmationToken,
                 resetPasswordDTO.NewPassword);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(result);
         }
 
-        public async Task RegisterCourierAsync(UserRegistrationDTO userRegistrationDTO)
+        public async Task SendResetResetPasswordRequestAsync(
+            string userEmail,
+            string callbackUrl)
         {
-            var roleName = IdentityRoleNames.Courier.ToString();
-
-            await RegisterUserAsync(userRegistrationDTO, roleName);
-        }
-
-        private async Task<User> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO, string roleName)
-        {
-            var isAlreadyExists = await _userRepository.AnyAsync(
-                new UserSpecification.GetByEmail(userRegistrationDTO.Email));
-
-            if (isAlreadyExists)
-            {
-                throw new HttpException(
-                        ErrorMessages.EmailAlreadyExists,
-                        HttpStatusCode.BadRequest
-                    );
-            }
-
-            var user = _mapper.Map<User>(userRegistrationDTO);
-            var createUserResult = await _userManager
-                                            .CreateAsync(user, userRegistrationDTO.Password);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(createUserResult);
-
-            var userRole = await _roleManager.FindByNameAsync(roleName);
-
-            ExtensionMethods.IdentityRoleNullCheck(userRole);
-
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
-
-            ExtensionMethods.CheckIdentityResultNullCheck(addToRoleResult);
-
-            return user;
+            await _emailService.SendResetPasswordRequestAsync(
+                await _userService.GetByEmailAsync(userEmail),
+                callbackUrl);
         }
     }
 }

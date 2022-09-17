@@ -4,6 +4,7 @@ import { Modal, Form, Input, Button, InputNumber } from "antd";
 import { generalMessages } from './../../../constants/messages/general';
 import { changeOrderInfo } from '../../../services/orders';
 import InputRules from './../../../constants/inputRules';
+import { inputValidationErrorMessages } from './../../../constants/messages/inputValidationErrors';
 
 const { TextArea } = Input;
 
@@ -91,7 +92,7 @@ function EditOrderInfoModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_ADDRESS
                         )
                     ]}
                 >
@@ -112,7 +113,7 @@ function EditOrderInfoModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_CITY
                         )
                     ]}
                 >
@@ -133,7 +134,7 @@ function EditOrderInfoModal(props) {
                             generalMessages.FIELD_MUST_NOT_BE_EMPTY
                         ),
                         InputRules.latinLetters(
-                            generalMessages.INCORRECT_FORMAT
+                            inputValidationErrorMessages.NOT_VALID_COUNTRY
                         )
                     ]}
                 >

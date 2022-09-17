@@ -1,11 +1,12 @@
-﻿using Core.DTO.Characteristic;
+﻿using Core.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Interfaces.CustomService
 {
     public interface ICharacteristicService
     {
-        void CheckCharacteristicNames(
-            List<CharacteristicWithoutWareIdDTO> сharacteristics);
+        Task AddRangeAsync(
+            List<Characteristic> сharacteristics);
     }
 }

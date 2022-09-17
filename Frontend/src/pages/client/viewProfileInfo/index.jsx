@@ -38,7 +38,6 @@ const ViewProfileInfoPage = () => {
     };
 
     const onFinish = (values) => {
-        setLoading(true);
         confirmMessage()
             .then((result) => {
                 if (result) {
@@ -47,6 +46,7 @@ const ViewProfileInfoPage = () => {
                         user.surname !== values.surname ||
                         user.email !== values.email ||
                         user.phoneNumber != values.phoneNumber) {
+                        setLoading(true);
 
                         editUserInfo(values)
                             .then((result) => {

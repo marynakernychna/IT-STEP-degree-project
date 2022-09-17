@@ -13,27 +13,39 @@ namespace Core.Services
     {
         private readonly UserManager<User> _userManager;
 
+        private readonly IUserService _userService;
+
         public IdentityRoleService(
-                UserManager<User> userManager
-            )
+                UserManager<User> userManager,
+                IUserService userService)
         {
             _userManager = userManager;
+            _userService = userService;
         }
 
-        public async Task<string> GetUserRoleAsync(User user)
+        public async Task<string> GetByUserAsync(
+            User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            // will only work if there is an error in adding to the database
-            if (userRoles.Count == 0)
+            // because according to the logic of the project,
+            // a user can have only one role
+
+            if (userRoles.Count != 1)
             {
                 throw new HttpException(
-                                ErrorMessages.IdentityRoleNotFound,
-                                HttpStatusCode.NotFound
-                            );
+                    ErrorMessages.ROLE_FIND_ERROR,
+                    HttpStatusCode.InternalServerError);
             }
 
-            return userRoles.First(); // because currently a user can only have one role
+            return userRoles.First();
+        }
+
+        public async Task<string> GetByUserIdAsync(
+            string userId)
+        {
+            return await GetByUserAsync(
+                await _userService.GetByIdAsync(userId));
         }
     }
 }

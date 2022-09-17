@@ -42,7 +42,7 @@ function Order(props) {
                 {data.waresCount}
             </Card.Grid>
 
-            {store.getState().authenticationReducer.userRole === userRoles.USER ?
+            {store.getState().authenticationReducer.userRole === userRoles.CLIENT ?
                 <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                     Confirmed by you:
                 </Card.Grid> :
@@ -61,7 +61,7 @@ function Order(props) {
                 </div>
             </Card.Grid>
 
-            {store.getState().authenticationReducer.userRole === userRoles.USER ?
+            {store.getState().authenticationReducer.userRole === userRoles.CLIENT ?
                 <Card.Grid hoverable={false} style={{ width: '25%', boxShadow: 'none', display: 'inline' }}>
                     Confirmed by the courier:
                 </Card.Grid> :

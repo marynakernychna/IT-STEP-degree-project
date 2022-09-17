@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { customPageSizeOptions, paginationDefaultFilter } from './../../../../constants/pagination';
 import { Pagination, Result, Spin } from 'antd';
-import { getUserOrders } from '../../../../services/orders';
+import { getClientOrders } from '../../../../services/orders';
 import Order from './order/index';
 
 let paginationFilterModel = {
@@ -26,7 +26,7 @@ const OpenOrders = () => {
     };
 
     const updateOrders = async () => {
-        setOrders(await getUserOrders(paginationFilterModel));
+        setOrders(await getClientOrders(paginationFilterModel));
         setLoading(false);
     };
 
@@ -56,7 +56,7 @@ const OpenOrders = () => {
                     :
                     <Result
                         status="404"
-                        title="There are no orders yet!"
+                        title="There are no open orders yet!"
                     />
                 }
             </div>

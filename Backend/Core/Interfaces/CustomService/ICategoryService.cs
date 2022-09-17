@@ -8,11 +8,18 @@ namespace Core.Interfaces.CustomService
 {
     public interface ICategoryService
     {
-        Task<PaginatedList<CategoryInfoDTO>> GetAllAsync(
-            PaginationFilterDTO paginationFilter);
+        Task<bool> CheckIfExistsByTitleAsync(
+            string title);
+        Task CreateAsync(
+            CategoryDTO categoryDTO);
+        Task DeleteAsync(
+            string categoryTitle);
         Task<List<CategoryDTO>> GetAllAsync();
-        Task CreateAsync(CategoryDTO categoryDTO);
-        Task UpdateAsync(UpdateCategoryDTO updateCategoryDTO);
-        Task DeleteAsync(string categoryTitle);
+        Task<int> GetIdByTitleAsync(
+            string title);
+        Task<PaginatedList<CategoryInfoDTO>> GetPageAsync(
+            PaginationFilterDTO paginationFilter);
+        Task UpdateAsync(
+            UpdateCategoryDTO updateCategoryDTO);
     }
 }

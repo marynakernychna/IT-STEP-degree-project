@@ -15,6 +15,12 @@ export const inputValidationErrorMessages = Object.freeze({
         "The password must be between 8 and 50 symbols!",
     NOT_VALID_PHONE_NUMBER: "Invalid phone number entered!",
     NOT_VALID_CATEGORY: "Invalid category title entered!",
+    NOT_VALID_ADDRESS: "The address must start with a capital letter " +
+        "and continue with lowercase letters!\nAnd only latin letters!",
+    NOT_VALID_CITY: "The city must start with a capital letter " +
+        "and continue with lowercase letters!\nAnd only latin letters!",
+    NOT_VALID_COUNTRY: "The country must start with a capital letter " +
+            "and continue with lowercase letters!\nAnd only latin letters!",
 
     CONFIRM_PASSWORD: "Please confirm your password!",
     PASSWORD_DOESNT_MATCH: "The two passwords that you entered do not match!"

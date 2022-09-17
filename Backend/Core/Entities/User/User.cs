@@ -12,9 +12,6 @@ namespace Core.Entities
         public DateTimeOffset RegistrationDate { get; set; } = DateTimeOffset.UtcNow;
         public ICollection<Order> Orders { get; set; }
         public ICollection<Cart> Carts { get; set; }
-        public ICollection<Report> Reports { get; set; }
-        public ICollection<Rate> Rates { get; set; }
-        public ICollection<Review> Reviews { get; set; }
         public ICollection<Ware> Wares { get; set; }
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }

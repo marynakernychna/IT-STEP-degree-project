@@ -19,9 +19,9 @@ function LoginPage() {
 
     const openModal = () => setIsModalOpen(true);
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         setLoading(true);
-        loginUser(values, history);
+        await loginUser(values, history);
         setLoading(false);
     };
 

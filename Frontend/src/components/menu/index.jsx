@@ -14,7 +14,7 @@ function CustomMenu() {
 
     useEffect(async () => {
         switch(store.getState().authenticationReducer.userRole) {
-            case userRoles.USER:
+            case userRoles.CLIENT:
                 setMenuType(userItems);
                 break;
             case userRoles.COURIER:
@@ -29,6 +29,7 @@ function CustomMenu() {
     const onSelect = (item) => {
         if (item.key == logoutKey) {
             logoutUser(history);
+            return;
         }
 
         history.push(item.key);

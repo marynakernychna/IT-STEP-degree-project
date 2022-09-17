@@ -41,7 +41,7 @@ function Cart() {
     return (
         <Spin size="large" spinning={loading}>
             <div id="cartPage">
-                <p id="pageTitle">Basket</p>
+                <p id="pageTitle">Cart</p>
 
                 {goods != null ?
                     <div id='container'>

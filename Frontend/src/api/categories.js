@@ -4,7 +4,7 @@ import { CATEGORIES_URLS } from './../constants/api/urls';
 export default class categoriesService {
 
     static getPagedAll(paginationFilterModel) {
-        return instance.get(CATEGORIES_URLS.GET_PAGINATED_ALL +
+        return instance.get(CATEGORIES_URLS.GET_PAGE +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }

@@ -5,6 +5,7 @@ using Core.Helpers;
 using Core.Interfaces;
 using Core.Interfaces.CustomService;
 using Core.Resources;
+using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SendGrid;
@@ -16,44 +17,79 @@ namespace Core.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly UserManager<User> _userManager;
         private readonly AppSettings _appSettings;
+
+        private readonly UserManager<User> _userManager;
+
         private readonly ITemplateHelper _templateHelper;
 
+        // If we replace it with an appropriate service, it will cause an initialization loop.
+        private readonly IRepository<User> _userRepository;
+
         public EmailService(
-            UserManager<User> userManager,
             IOptions<AppSettings> appSettings,
-            ITemplateHelper templateHelper)
+            UserManager<User> userManager,
+            ITemplateHelper templateHelper,
+            IRepository<User> userRepository)
         {
-            _userManager = userManager;
             _appSettings = appSettings.Value;
+            _userManager = userManager;
             _templateHelper = templateHelper;
+            _userRepository = userRepository;
         }
 
-        public async Task SendConfirmationEmailAsync(User user, string callbackUrl)
+        public async Task SendConfirmationEmailAsync(
+            User user,
+            string callbackUrl)
         {
             var confirmationToken = await _userManager
                 .GenerateEmailConfirmationTokenAsync(user);
 
-            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-            "ConfirmationEmail",
-            new ConfirmationEmailDTO
-            {
-                Name = user.Name,
-                Surname = user.Surname,
-                Link = callbackUrl + "/" + confirmationToken + "/" + user.Email
-            });
+            var message = await _templateHelper
+                .GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
+                    "ConfirmationEmail",
+                    new ConfirmationEmailDTO
+                    {
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Link = callbackUrl + "confirm-email/" +
+                            confirmationToken + "/" + user.Email
+                    });
 
             await SendEmailAsync(user.Email, "Confirm your account", message);
         }
 
-        private async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendResetPasswordRequestAsync(
+            User user,
+            string callbackUrl)
+        {
+            var resetPasswordToken = await _userManager
+                .GeneratePasswordResetTokenAsync(user);
+
+            var message = await _templateHelper
+                .GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
+                    "ConfirmationResetPasswordEmail",
+                    new ConfirmationEmailDTO
+                    {
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Link = callbackUrl + "reset-password/" +
+                            resetPasswordToken + "/" + user.Email
+                    });
+
+            await SendEmailAsync(user.Email, "Confirm password reset", message);
+        }
+
+        private async Task SendEmailAsync(
+            string email,
+            string subject,
+            string message)
         {
             var client = new SendGridClient(_appSettings.SendGridKey);
             var from = new EmailAddress(
-                                            _appSettings.SendGridEmail,
-                                            _appSettings.SendGridSenderName
-                                       );
+                _appSettings.SendGridEmail,
+                _appSettings.SendGridSenderName);
+
             var to = new EmailAddress(email, email);
             var plainTextContent = "";
             var msg = MailHelper
@@ -64,25 +100,41 @@ namespace Core.Services
             if (!result.IsSuccessStatusCode)
             {
                 throw new HttpException(
-                    ErrorMessages.FailedSendEmail,
+                    ErrorMessages.THE_MAIL_SENDING_ERROR,
                     HttpStatusCode.InternalServerError);
             }
         }
 
-        public async Task SendConfirmationResetPasswordEmailAsync(User user, string callbackUrl)
+        public async Task ConfirmEmailAsync(
+            EmailConfirmationTokenRequestDTO emailConfirmationTokenRequestDTO)
         {
-            var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var user = await _userRepository.SingleOrDefaultAsync(
+                new UserSpecification.GetByEmail(emailConfirmationTokenRequestDTO.Email));
 
-            var message = await _templateHelper.GetTemplateHtmlAsStringAsync<ConfirmationEmailDTO>(
-            "ConfirmationResetPasswordEmail",
-            new ConfirmationEmailDTO
+            ExtensionMethods.UserNullCheck(user);
+
+            if (!user.EmailConfirmed)
             {
-                Name = user.Name,
-                Surname = user.Surname,
-                Link = callbackUrl + "reset-password/" + resetPasswordToken + "/" + user.Email
-            });
+                var confirm = await _userManager
+                    .ConfirmEmailAsync(user, emailConfirmationTokenRequestDTO.Token);
 
-            await SendEmailAsync(user.Email, "Confirm password reset", message);
+                if (!confirm.Succeeded)
+                {
+                    throw new HttpException(
+                        ErrorMessages.THE_MAIL_SENDING_ERROR,
+                        HttpStatusCode.BadRequest);
+                }
+
+                user.EmailConfirmed = true;
+
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_MAIL_SENDING_ERROR,
+                    HttpStatusCode.BadRequest);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ import { usersMessages } from './../constants/messages/users';
 export function getBriefUsersInfo(paginationFilterModel) {
 
     return usersService
-        .getBriefUsersInfo(paginationFilterModel)
+        .getPageOfClients(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -34,7 +34,7 @@ export function getBriefUsersInfo(paginationFilterModel) {
 export function getUserProfileInfo() {
 
     return usersService
-        .getUserInfo()
+        .getUserProfile()
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -54,7 +54,7 @@ export function getUserProfileInfo() {
 export async function editClientInfo(model, userEmail) {
 
     return await usersService
-        .editClientInfo(model, userEmail)
+        .updateClientsProfile(model, userEmail)
         .then(
             () => {
                 successMessage(usersMessages.EDIT_USER_INFO_SUCCESS);
@@ -85,7 +85,7 @@ export async function editClientInfo(model, userEmail) {
 export async function editUserInfo(model) {
 
     return await usersService
-        .editUserInfo(model)
+        .updateProfile(model)
         .then(
             () => {
                 successMessage(usersMessages.EDIT_USER_INFO_SUCCESS);
@@ -116,7 +116,7 @@ export async function editUserInfo(model) {
 export function getCouriersInfo(paginationFilterModel) {
 
     return usersService
-        .getCouriersInfo(paginationFilterModel)
+        .getPageOfCouiers(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {

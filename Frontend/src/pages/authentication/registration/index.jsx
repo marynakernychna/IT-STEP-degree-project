@@ -14,9 +14,9 @@ function RegistrationPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         setLoading(true);
-        registerUser(values, history);
+        await registerUser(values, history);
         setLoading(false);
     };
 
@@ -179,7 +179,7 @@ function RegistrationPage() {
                         </Form>
 
                         <div className="linksDiv">
-                            <Link>Home</Link>
+                            <Link to={pageUrls.HOME_PAGE}>Home</Link>
                             <Link to={pageUrls.LOGIN}>Login</Link>
                         </div>
                     </div>

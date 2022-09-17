@@ -36,6 +36,10 @@ export function getCategories() {
         .getAll()
         .then(
             (response) => {
+                if (response.status === statusCodes.NO_CONTENT) {
+                    return null;
+                }
+
                 return response.data;
             },
             () => {
@@ -58,7 +62,9 @@ export function updateCategory(model) {
     return categoriesService
         .updateCategory(model)
         .then(
-            () => { },
+            () => { 
+                return true;
+            },
             () => {
                 errorMessage(
                     generalMessages.CHANGE_DATA_FAILED,
@@ -79,7 +85,9 @@ export function deleteCategory(title) {
     return categoriesService
         .deleteCategory(title)
         .then(
-            () => { },
+            () => { 
+                return true;
+            },
             () => {
                 errorMessage(
                     generalMessages.DELETE_DATA_FAILED,

@@ -4,6 +4,7 @@ using Core.DTO.PaginationFilter;
 using Core.DTO.Ware;
 using Core.Helpers;
 using Core.Interfaces.CustomService;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,68 +16,63 @@ namespace API.Controllers
     [ApiController]
     public class WaresController : Controller
     {
-        private readonly IUserService _userService;
         private readonly IWareService _wareService;
 
         public WaresController(
-            IUserService userService,
             IWareService wareService)
         {
-            _userService = userService;
             _wareService = wareService;
         }
 
-        [HttpPost("create")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> CreateAsync(
-            [FromBody] CreateWareDTO createWareDTO)
-        {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
-            await _wareService.CreateAsync(createWareDTO, userId);
-
-            return Ok();
-        }
-
-        [HttpGet]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetAllAsync(
-            [FromQuery] PaginationFilterDTO paginationFilter)
-        {
-            var wares = await _wareService.GetAllAsync(paginationFilter);
-
-            return Ok(wares);
-        }
-
-        [HttpGet("by-category")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
+        [HttpGet("by-category/page")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
         public async Task<IActionResult> GetByCategoryAsync(
-           [FromQuery] PaginationFilterWareDTO paginationFilter)
+            [FromQuery] PaginationFilterWareDTO paginationFilter)
         {
-            var wares = await _wareService.GetByCategoryAsync(paginationFilter);
-
-            return Ok(wares);
+            return Ok(await _wareService
+                .GetByCategoryAsync(paginationFilter));
         }
 
         [HttpGet("by-id")]
-        [AuthorizeByRole(IdentityRoleNames.User, IdentityRoleNames.Admin)]
+        [AuthorizeByRole(
+            IdentityRoleNames.Client,
+            IdentityRoleNames.Admin)]
         public async Task<IActionResult> GetByIdAsync(
-           [FromQuery] EntityIdDTO entityIdDTO)
+            [FromQuery] EntityIdDTO entityIdDTO)
         {
-            var ware = await _wareService.GetByIdAsync(entityIdDTO.Id);
-
-            return Ok(ware);
+            return Ok(await _wareService
+                .FormWareInfoDTOByIdAsync(entityIdDTO.Id));
         }
 
-        [HttpGet("created-by-user")]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetCreatedByUserAsync(
-           [FromQuery] PaginationFilterDTO paginationFilter)
+        [HttpGet("clients/by-client/page")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
+        public async Task<IActionResult> GetCreatedByClientAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
         {
-            var userId = _userService.GetCurrentUserNameIdentifier(User);
+            return Ok(await _wareService.GetCreatedByUserAsync(
+                UserService.GetCurrentUserIdentifier(User),
+                paginationFilter));
+        }
 
-            var ware = await _wareService.GetCreatedByUserAsync(userId, paginationFilter);
+        [HttpGet("page")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
+        public async Task<IActionResult> GetAllAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            return Ok(await _wareService
+                .GetAllAsync(paginationFilter));
+        }
 
-            return Ok(ware);
+        [HttpPost("create")]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] CreateWareDTO createWareDTO)
+        {
+            await _wareService.CreateAsync(
+                createWareDTO,
+                UserService.GetCurrentUserIdentifier(User));
+
+            return Ok();
         }
     }
 }

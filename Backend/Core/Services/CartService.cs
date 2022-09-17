@@ -7,7 +7,6 @@ using Core.Helpers;
 using Core.Exceptions;
 using Core.Resources;
 using System.Net;
-using System.Collections.Generic;
 using Core.DTO.Ware;
 using Core.DTO;
 using Core.DTO.PaginationFilter;
@@ -16,71 +15,56 @@ namespace Core.Services
 {
     public class CartService : ICartService
     {
-        private readonly IRepository<User> _userRepository;
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<WareCart> _wareCartRepository;
-        private readonly IRepository<Ware> _wareRepository;
-        private readonly IFileService _fileService;
+
         private readonly IUserService _userService;
+        private readonly IWareService _wareService;
+        private readonly IWareCartService _wareCartService;
 
         public CartService(
-            IRepository<User> userRepository,
             IRepository<Cart> cartRepository,
-            IRepository<WareCart> wareCartRepository,
-            IRepository<Ware> wareRepository,
-            IFileService fileService,
-            IUserService userService)
+            IUserService userService,
+            IWareService wareService,
+            IWareCartService wareCartService)
         {
-            _userRepository = userRepository;
             _cartRepository = cartRepository;
-            _wareCartRepository = wareCartRepository;
-            _wareRepository = wareRepository;
-            _fileService = fileService;
             _userService = userService;
+            _wareService = wareService;
+            _wareCartService = wareCartService;
         }
 
-        public async Task AddWareAsync(string userId, int wareId)
+        public async Task AddWareAsync(
+            string userId,
+            int wareId)
         {
-            var ware = await _wareRepository.GetByIdAsync(wareId);
+            var ware = await _wareService.GetByIdAsync(wareId);
 
-            ExtensionMethods.WareNullCheck(ware);
-
-            if(ware.CreatorId == userId)
+            if (ware.CreatorId == userId)
             {
                 throw new HttpException(
-                    ErrorMessages.ThisYourWare,
+                    ErrorMessages.THIS_IS_YOUR_WARE,
                     HttpStatusCode.BadRequest);
             }
 
-            var cart = await _cartRepository.SingleOrDefaultAsync(
-                new CartSpecification.GetByCreatorId(userId));
+            var cart = await _cartRepository
+                .SingleOrDefaultAsync(
+                    new CartSpecification.GetByCreatorId(userId));
 
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 
-            var duplicate = await _wareCartRepository.SingleOrDefaultAsync(
-                new WareCartSpecification.GetByIds(cart.Id, wareId));
+            await _wareCartService
+                .CheckForWareDuplicateAsync(cart.Id, wareId);
 
-            if (duplicate != null)
-            {
-                throw new HttpException(
-                    ErrorMessages.WareIsAlreadyInTheCart,
-                    HttpStatusCode.BadRequest);
-            }
-
-            await _wareCartRepository.AddAsync(
-                new WareCart
-                {
-                    WareId = wareId,
-                    CartId = cart.Id
-                });
+            await _wareCartService.CreateAsync(cart.Id, wareId);
         }
 
-        public async Task CreateAsync(User user)
+        public async Task CreateAsync(
+            User user)
         {
             ExtensionMethods.UserNullCheck(user);
 
@@ -91,7 +75,26 @@ namespace Core.Services
                 });
         }
 
-        public async Task DeleteWareAsync(string userId, int wareId)
+        public async Task DeleteWareAsync(
+            string userId,
+            int wareId)
+        {
+            var cart = await _cartRepository
+                .SingleOrDefaultAsync(
+                    new CartSpecification.GetByCreatorId(userId));
+
+            if (cart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_CART_NOT_FOUND,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            await _wareCartService.DeleteAsync(cart.Id, wareId);
+        }
+
+        public async Task<Cart> GetByUserIdAsync(
+            string userId)
         {
             var cart = await _cartRepository.SingleOrDefaultAsync(
                 new CartSpecification.GetByCreatorId(userId));
@@ -99,82 +102,18 @@ namespace Core.Services
             if (cart == null)
             {
                 throw new HttpException(
-                    ErrorMessages.CartNotFound,
+                    ErrorMessages.THE_CART_NOT_FOUND,
                     HttpStatusCode.InternalServerError);
             }
 
-            var wareCart = await _wareCartRepository.SingleOrDefaultAsync(
-                new WareCartSpecification.GetByIds(cart.Id, wareId));
-
-            if (wareCart == null)
-            {
-                throw new HttpException(
-                    ErrorMessages.WareNotFound,
-                    HttpStatusCode.BadRequest);
-            }
-
-            await _wareCartRepository.DeleteAsync(wareCart);
+            return cart;
         }
 
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
-            string userId, PaginationFilterDTO paginationFilterDTO)
-        {
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            ExtensionMethods.UserNullCheck(user);
-
-            var cart = await _cartRepository.SingleOrDefaultAsync(
-                new CartSpecification.GetByCreatorId(userId));
-
-            if (cart == null)
-            {
-                throw new HttpException(
-                    ErrorMessages.CartNotFound,
-                    HttpStatusCode.InternalServerError);
-            }
-
-            var waresCount = await _wareCartRepository.CountAsync(
-                new WareCartSpecification.GetCartWares(cart.Id, paginationFilterDTO));
-
-            if (waresCount == 0)
-            {
-                return null;
-            }
-
-            var totalPages = PaginatedList<WareBriefInfoDTO>
-                .GetTotalPages(paginationFilterDTO, waresCount);
-
-            var wareCarts = await _wareCartRepository.ListAsync(
-                new WareCartSpecification.GetCartWares(cart.Id, paginationFilterDTO));
-
-            var wares = new List<WareBriefInfoDTO>();
-
-            foreach (var wareCart in wareCarts)
-            {
-                var ware = wareCart.Ware;
-
-                wares.Add(new WareBriefInfoDTO
-                {
-                    Id = ware.Id,
-                    Title = ware.Title,
-                    Cost = ware.Cost,
-                    PhotoBase64 = _fileService.GenereteBase64(ware.PhotoLink),
-                    CategoryTitle = ware.Category.Title
-                });
-            }
-
-            return PaginatedList<WareBriefInfoDTO>.Evaluate(
-                wares,
-                paginationFilterDTO.PageNumber,
-                waresCount,
-                totalPages);
-        }
-
-        public async Task<PaginatedList<WareBriefInfoDTO>> GetByUserIdAsync(
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
             PaginationFilterCartDTO paginationFilterCartDTO)
         {
-            var userId = await _userService.GetUserIdByEmailAsync(
-                paginationFilterCartDTO.UserEmail);
+            var userId = await _userService
+                .GetIdByEmailAsync(paginationFilterCartDTO.UserEmail);
 
             var paginationFilterDTO = new PaginationFilterDTO()
             {
@@ -182,7 +121,40 @@ namespace Core.Services
                 PageNumber = paginationFilterCartDTO.PageNumber
             };
 
-            return await GetByUserIdAsync(userId, paginationFilterDTO);
+            return await GetPageByClientAsync(userId, paginationFilterDTO);
+        }
+
+        public async Task<PaginatedList<WareBriefInfoDTO>> GetPageByClientAsync(
+            string userId,
+            PaginationFilterDTO paginationFilterDTO)
+        {
+            await _userService.CheckIfExistsByIdAsync(userId);
+
+            var cart = await _cartRepository
+                .SingleOrDefaultAsync(
+                    new CartSpecification.GetByCreatorId(userId));
+
+            if (cart == null)
+            {
+                throw new HttpException(
+                    ErrorMessages.THE_CART_NOT_FOUND,
+                    HttpStatusCode.InternalServerError);
+            }
+
+            return await _wareCartService
+                .GetPageByCartAsync(
+                    paginationFilterDTO,
+                    cart.Id
+                );
+        }
+
+        public async Task SetOrderIdAsync(
+            int orderId,
+            Cart cart)
+        {
+            cart.OrderId = orderId;
+
+            await _cartRepository.UpdateAsync(cart);
         }
     }
 }

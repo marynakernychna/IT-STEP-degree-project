@@ -22,7 +22,23 @@ namespace API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpPost("create")]
+        [HttpGet]
+        [AuthorizeByRole(IdentityRoleNames.Client)]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            return Ok(await _categoryService.GetAllAsync());
+        }
+
+        [HttpGet("admins/page")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> GetPageAsync(
+            [FromQuery] PaginationFilterDTO paginationFilter)
+        {
+            return Ok(await _categoryService
+                .GetPageAsync(paginationFilter));
+        }
+
+        [HttpPost("admins/create")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> CreateAsync(
             [FromBody] CategoryDTO createTripDTO)
@@ -32,41 +48,22 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> DeleteAsync(
-            [FromQuery] CategoryDTO categoryDTO)
-        {
-            await _categoryService.DeleteAsync(categoryDTO.Title);
-
-            return Ok();
-        }
-
-        [HttpGet("all")]
-        [AuthorizeByRole(IdentityRoleNames.Admin)]
-        public async Task<IActionResult> GetAllAsync(
-            [FromQuery] PaginationFilterDTO paginationFilter)
-        {
-            var categories = await _categoryService.GetAllAsync(paginationFilter);
-
-            return Ok(categories);
-        }
-
-        [HttpGet]
-        [AuthorizeByRole(IdentityRoleNames.User)]
-        public async Task<IActionResult> GetAsync()
-        {
-            var categories = await _categoryService.GetAllAsync();
-
-            return Ok(categories);
-        }
-
-        [HttpPut("update")]
+        [HttpPut("admins/update")]
         [AuthorizeByRole(IdentityRoleNames.Admin)]
         public async Task<IActionResult> UpdateAsync(
             [FromBody] UpdateCategoryDTO updateCategoryDTO)
         {
             await _categoryService.UpdateAsync(updateCategoryDTO);
+
+            return Ok();
+        }
+
+        [HttpDelete("admins/delete")]
+        [AuthorizeByRole(IdentityRoleNames.Admin)]
+        public async Task<IActionResult> DeleteAsync(
+            [FromQuery] CategoryDTO categoryDTO)
+        {
+            await _categoryService.DeleteAsync(categoryDTO.Title);
 
             return Ok();
         }

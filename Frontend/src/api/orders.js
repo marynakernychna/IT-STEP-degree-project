@@ -7,20 +7,20 @@ export default class ordersService {
         return instance.post(ORDERS_URLS.CREATE, model);
     }
 
-    static getByUser(paginationFilterModel) {
-        return instance.get(ORDERS_URLS.GET_BY_USER +
+    static getPageByClient(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_PAGE_BY_CLIENT +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
-    static getAvailable(paginationFilterModel) {
-        return instance.get(ORDERS_URLS.GET_AVAILABLE +
+    static getPageOfAvailable(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_PAGE_OF_AVAILABLE +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
-    static getByCourier(paginationFilterModel) {
-        return instance.get(ORDERS_URLS.GET_BY_COURIER +
+    static getPageOfAssignedByCourier(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_PAGE_OF_ASSIGNED_BY_COURIER +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
@@ -39,6 +39,7 @@ export default class ordersService {
     }
 
     static confirmDelivery(orderId) {
+        console.log(orderId)
         return instance.put(ORDERS_URLS.CONFIRM_DELIVERY, orderId);
     }
 
@@ -46,13 +47,13 @@ export default class ordersService {
         return instance.put(ORDERS_URLS.REJECT_DELIVERY_CONFIRMATION, orderId);
     }
 
-    static getDelivered(paginationFilterModel) {
-        return instance.get(ORDERS_URLS.GET_DELIVERED_ORDERS +
+    static getPageDeliveredOrders(paginationFilterModel) {
+        return instance.get(ORDERS_URLS.GET_PAGE_OF_DELIVERED_ORDERS +
             `?PageNumber=${paginationFilterModel.pageNumber}
              &PageSize=${paginationFilterModel.pageSize}`);
     }
 
-    static change(model) {
-        return instance.put(ORDERS_URLS.CHANGE_ORDER_INFO, model);
+    static update(model) {
+        return instance.put(ORDERS_URLS.UPDATE, model);
     }
 }

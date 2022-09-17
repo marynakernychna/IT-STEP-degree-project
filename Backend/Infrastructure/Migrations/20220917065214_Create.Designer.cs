@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220907094633_Create")]
+    [Migration("20220917065214_Create")]
     partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,37 +133,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<float>("Estimate")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Rates");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -185,81 +154,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
-                });
-
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("PhotoLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
@@ -601,29 +495,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Courier");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Rates")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Rates")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Core.Entities.User", "User")
@@ -635,50 +506,12 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reports")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Reports")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Ware", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("Core.Entities.Ware", b =>
                 {
                     b.HasOne("Core.Entities.Category", "Category")
                         .WithMany("Wares")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.User", "Creator")
@@ -776,12 +609,6 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Characteristics");
 
-                    b.Navigation("Rates");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
-
                     b.Navigation("WareCarts");
                 });
 
@@ -791,13 +618,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Rates");
-
                     b.Navigation("RefreshTokens");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
 
                     b.Navigation("Wares");
                 });

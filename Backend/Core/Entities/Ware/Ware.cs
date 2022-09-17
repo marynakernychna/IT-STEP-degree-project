@@ -17,9 +17,6 @@ namespace Core.Entities
         public string CreatorId { get; set; }
         public User Creator { get; set; }
         public ICollection<Characteristic> Characteristics { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Report> Reports { get; set; }
-        public ICollection<Rate> Rates { get; set; }
         public ICollection<WareCart> WareCarts { get; set; }
     }
 }

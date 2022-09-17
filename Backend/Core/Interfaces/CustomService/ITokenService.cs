@@ -6,6 +6,10 @@ namespace Core.Interfaces.CustomService
 {
     public interface ITokenService
     {
-        Task<UserAutorizationDTO> GenerateUserTokens(User user, string userRole);
+        Task DeleteRefreshTokenAsync(
+            string refreshToken);
+        Task<UserAutorizationDTO> GenerateForUserAsync(
+            User user,
+            string userRole);
     }
 }

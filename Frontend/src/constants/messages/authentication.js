@@ -20,7 +20,13 @@ export const authenticationMessages = Object.freeze({
     RESET_PASSWORD_FAILED: "Failed to reset password!",
     NEW_PASSWORD_SAME_PREVIOUS: "New password same as previous",
 
-    SEND_REQUES_SUCCESS: "You have successfully send the request!",
-    SEND_REQUES_FAILED: "Failed send the request!",
-    USER_NOT_FOUND: "User with this email not found!"
+    SEND_REQUEST_SUCCESS: "You have successfully send the request!",
+    SEND_REQUEST_FAILED: "Failed send the request!",
+    USER_NOT_FOUND: "User with this email not found!",
+    
+    SEND_EMAIL_CONFIRMATION_FAILED: "Send email confirmation failed!",
+    SUCCESSFUL_EMAIL_CONFIRMATION: "Successful email confirmation!",
+    EMAIL_ALREADY_CONFIRIMED: "Your email has already been confirmed or the confirmation time has expired.",
+
+    INVALID_CREDENTIALS: "Invalid credentials!"
 });

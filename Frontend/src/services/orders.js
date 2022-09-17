@@ -4,7 +4,7 @@ import ordersService from './../api/orders';
 import { ordersMessages } from './../constants/messages/orders';
 import { statusCodes } from './../constants/statusCodes';
 
-export function orderAll(model) {
+export function create(model) {
 
     return ordersService
         .create(model)
@@ -31,10 +31,10 @@ export function orderAll(model) {
         });
 }
 
-export function getUserOrders(paginationFilterModel) {
+export function getClientOrders(paginationFilterModel) {
 
     return ordersService
-        .getByUser(paginationFilterModel)
+        .getPageByClient(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -61,7 +61,7 @@ export function getUserOrders(paginationFilterModel) {
 export function getAvailableOrders(paginationFilterModel) {
 
     return ordersService
-        .getAvailable(paginationFilterModel)
+        .getPageOfAvailable(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -115,7 +115,7 @@ export function assignToOrder(id) {
 export function getOrdersByCourier(paginationFilterModel) {
 
     return ordersService
-        .getByCourier(paginationFilterModel)
+        .getPageOfAssignedByCourier(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -250,7 +250,7 @@ export function rejectDeliveryConfirmation(id) {
 export function getDeliveredOrders(paginationFilterModel) {
 
     return ordersService
-        .getDelivered(paginationFilterModel)
+        .getPageDeliveredOrders(paginationFilterModel)
         .then(
             (response) => {
                 if (response.status === statusCodes.NO_CONTENT) {
@@ -286,7 +286,7 @@ export async function changeOrderInfo(orderInfo) {
     };
 
     return await ordersService
-        .change(model)
+        .update(model)
         .then(
             () => {
                 successMessage(ordersMessages.EDIT_ORDER_INFO_SUCCESS);
