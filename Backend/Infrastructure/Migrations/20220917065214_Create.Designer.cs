@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220917011917_AddSeed")]
-    partial class AddSeed
+    [Migration("20220917065214_Create")]
+    partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,13 +40,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatorId = "7993f3ea-8d6f-4b66-b030-399ed3b4d622"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -64,13 +57,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Сategory has been deleted"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Characteristic", b =>
@@ -147,37 +133,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<float>("Estimate")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Rates");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -199,81 +154,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
-                });
-
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("PhotoLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
@@ -370,29 +250,6 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8938cbe3-1fc1-4be7-8fbe-ca600bfaccd2",
-                            ConcurrencyStamp = "8938cbe3-1fc1-4be7-8fbe-ca600bfaccd2",
-                            Name = "Client",
-                            NormalizedName = "CLIENT"
-                        },
-                        new
-                        {
-                            Id = "84821894-ac58-40cf-aba9-1d1371364e80",
-                            ConcurrencyStamp = "84821894-ac58-40cf-aba9-1d1371364e80",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "a8771bf8-ed2e-471d-a6e0-d992c46676a4",
-                            ConcurrencyStamp = "a8771bf8-ed2e-471d-a6e0-d992c46676a4",
-                            Name = "Courier",
-                            NormalizedName = "COURIER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -554,23 +411,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "f85e6302-143d-4697-9507-1273fe4aeffe",
-                            RoleId = "84821894-ac58-40cf-aba9-1d1371364e80"
-                        },
-                        new
-                        {
-                            UserId = "7993f3ea-8d6f-4b66-b030-399ed3b4d622",
-                            RoleId = "8938cbe3-1fc1-4be7-8fbe-ca600bfaccd2"
-                        },
-                        new
-                        {
-                            UserId = "4562db3d-2b36-4729-9507-bd069d14b385",
-                            RoleId = "a8771bf8-ed2e-471d-a6e0-d992c46676a4"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -614,68 +454,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f85e6302-143d-4697-9507-1273fe4aeffe",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "09e923a9-f0dc-4777-905e-00f4d9b2f235",
-                            Email = "marylou@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MARYLOU@GMAIL.COM",
-                            NormalizedUserName = "MARYLOU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECf4eXv5OTLiwL4xcfJDuGgxf6rxowNWxEROI6D9CAfhnsyyJyIl/KJuvdFFUYh83A==",
-                            PhoneNumber = "+380986734245",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "c250e5d6-655b-4c69-81b7-9115d2c713c2",
-                            TwoFactorEnabled = false,
-                            UserName = "marylou@gmail.com",
-                            Name = "Mary",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 1, 19, 15, 813, DateTimeKind.Unspecified).AddTicks(971), new TimeSpan(0, 0, 0, 0, 0)),
-                            Surname = "Lou"
-                        },
-                        new
-                        {
-                            Id = "7993f3ea-8d6f-4b66-b030-399ed3b4d622",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "af0e1b61-af8b-4cca-b19e-01924a68c65d",
-                            Email = "etsukomami@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
-                            NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP6lLp5s8qkL1L6MNlSvC77LViK8nKEGGKwTyR5EizXea7TnNmn2A/XHiSkleDI+Mg==",
-                            PhoneNumber = "+380988931245",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3470b1cb-3b04-444a-be0f-2f5dca14c933",
-                            TwoFactorEnabled = false,
-                            UserName = "etsukomami@gmail.com",
-                            Name = "Etsuko",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 1, 19, 15, 815, DateTimeKind.Unspecified).AddTicks(2985), new TimeSpan(0, 0, 0, 0, 0)),
-                            Surname = "Mami"
-                        },
-                        new
-                        {
-                            Id = "4562db3d-2b36-4729-9507-bd069d14b385",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "ad73c9c4-27eb-4928-8f35-0940eedc281a",
-                            Email = "yuurimorishita@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "YUURIMORISHITA@GMAIL.COM",
-                            NormalizedUserName = "YUURIMORISHITA@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ96r6OtR891Iy++J7H+XP6HhHswEZ8DuDhHCRprA6lBQgA8xgQT4ZNeirtKvXRWww==",
-                            PhoneNumber = "+380988931245",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2111399f-ada9-42cb-aba3-c0e1a55982cd",
-                            TwoFactorEnabled = false,
-                            UserName = "yuurimorishita@gmail.com",
-                            Name = "Yuuri",
-                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 1, 19, 15, 815, DateTimeKind.Unspecified).AddTicks(3236), new TimeSpan(0, 0, 0, 0, 0)),
-                            Surname = "Morishita"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -717,29 +495,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Courier");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Rates")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Rates")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Core.Entities.User", "User")
@@ -749,44 +504,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reports")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Reports")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Ware", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
@@ -892,12 +609,6 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Characteristics");
 
-                    b.Navigation("Rates");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
-
                     b.Navigation("WareCarts");
                 });
 
@@ -907,13 +618,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Rates");
-
                     b.Navigation("RefreshTokens");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
 
                     b.Navigation("Wares");
                 });

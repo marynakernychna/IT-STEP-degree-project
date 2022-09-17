@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220917011849_Create")]
-    partial class Create
+    [Migration("20220917070156_AddSeed")]
+    partial class AddSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,13 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -57,6 +64,28 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Title = "Сategory has been deleted"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Title = "Laptops"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Title = "Books"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Title = "Footwear"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Characteristic", b =>
@@ -84,6 +113,57 @@ namespace Infrastructure.Migrations
                     b.HasIndex("WareId");
 
                     b.ToTable("Characteristics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Color",
+                            Value = "Pine Grey",
+                            WareId = 7
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Processor",
+                            Value = "Intel Core i7-1165G7",
+                            WareId = 7
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "RAM",
+                            Value = "16 GB",
+                            WareId = 7
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "SSD",
+                            Value = "1 TB",
+                            WareId = 7
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Weight",
+                            Value = "2.1 kg",
+                            WareId = 8
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Color",
+                            Value = "Gray",
+                            WareId = 8
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Diagonal",
+                            Value = "16.2",
+                            WareId = 8
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Order", b =>
@@ -133,37 +213,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<float>("Estimate")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Rates");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -185,81 +234,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
-                });
-
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("TargetUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("TargetUserId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("PhotoLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("WareId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
@@ -304,6 +278,116 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Wares");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AvailableCount = 5,
+                            CategoryId = 4,
+                            Cost = 40450.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(3229), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "GIANVITO ROSSI",
+                            PhotoLink = "3d67cfc9-341f-4c3d-8f4c-8da09f2ce953.jpeg",
+                            Title = "Ankle Boots"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AvailableCount = 3,
+                            CategoryId = 4,
+                            Cost = 17362.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4963), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "EYTYS",
+                            PhotoLink = "f80bde70-20a4-45f2-b755-5282a46308e1.jpeg",
+                            Title = "Halo Leather Sneaker"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AvailableCount = 15,
+                            CategoryId = 4,
+                            Cost = 2770.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4968), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "CONVERSE",
+                            PhotoLink = "9c2e3e64-07f5-44fe-97f8-ffc4fb02d52e.jpeg",
+                            Title = "Chuck Taylor All Star"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AvailableCount = 38,
+                            CategoryId = 3,
+                            Cost = 257.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4971), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "Whose truth is the lie? Stay up all night readingthe sensational psychological thriller that has readers obsessed,from the #1 New York Times bestselling author of It Ends With Us.",
+                            PhotoLink = "0901295c-e213-4a9c-9463-5744499c839a.jpeg",
+                            Title = "Verity"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AvailableCount = 13,
+                            CategoryId = 3,
+                            Cost = 841.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4975), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "The Myth of Normal: Trauma, Illness, and Healing in a Toxic Culture",
+                            PhotoLink = "8a16df30-8159-4499-ab51-456d87c9d113.jpeg",
+                            Title = "The Myth of Normal"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AvailableCount = 11,
+                            CategoryId = 3,
+                            Cost = 701.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4978), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "What If? 2: Additional Serious Scientific Answers toAbsurd Hypothetical Questions.",
+                            PhotoLink = "d4a9e5ea-ae19-49b5-a406-55faf60ba19a.jpeg",
+                            Title = "What If? 2"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AvailableCount = 17,
+                            CategoryId = 2,
+                            Cost = 59999.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4981), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "OLED UP5401EA-KN094W (90NB0V41-M004V0)",
+                            PhotoLink = "4e8967e8-c1d1-45e9-9a6e-758e980e0614.jpeg",
+                            Title = "ASUS ZenBook 14 Flip OLED"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AvailableCount = 19,
+                            CategoryId = 2,
+                            Cost = 114999.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4985), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "MK183UA/A",
+                            PhotoLink = "91dd7d98-b00f-424e-8b2a-960eecf4ca2e.jpeg",
+                            Title = "Apple MacBook Pro"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AvailableCount = 19,
+                            CategoryId = 2,
+                            Cost = 42999.0,
+                            CreationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 746, DateTimeKind.Unspecified).AddTicks(4988), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatorId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            Description = "Chip Gold (MGND3)",
+                            PhotoLink = "e8bb3505-7ca2-4d5d-b2df-9232767abae8.jpeg",
+                            Title = "Apple MacBook Air"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.WareCart", b =>
@@ -356,6 +440,29 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6cbc16ff-d1e1-4780-a7c4-0f382f3fcc94",
+                            ConcurrencyStamp = "6cbc16ff-d1e1-4780-a7c4-0f382f3fcc94",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        },
+                        new
+                        {
+                            Id = "dcf03835-34c0-4a96-b296-cafb4d2b34c3",
+                            ConcurrencyStamp = "dcf03835-34c0-4a96-b296-cafb4d2b34c3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "879e1ab2-8ff2-45a9-917e-ef646376a045",
+                            ConcurrencyStamp = "879e1ab2-8ff2-45a9-917e-ef646376a045",
+                            Name = "Courier",
+                            NormalizedName = "COURIER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,6 +624,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "aac58995-671c-4cac-ae5c-48042350dbeb",
+                            RoleId = "dcf03835-34c0-4a96-b296-cafb4d2b34c3"
+                        },
+                        new
+                        {
+                            UserId = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            RoleId = "6cbc16ff-d1e1-4780-a7c4-0f382f3fcc94"
+                        },
+                        new
+                        {
+                            UserId = "7fe48240-c8a2-4995-ac12-7d5b9f33c04e",
+                            RoleId = "879e1ab2-8ff2-45a9-917e-ef646376a045"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -560,6 +684,68 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "aac58995-671c-4cac-ae5c-48042350dbeb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "35726dc0-4fd5-41f3-9511-4bdfcf507ec7",
+                            Email = "marylou@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MARYLOU@GMAIL.COM",
+                            NormalizedUserName = "MARYLOU@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAED/FsUEo/0VIMBgSFHHJyuTrGY4P2XfgrvofRYRAydG/KkTww2PP/F7HbbocG9F6lw==",
+                            PhoneNumber = "+380986734245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4fa3a724-3f12-494d-ac6a-6fbb19a3dbd3",
+                            TwoFactorEnabled = false,
+                            UserName = "marylou@gmail.com",
+                            Name = "Mary",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 708, DateTimeKind.Unspecified).AddTicks(7925), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Lou"
+                        },
+                        new
+                        {
+                            Id = "3ccd2d5a-2006-4ad5-b3c1-023f885c1b0a",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e32a3cb4-94f9-462e-9d25-4bdd37395db1",
+                            Email = "etsukomami@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ETSUKOMAMI@GMAIL.COM",
+                            NormalizedUserName = "ETSUKOMAMI@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEZt44JF11xjGZ5O4luQAad0E90/PGsXgSJcLpaPWzxbsQvyswr05zKPCIioQWw6rg==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2184aece-4edc-4634-864c-fef1842401f3",
+                            TwoFactorEnabled = false,
+                            UserName = "etsukomami@gmail.com",
+                            Name = "Etsuko",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 710, DateTimeKind.Unspecified).AddTicks(2693), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Mami"
+                        },
+                        new
+                        {
+                            Id = "7fe48240-c8a2-4995-ac12-7d5b9f33c04e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7b647e02-18a3-44ee-b4af-bae87b19417f",
+                            Email = "yuurimorishita@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "YUURIMORISHITA@GMAIL.COM",
+                            NormalizedUserName = "YUURIMORISHITA@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGKRW0jrfDWzgj7HdBT6t8ulhtqT8oZFlbvS0tpPFT24fpxQ59wWkaGNOhvRvh+dYQ==",
+                            PhoneNumber = "+380988931245",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b2750684-fa01-42eb-917c-7fb57382f75a",
+                            TwoFactorEnabled = false,
+                            UserName = "yuurimorishita@gmail.com",
+                            Name = "Yuuri",
+                            RegistrationDate = new DateTimeOffset(new DateTime(2022, 9, 17, 7, 1, 55, 710, DateTimeKind.Unspecified).AddTicks(3021), new TimeSpan(0, 0, 0, 0, 0)),
+                            Surname = "Morishita"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -601,29 +787,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Courier");
                 });
 
-            modelBuilder.Entity("Core.Entities.Rate", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Rates")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Rates")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
             modelBuilder.Entity("Core.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Core.Entities.User", "User")
@@ -633,44 +796,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Core.Entities.Report", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reports")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.User", "TargetUser")
-                        .WithMany()
-                        .HasForeignKey("TargetUserId");
-
-                    b.HasOne("Core.Entities.Ware", "Ware")
-                        .WithMany("Reports")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("TargetUser");
-
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.HasOne("Core.Entities.User", "Creator")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Ware", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("WareId");
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Core.Entities.Ware", b =>
@@ -776,12 +901,6 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Characteristics");
 
-                    b.Navigation("Rates");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
-
                     b.Navigation("WareCarts");
                 });
 
@@ -791,13 +910,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Rates");
-
                     b.Navigation("RefreshTokens");
-
-                    b.Navigation("Reports");
-
-                    b.Navigation("Reviews");
 
                     b.Navigation("Wares");
                 });
