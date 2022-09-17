@@ -255,7 +255,7 @@ export async function registerCourier(userData) {
         });
 }
 
-export async function confirmEmailAsync(token, email) {
+export async function confirmEmailAsync(token, email, history) {
     const model = {
         email: email,
         token: token
@@ -266,6 +266,8 @@ export async function confirmEmailAsync(token, email) {
         .then(
             () => {
                 successMessage(authenticationMessages.SUCCESSFUL_EMAIL_CONFIRMATION);
+                
+                history.push(pageUrls.LOGIN);
             },
             () => {
                 errorMessage(

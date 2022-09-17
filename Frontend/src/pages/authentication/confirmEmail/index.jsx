@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import { confirmEmailAsync } from "../../../services/authentication";
+import { useHistory } from 'react-router-dom';
 
 function ConfirmEmailPage() {
+    let history = useHistory();
 
     const [loading, setLoading] = useState(true);
 
@@ -14,8 +16,7 @@ function ConfirmEmailPage() {
             let emailParts = data.slice(-1);
             let email = emailParts.join('/');
 
-            console.log(token, email);
-            await confirmEmailAsync(token, email);
+            await confirmEmailAsync(token, email, history);
         }
 
         fetchData();

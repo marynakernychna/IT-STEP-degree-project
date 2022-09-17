@@ -23,6 +23,7 @@ namespace Core.Services
 
         private readonly ITemplateHelper _templateHelper;
 
+        // If we replace it with an appropriate service, it will cause an initialization loop.
         private readonly IRepository<User> _userRepository;
 
         public EmailService(
