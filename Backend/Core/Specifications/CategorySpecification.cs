@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Core.Constants;
 using Core.DTO;
 using Core.Entities;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Core.Specifications
         {
             public GetByTitle(string categoryTitle)
             {
-                Query.Where(c => c.Title == categoryTitle)
+                Query.Where(c => c.Title == categoryTitle &&
+                            c.Title != Constants.Constants.NO_CATEGORY_TITLE)
                      .AsNoTracking();
             }
         }
@@ -21,7 +23,8 @@ namespace Core.Specifications
         {
             public GetAll(PaginationFilterDTO paginationFilter)
             {
-                Query.Include(c => c.Wares)
+                Query.Where(c => c.Title != Constants.Constants.NO_CATEGORY_TITLE)
+                     .Include(c => c.Wares)
                      .OrderBy(c => c.Title)
                      .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
                      .Take(paginationFilter.PageSize)
@@ -30,7 +33,8 @@ namespace Core.Specifications
 
             public GetAll()
             {
-                Query.OrderBy(c => c.Title)
+                Query.Where(c => c.Title != Constants.Constants.NO_CATEGORY_TITLE)
+                     .OrderBy(c => c.Title)
                      .AsNoTracking();
             }
         }

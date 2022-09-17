@@ -56,12 +56,14 @@ const CreateGoodPage = () => {
     useEffect(async () => {
         let goodCategories = await getCategories();
 
-        goodCategories.map(category => {
-            category.value = category.title;
-            category.label = category.title;
-        });
+        if (goodCategories != null) {
+            goodCategories.map(category => {
+                category.value = category.title;
+                category.label = category.title;
+            });
 
-        setCategories(goodCategories);
+            setCategories(goodCategories);
+        }
         setLoading(false);
     }, []);
 

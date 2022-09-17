@@ -34,7 +34,15 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new WareConfiguration());
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
             builder.ApplyConfiguration(new WareCartConfiguration());
+
+            builder
+                .Entity<Category>()
+                .HasMany(c => c.Wares)
+                .WithOne(w => w.Category)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Seed();
+
             base.OnModelCreating(builder);
         }
     }

@@ -32,6 +32,7 @@ namespace Infrastructure.Data.SeedData
             SeedIdentityRole(builder);
             SeedIdentityUserRole(builder);
             SeedCart(builder);
+            SeedCategory(builder);
         }
 
         #region SeedUser
@@ -157,6 +158,22 @@ namespace Infrastructure.Data.SeedData
 
             builder.Entity<Cart>()
                    .HasData(defaultUserCart);
+        }
+
+        #endregion
+
+        #region SeedCategory
+
+        public static void SeedCategory(ModelBuilder builder)
+        {
+            var noCategory = new Category()
+            {
+                Id = Constants.NO_CATEGORY_ID,
+                Title = Constants.NO_CATEGORY_TITLE
+            };
+
+            builder.Entity<Category>()
+                   .HasData(noCategory);
         }
 
         #endregion

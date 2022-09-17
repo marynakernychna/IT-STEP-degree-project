@@ -21,5 +21,9 @@ namespace Core.Interfaces.CustomService
         Task<PaginatedList<WareBriefInfoDTO>> GetPageByCartAsync(
             PaginationFilterDTO paginationFilterDTO,
             int cartId);
+        Task ReduceAvailableCountAsync(
+            int cartId);
+        Task ReturnAvailableCountAsync(
+            int cartId);
     }
 }

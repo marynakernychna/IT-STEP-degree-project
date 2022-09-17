@@ -134,5 +134,33 @@ namespace Core.Services
                 waresCount,
                 totalPages);
         }
+
+        public async Task ReduceAvailableCountAsync(
+            int cartId)
+        {
+            var wareCarts = await _wareCartRepository.ListAsync(
+                new WareCartSpecification.GetCartWares(cartId));
+
+            foreach (var wareCart in wareCarts)
+            {
+                wareCart.Ware.AvailableCount -= 1;
+            }
+
+            await _wareCartRepository.UpdateRangeAsync(wareCarts);
+        }
+
+        public async Task ReturnAvailableCountAsync(
+            int cartId)
+        {
+            var wareCarts = await _wareCartRepository.ListAsync(
+                new WareCartSpecification.GetCartWares(cartId));
+
+            foreach (var wareCart in wareCarts)
+            {
+                wareCart.Ware.AvailableCount += 1;
+            }
+
+            await _wareCartRepository.UpdateRangeAsync(wareCarts);
+        }
     }
 }

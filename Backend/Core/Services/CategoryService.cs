@@ -18,14 +18,18 @@ namespace Core.Services
     internal class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
+        // If we replace it with an appropriate service, it will cause an initialization loop.
+        private readonly IRepository<Ware> _wareRepository;
 
         private readonly IMapper _mapper;
 
         public CategoryService(
             IRepository<Category> categoryRepository,
+            IRepository<Ware> wareRepository,
             IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _wareRepository = wareRepository;
             _mapper = mapper;
         }
 
@@ -59,6 +63,16 @@ namespace Core.Services
                 new CategorySpecification.GetByTitle(categoryTitle));
 
             ExtensionMethods.CategoryNullCheck(category);
+
+            var wares = await _wareRepository.ListAsync(
+                new WareSpecification.GetAllByCategoryTitle(categoryTitle));
+
+            foreach (var ware in wares)
+            {
+                ware.CategoryId = Constants.Constants.NO_CATEGORY_ID;
+            }
+
+            await _wareRepository.UpdateRangeAsync(wares);
 
             await _categoryRepository.DeleteAsync(category);
         }

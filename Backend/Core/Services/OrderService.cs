@@ -121,6 +121,8 @@ namespace Core.Services
             await _cartService.SetOrderIdAsync(order.Id, cart);
 
             await _cartService.CreateAsync(user);
+
+            await _wareCartService.ReduceAvailableCountAsync(cart.Id);
         }
 
         public async Task DeleteAsync(
@@ -138,6 +140,8 @@ namespace Core.Services
             }
 
             await _orderRepository.DeleteAsync(order);
+
+            await _wareCartService.ReturnAvailableCountAsync(order.CartId);
         }
 
         public async Task<PaginatedList<UserOrderInfoDTO>> GetPageByClientAsync(

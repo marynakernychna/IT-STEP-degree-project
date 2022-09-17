@@ -19,13 +19,17 @@ const ViewGoods = () => {
 
     useEffect(async () => {
         let goodCategories = await getCategories();
+        
+        if (goodCategories != null) {
+            
+            goodCategories.map(category => {
+                category.value = category.title;
+                category.label = category.title;
+            });
+            
+            setCategories(goodCategories);
+        }
 
-        goodCategories.map(category => {
-            category.value = category.title;
-            category.label = category.title;
-        });
-
-        setCategories(goodCategories);
         setGoods(await getAllGoods(paginationFilterModel));
         setLoading(false);
     }, []);

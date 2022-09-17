@@ -103,7 +103,7 @@ namespace Core.Services
             PaginationFilterDTO paginationFilter)
         {
             var waresCount = await _wareRepository.CountAsync(
-                new WareSpecification.GetAll(paginationFilter));
+                new WareSpecification.GetPage(paginationFilter));
 
             if (waresCount == 0)
             {
@@ -112,7 +112,7 @@ namespace Core.Services
 
             return FormPaginatedList(
                 await _wareRepository.ListAsync(
-                    new WareSpecification.GetAll(paginationFilter)),
+                    new WareSpecification.GetPage(paginationFilter)),
                 waresCount,
                 paginationFilter.PageNumber,
                 PaginatedList<WareInfoDTO>

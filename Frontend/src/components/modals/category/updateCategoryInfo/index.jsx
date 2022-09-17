@@ -16,33 +16,29 @@ function UpdateCategoryModal(props) {
         props.updateCategoryInfo();
     }
 
-    const onFinish = (values) => {
-        confirmMessage()
-            .then((result) => {
-                if (result) {
-                    if (props.title !== values.title) {
+    const onFinish = async (values) => {
+        if (await confirmMessage()) {
+            if (props.title !== values.title) {
 
-                        const model = {
-                            currentTitle: props.title,
-                            newTitle: values.title
-                        };
+                const model = {
+                    currentTitle: props.title,
+                    newTitle: values.title
+                };
 
-                        updateCategory(model)
-                            .then(() => {
-                                close();
-                                successMessage(
-                                    generalMessages.CHANGE_DATA_SUCCESSFULLY
-                                );
-                                updateCategoryInfo();
-                            });
-                    } else {
-                        errorMessage(
-                            generalMessages.CHANGE_SOMETHING_TO_SAVE,
-                            ""
-                        );
-                    }
+                if (await updateCategory(model)) {
+                    close();
+                    successMessage(
+                        generalMessages.CHANGE_DATA_SUCCESSFULLY
+                    );
+                    updateCategoryInfo();
                 }
-            });
+            } else {
+                errorMessage(
+                    generalMessages.CHANGE_SOMETHING_TO_SAVE,
+                    ""
+                );
+            }
+        }
     };
 
     const onFinishFailed = () => {

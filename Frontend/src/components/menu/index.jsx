@@ -29,6 +29,7 @@ function CustomMenu() {
     const onSelect = (item) => {
         if (item.key == logoutKey) {
             logoutUser(history);
+            return;
         }
 
         history.push(item.key);

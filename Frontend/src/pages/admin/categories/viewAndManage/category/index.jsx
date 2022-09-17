@@ -19,15 +19,16 @@ const Category = (props) => {
 
     const onDelete = async () => {
         var result = await confirmMessage();
-
+        
         if (result) {
-            deleteCategory(info.title)
-                .then(() => {
-                    successMessage(
-                        generalMessages.CHANGE_DATA_SUCCESSFULLY
-                    );
-                    updateCategoryInfo();
-                });
+            result = await deleteCategory(info.title);
+            
+            if (result) {
+                successMessage(
+                    generalMessages.DELETE_DATA_SUCCESSFULLY
+                );
+                updateCategoryInfo();
+            }
         }
     };
 

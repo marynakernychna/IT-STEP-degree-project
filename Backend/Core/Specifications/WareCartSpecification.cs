@@ -11,7 +11,8 @@ namespace Core.Specifications
         {
             public GetCartWares(int cartId, PaginationFilterDTO paginationFilterDTO)
             {
-                Query.Where(wc => wc.CartId == cartId)
+                Query.Where(wc => wc.CartId == cartId &&
+                            wc.Ware.AvailableCount != 0)
                      .Include(wc => wc.Ware)
                      .ThenInclude(w => w.Category)
                      .Skip((paginationFilterDTO.PageNumber - 1) * paginationFilterDTO.PageSize)
@@ -22,6 +23,7 @@ namespace Core.Specifications
             public GetCartWares(int cartId)
             {
                 Query.Where(wc => wc.CartId == cartId)
+                     .Include((wc) => wc.Ware)
                      .AsNoTracking();
             }
         }
